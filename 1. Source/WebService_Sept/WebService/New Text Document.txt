@@ -1,0 +1,1 @@
+SELECT T0.""DocEntry"" as U_SurvyNo, T0.""DocDate"", T0.""U_SurveyorID"",T1.""Dscription"" U_SurveyType, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""NumAtCard"" Cust_ref, T0.""U_SResult"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T0.""U_EqNo"" ='" & & "' ORDER BY T0.""DocDate"" desc
