@@ -99,8 +99,12 @@ Public Class ICSB
                 Dim MenuGroup As String = ""
                 Dim Email As String = ""
                 Dim UserName As String = ""
+                Dim sAgentCompany As String = String.Empty
 
-                SQLStr = "SELECT  T0.""U_MENUAGRP"",T0.""Name"", T0.""U_EMail"" FROM ""@WUSER""  T0 WHERE Upper(T0.""Code"") ='" & UserCode & "' and  T0.""U_Pwd"" ='" & passwrod & "'"
+                'SQLStr = "SELECT  T0.""U_MENUAGRP"",T0.""Name"", T0.""U_EMail"" FROM ""@WUSER""  T0 WHERE Upper(T0.""Code"") ='" & UserCode & "' and  T0.""U_Pwd"" ='" & passwrod & "'"
+                SQLStr = "SELECT T0.""U_MENUAGRP"", T0.""Name"", T0.""U_EMail"", T1.""CardName"" AS ""AgentCompany"" FROM ""@WUSER"" T0 " & _
+                         " LEFT JOIN ""OCRD"" T1 ON T1.""CardCode"" = T0.""U_ComCode"" " & _
+                         " WHERE Upper(T0.""Code"") ='" & UserCode & "' and  T0.""U_Pwd"" ='" & passwrod & "'"
                 SQLDT = fn.ExecuteSQLQuery(SQLStr, sErrDesc)
                 If sErrDesc <> "" Then
                     Throw New Exception(sErrDesc)
@@ -111,6 +115,7 @@ Public Class ICSB
                     MenuGroup = SQLDR("U_MENUAGRP").ToString.Trim().ToUpper
                     Email = SQLDR("U_EMail").ToString.Trim()
                     UserName = SQLDR("Name").ToString.Trim()
+                    sAgentCompany = SQLDR("AgentCompany").ToString.Trim()
 
                     RetDT.TableName = "VALIDATE"
                     RetDT.Columns.Add("Status")
@@ -127,10 +132,12 @@ Public Class ICSB
                     RetDT.Columns.Add("Name")
                     RetDT.Columns.Add("Email")
                     RetDT.Columns.Add("Approver")
+                    RetDT.Columns.Add("AgentCompany")
                     RetDT.Rows.Add()
                     RetDT.Rows(0)(0) = UserCode
                     RetDT.Rows(0)(1) = UserName
                     RetDT.Rows(0)(2) = Email
+                    RetDT.Rows(0)(4) = sAgentCompany
                     SQLStr = "SELECT T0.""U_AppCode"" FROM ""@WAPPPROL""  T0 WHERE T0.""U_AppCode"" ='" & UserCode & "'"
                     If fn.ExecuteSQLQuery_SingleValue(SQLStr, sErrDesc) <> "" Then
                         RetDT.Rows(0)(3) = "Y"
