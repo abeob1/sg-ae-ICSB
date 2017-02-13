@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="E:\ICSB\Publish\WebService" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="bin/Newtonsoft.Json.dll" publishTime="03/29/2016 14:33:30" />
+    <file relUrl="ICSB.asmx" publishTime="03/29/2016 14:32:08" />
+    <file relUrl="bin/SBOWebService.xml" publishTime="02/13/2017 10:45:06" />
+    <file relUrl="Web.config" publishTime="02/10/2017 17:54:26" />
+    <file relUrl="bin/SBOWebService.dll" publishTime="02/13/2017 10:45:06" />
+    <file relUrl="bin/SBOWebService.pdb" publishTime="02/13/2017 10:45:06" />
+    <file relUrl="packages.config" publishTime="03/29/2016 14:33:34" />
+    <file relUrl="bin/Newtonsoft.Json.xml" publishTime="03/29/2016 14:33:30" />
+    <file relUrl="bin/Interop.Shell32.dll" publishTime="09/05/2016 14:55:07" />
+  </publishProfile>
+</publishData>

@@ -1,0 +1,13 @@
+[03/30/2016 11:00:03][      GetSystemIntializeInfo()] Completed with SUCCESS
+[03/30/2016 11:00:03][                              ] Starting Function
+[03/30/2016 11:00:03][                ExecuteQuery()] Completed with SUCCESS
+[03/30/2016 11:00:08][                              ] Starting Function
+[03/30/2016 11:00:08][                ExecuteQuery()] Completed with SUCCESS
+[03/30/2016 11:00:08][                              ] Starting Function
+[03/30/2016 11:00:08][                ExecuteQuery()] Completed with SUCCESS
+[03/30/2016 11:01:58][                              ] Completed with ERROR
+[03/30/2016 11:02:43][      GetSystemIntializeInfo()] Completed with SUCCESS
+[03/30/2016 11:02:52][            GetSAPConnection()] Starting Function
+[03/30/2016 11:05:03][            GetSAPConnection()] Starting Function
+[03/30/2016 11:06:51][      GetSystemIntializeInfo()] Completed with SUCCESS
+[03/30/2016 11:07:04][            GetSAPConnection()] Starting Function
