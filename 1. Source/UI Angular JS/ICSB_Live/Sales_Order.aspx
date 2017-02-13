@@ -617,6 +617,7 @@
   <tr>
     <td>Link</td>
     <td>Survey No</td>
+    <td>Container Number</td>
     <td>User Name</td>
     <td>Survey Date</td>
     <td>Company Code</td>
@@ -628,6 +629,7 @@
   <tr ng-repeat="d in mySdata.DETAILS">
     <td><i class="fa fa-arrow-right fa-2x" ng-click="gotoSurveyFromByLink(d.Survey_No);" style="color:#faba0a;cursor:pointer;" aria-hidden="true"></i></td>
     <td>{{d.Survey_No}}</td>
+    <td>{{d.Container_Num}}</td>
     <td>{{d.User_Name}}</td>
     <td>{{d.Survey_Date}}</td>
     <td>{{d.Customer_Code}}</td>

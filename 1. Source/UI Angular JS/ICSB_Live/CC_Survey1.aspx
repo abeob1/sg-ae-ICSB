@@ -241,7 +241,7 @@
                             Equipment Number
                         </label>
                         <div class="col-sm-8">
-                           <div style="position:relative"><div class="tooltiptext" id="equtool">Sample: MSCU 123456 7</div></div> <input type="text" onfocus="toolshow('equtool');" onblur="toolhide('equtool');"    capitalize ng-model="data.ODLN[0].U_EqNo" ng-blur="getDamageHistory(data.ODLN[0].U_EqNo);" class="form-control" id="Text5"
+                           <div style="position:relative"><div class="tooltiptext" id="equtool">Sample: MSCU 123456 7</div></div> <input type="text" ng-keypress="checkEQNO($event.charCode);" onfocus="toolshow('equtool');" onblur="toolhide('equtool');"    capitalize ng-model="data.ODLN[0].U_EqNo" ng-blur="getDamageHistory(data.ODLN[0].U_EqNo);" class="form-control" id="Text5"
                                 placeholder="Equipment No">
                         </div>
                     </div>
@@ -671,7 +671,7 @@ CSC Number
                             Last cargo
                         </label>
                         <div class="col-sm-6">
-                       <input type="text" capitalize class="form-control" ng-model="data.ODLN[0].U_SEAL_LAST"  />
+                       <input type="text" capitalize class="form-control"   maxlength="30"  ng-model="data.ODLN[0].U_SEAL_LAST"  />
                       
                             
                         </div>
@@ -682,7 +682,7 @@ CSC Number
                             Next cargo
                         </label>
                         <div class="col-sm-6">
- <input type="text" class="form-control" capitalize ng-model="data.ODLN[0].U_SEAL_NEXT" value="unknown"  />
+ <input type="text" class="form-control" capitalize ng-model="data.ODLN[0].U_SEAL_NEXT"   maxlength="30" value="unknown"  />
                         </div>
                     </div>
                     
@@ -771,8 +771,8 @@ CSC Number
                             Remarks
                         </label>
                         <div class="col-sm-8">
-                        <textarea capitalize class="form-control" ng-model="data.ODLN[0].Comments"></textarea>
-                           
+                        <textarea capitalize class="form-control" style="height:100px"  maxlength="254"  ng-model="data.ODLN[0].Comments"></textarea>
+                           <br />
                         </div>
                     </div>
                             <div class="row" align="right">

@@ -35,7 +35,24 @@ function ($scope, $rootScope, $http, $window, $cookies,US,CSS,hotkeys,$location)
 
 
     
-
+    $scope.checkEQNO= function(e)
+    {
+    
+        if(e==8)
+        {
+        }
+        else
+        {
+            if($scope.data.ODLN[0].U_EqNo.length==4)
+            {
+               $scope.data.ODLN[0].U_EqNo=$scope.data.ODLN[0].U_EqNo+" ";
+            }
+            if($scope.data.ODLN[0].U_EqNo.length==11)
+            {
+               $scope.data.ODLN[0].U_EqNo=$scope.data.ODLN[0].U_EqNo+" ";
+            }
+        }
+    }
 
 
      
