@@ -116,7 +116,7 @@ function ($scope, $rootScope, $http, $window, $cookies, US, SOS, hotkeys, $locat
     }
 
     $scope.findclick = function () {
-
+        $scope.updatedisabled = false;
         $scope.savebtn = false;
         $scope.findbtn = true;
         $scope.updatebtn = false;
@@ -351,11 +351,16 @@ function ($scope, $rootScope, $http, $window, $cookies, US, SOS, hotkeys, $locat
 
     //SalesQuotation_MultipleFindRecord
 
-    $scope.FindRecord = function () {
 
-        // SOS.FindMultiRecord($scope.data.ORDR[0]).then(function (response) {$rootScope.findresult = response.data; console.log($rootScope.findresult); $("#findmodal").modal();
+    $scope.findAllRecords = function () {
 
-        SOS.SalesOrder_Find($scope.data.ORDR[0].U_Qno, $scope.UserData[0].Code).then(function (response) {
+        SOS.FindMultiRecord($scope.data.ORDR[0]).then(function (response) { $rootScope.findresult = response.data; console.log($rootScope.findresult); $("#findmodal").modal(); });
+    }
+
+    $rootScope.FindRecord = function (code) {
+
+
+        SOS.SalesOrder_Find(code, $scope.UserData[0].Code).then(function (response) {
             if (response.data.VALIDATE === undefined) {
                 console.log(response);
                 $scope.data = response.data;
@@ -719,7 +724,8 @@ function ($scope, $rootScope, $http, $window, $cookies, US, SOS, hotkeys, $locat
                 "U_Country": "",
                 "U_City": "",
                 "U_Loc": "",
-                "Comments": ""
+                "Comments": "",
+                "Project":""
             }],
             "SQTOGEN": [],
             "SQTOADD": [],

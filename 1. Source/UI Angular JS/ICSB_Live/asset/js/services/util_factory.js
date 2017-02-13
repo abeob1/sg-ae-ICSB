@@ -1,8 +1,8 @@
 App.service('util_SERVICE', ['$http', '$window', '$cookieStore', '$rootScope', function ($http, $window, $cookie, $rootScope) {
     var urlsd = window.location.href.split("/");
-    this.url = "http://119.73.138.58:86/ICSB.asmx/";
-    this.BURL = "http://119.73.138.58:88/ICSB_Live/TempFiles/";
-    this.Host = "http://119.73.138.58:88/ICSB_Live/";
+    this.url = "http://119.73.138.58:82/ICSB.asmx/";
+    this.BURL = "http://119.73.138.58:84/TempFiles/";
+    this.Host = "http://119.73.138.58:84/";
     this.config = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'

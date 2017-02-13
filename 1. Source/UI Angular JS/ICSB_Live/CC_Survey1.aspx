@@ -18,6 +18,11 @@
                     <button type="button" class="btn btn-white"  ng-click="SurveyList();">
                         <i class="fa fa-th-list"></i> Back to Survey List
                     </button>
+
+                     <a  ng-hide="data.ODLN[0].U_SurvyNo===undefined" target="_blank" href="CleaningCertificateReport.aspx?key={{data.ODLN[0].U_SurvyNo}}"<button class="btn btn-white"  ng-disabled="false">
+                                              <i class="fa fa-print" aria-hidden="true"></i> Print</button></a>
+
+
                 </div>
             </div>
             
@@ -165,14 +170,7 @@
                             <select class="form-control" ng-disabled="true" ng-options="item.U_City as item.U_CityName for item in city" ng-model="data.ODLN[0].U_City" "></select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-4 control-label">
-                            IMO
-                        </label>
-                        <div class="col-sm-8">
-                             <select ng-disabled="updatedisabled" class="form-control" ng-options="item.Name as item.Name for item in IMO" ng-model="data.ODLN[0].U_IMO"></select>
-                        </div>
-                    </div>
+                    
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-4 control-label">
                             Location
@@ -216,6 +214,15 @@
                        
                          <select class="form-control" ng-disabled="true" ng-options="item.U_EQTYPECODE as item.U_EQTYPENAME for item in etype" ng-model="data.ODLN[0].U_Eqtype" ></select>
                             
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-4 control-label">
+                            IMO
+                        </label>
+                        <div class="col-sm-8">
+                             <select ng-disabled="updatedisabled" class="form-control" ng-options="item.Name as item.Name for item in IMO" ng-model="data.ODLN[0].U_IMO"></select>
                         </div>
                     </div>
 
@@ -484,12 +491,17 @@ CSC Number
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-10 control-label">
+                        <label for="inputEmail3" class="col-sm-6 control-label">
                             Valves
                         </label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-6">
                        
-                         <input type="checkbox" name="vehicle" value="Bike" style="width:30px;height:30px;" ng-model="data.ODLN[0].U_VAL_Val"  ng-true-value="'YES'" ng-false-value="'NO'"> 
+                         
+                           <select class="form-control" ng-disabled="flase"  ng-model="data.ODLN[0].U_VAL_Val" >
+                         <option value='YES'>YES</option>
+                         <option value='NO'>NO</option>
+                         </select>
+                       
                             
                         </div>
                     </div>
@@ -564,13 +576,18 @@ CSC Number
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-10 control-label">
+                        <label for="inputEmail3" class="col-sm-6 control-label">
                             Available Steam Heating Pipe Line
                         </label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-6">
                        
-                         <input type="checkbox" name="vehicle" value="Bike" style="width:30px;height:30px;" ng-model="data.ODLN[0].U_VAL_Avail"  ng-true-value="'YES'" ng-false-value="'NO'"> 
+                        
                             
+                           <select class="form-control" ng-disabled="flase"  ng-model="data.ODLN[0].U_VAL_Avail" >
+                         <option value='YES'>YES</option>
+                         <option value='NO'>NO</option>
+                         </select>
+                       
                         </div>
                     </div>
                     <div class="form-group">
@@ -759,6 +776,15 @@ CSC Number
                         </div>
                     </div>
                             <div class="row" align="right">
+
+                            <span> <button type="button" class="btn btn-white"  ng-click="backToSO();">
+                        <i class="fa fa-fast-backward"></i> Back to Sales Order
+                    </button></span>
+ <span><button type="button" class="btn btn-white"  ng-click="SurveyList();">
+                        <i class="fa fa-th-list"></i> Back to Survey List
+                    </button></span>
+
+
                         <span>
                           
                               <button type="button" class="btn btn-success" ng-click="save();" ng-model="savebtn" ng-show="Showsavebtn" >
@@ -768,8 +794,8 @@ CSC Number
                                         Update</button></span> 
                                         
                                         <span>
-                                            <a  ng-hide="data.ODLN[0].U_SurvyNo===undefined" target="_blank" href="CleaningCertificateReport.aspx?key={{data.ODLN[0].U_SurvyNo}}"<button class="btn btn-primary"  ng-disabled="false">
-                                               Print</button></a></span> <span>
+                                           <%-- <a  ng-hide="data.ODLN[0].U_SurvyNo===undefined" target="_blank" href="CleaningCertificateReport.aspx?key={{data.ODLN[0].U_SurvyNo}}"<button class="btn btn-primary"  ng-disabled="false">
+                                               Print</button></a>--%></span> <span>
                                                             <button type="button" class="btn btn-danger" ng-click="resetall();">
                                                                 Cancel</button></span></div>
                 

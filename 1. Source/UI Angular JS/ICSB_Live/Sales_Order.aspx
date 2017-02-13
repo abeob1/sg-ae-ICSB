@@ -50,8 +50,7 @@
                         <label for="inputEmail3" class="col-sm-4 control-label">
                             Status
                         </label>
-                        <div class="col-sm-8">
-                            {{data.ORDR[0].U_Status}}
+                        <div class="col-sm-8">{{data.ORDR[0].U_Status}}
                         </div>
                     </div>
                     <div class="form-group">
@@ -243,7 +242,7 @@
                                             Quantity
                                         </th>
                                         <th>
-                                            Planned Date
+                                            Survey Date
                                         </th>
                                         <th>
                                             <span>Equipment Type</span></th>
@@ -278,7 +277,7 @@
                                         </td>
                                         <td>
                                             <span ng-hide="d.edit">{{d.U_PDate}}</span> <span ng-show="d.edit">
-                                           <input value"" type="text" ng-model="d.U_PDate" class="form-control datepicker" />
+                                           <input value"" type="text" ng-model="d.U_PDate" class="form-control datepicker" datetimez />
                                            
                                               
                                         </td>
@@ -527,7 +526,7 @@
                             <button class="btn btn-success" type="button" ng-click="save();"  ng-disabled="loading" ng-show="savebtn">
                                 {{savelable}}</button>
                                 
-                                <button type="button" class="btn btn-primary" ng-click="FindRecord();"  ng-show="findbtn">
+                                <button type="button" class="btn btn-primary" ng-click="findAllRecords();"  ng-show="findbtn">
                                 Find</button>
 
                                  
@@ -616,7 +615,7 @@
       <div align="center"><button type="button" class="btn-info btn" ng-disabled="mySdata.OCRD[0].OpenQty==0" ng-click="gotoSurveyFrom(mySdata.OCRD[0].FormName);">New Survey</button></div><br />
         <table width="100%" border="0" class="table table-bordered table-responsive" cellspacing="5" cellpadding="5">
   <tr>
-    <td>Liink</td>
+    <td>Link</td>
     <td>Survey No</td>
     <td>User Name</td>
     <td>Survey Date</td>
@@ -722,7 +721,7 @@
     <td>{{d.U_City}}</td>
     <td>{{d.U_Country}}</td>
     <td>{{d.U_SurveyorID}}</td>
-    <td><button ng-click="SetRecord(d);" class="btn btn-sm btn-primary" data-dismiss="modal">Select</button></td>
+    <td><button ng-click="FindRecord(d.U_OrderNo);" class="btn btn-sm btn-primary" data-dismiss="modal">Select</button></td>
   </tr>
 
   <tr  class="text-danger" ng-if="findresult.VALIDATE[0].Status =='False'"> <td colspan="13" align="center" > No Record Found..</td></tr>

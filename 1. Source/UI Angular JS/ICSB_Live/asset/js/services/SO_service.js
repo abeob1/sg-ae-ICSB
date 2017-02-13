@@ -230,13 +230,13 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
     this.FindMultiRecord = function (s,uid) {
 
         var rdata = [];
-        //var data = { "SQTO": [ { "U_Qno": s.U_Qno, "U_Cdate": s.U_Cdate, "U_Ccode": s.U_Ccode, "U_Cname": s.U_Cname, "U_Pcode": s.U_Pcode, } ] };
-        var data = {"ORDR":[{"U_UCode":uid,"U_OrderNo":parseInt(s.U_Qno)}]};
-        
+        var data = { "ORDR":[s] };
+        //var data = {"ORDR":[{"U_UCode":uid,"U_OrderNo":parseInt(s.U_Qno)}]};
+
 
 
         var parms = encodeURIComponent(JSON.stringify(data));
-        var promise = $http.post(this.url + "SalesQuotation_FindRecord_List", "value=" + parms, this.config)
+        var promise = $http.post(this.url + "SalesOrder_FindRecord_List", "value=" + parms, this.config)
    .success(function (response) {
        if (response.returnStatus == 1) {
            return response;
