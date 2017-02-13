@@ -277,7 +277,7 @@
                                         </td>
                                         <td>
                                             <span ng-hide="d.edit">{{d.U_PDate}}</span> <span ng-show="d.edit">
-                                           <input value"" type="text" ng-model="d.U_PDate" class="form-control datepicker" datetimez />
+                                           <input value"" type="text" ng-model="d.U_PDate" class="form-control datetimez" datetimez datepicker-popup="dd/MM/yyyy" />
                                            
                                               
                                         </td>
@@ -541,7 +541,10 @@
             </form>
         </div>
     </div>
-    <script type="text/javascript">        $('.datepicker').datepicker({ autoclose: true, format: 'dd/mm/yyyy',todayHighlight: true });</script>
+    <script type="text/javascript">        $('.datepicker').datepicker({ autoclose: true, format: 'dd/mm/yyyy', todayHighlight: true });
+        $('.datetimez').datepicker({ autoclose: true, format: 'dd/mm/yyyy', todayHighlight: true });
+
+        </script>
     <script>
 
         function hoverdiv(e, divid) {

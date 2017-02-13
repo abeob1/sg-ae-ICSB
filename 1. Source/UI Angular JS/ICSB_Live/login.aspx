@@ -79,7 +79,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="login-body">
 						<form action="leadmaster.aspx">
 							<input type="text" class="user" name="email" placeholder="Username" ng-model="userId" required="">
-							<input type="password" name="password" class="lock" placeholder="password" ng-model="password">
+							<input type="password" name="password" class="lock" placeholder="password" ng-model="password" ng-Enter="checklogin();">
 							<input type="button" name="Sign In" value="Sign In" ng-click="checklogin();">
 							<div class="forgot-grid">
 								<label class="checkbox"><input type="checkbox" name="checkbox" ><i></i>Remember me</label>

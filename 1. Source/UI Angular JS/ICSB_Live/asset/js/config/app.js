@@ -19,24 +19,23 @@ App.directive('loading', ['$http', function ($http) {
       };
   } ]);
 
-  App.directive('datetimez', function () {
-      return {
-          restrict: 'A',
-          require: 'ngModel',
-          link: function (scope, element, attrs, ngModelCtrl) {
-              element.datetimepicker({
-                  dateFormat: 'dd-MM-yyyy',
-                  language: 'en',
-                  pickTime: false,
-                  startDate: '01-11-2013',      // set a minimum date
-                  endDate: '01-11-2030'          // set a maximum date
-              }).on('changeDate', function (e) {
-                  ngModelCtrl.$setViewValue(e.date);
-                  scope.$apply();
-              });
-          }
-      };
-  });
+  App.directive('datetimez', function() {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, element, attrs, ctrl) {
+            $(element).datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                onSelect: function(date) {
+                    ctrl.$setViewValue(date);
+                    ctrl.$render();
+                    scope.$apply();
+                }
+            });
+        }
+    };
+});
 
   App.directive('stringToNumber', function () {
       return {
