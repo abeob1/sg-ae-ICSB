@@ -5444,6 +5444,8 @@ Public Class ICSB
                 'oSO.UserFields.Fields.Item("U_City").Value = dr.Item("U_City").ToString.Trim()
                 'City = dr.Item("U_City").ToString.Trim()
                 'oSO.UserFields.Fields.Item("U_Loc").Value = dr.Item("U_Loc").ToString.Trim()
+                oSO.UserFields.Fields.Item("U_UpdatedBy_UserCode").Value = dr.Item("U_UCode").ToString.Trim()
+                oSO.UserFields.Fields.Item("U_UpdateBy_UserName").Value = dr.Item("U_UName").ToString.Trim()
                 oSO.Comments = dr.Item("Comments").ToString.Trim
                 If ds.Tables("SQTOGEN").Rows.Count > 0 Then
                     SQTOGEN = ds.Tables("SQTOGEN")
@@ -7798,7 +7800,7 @@ Public Class ICSB
 
             'Dim Str As String = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"", T0.""DocStatus"" as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"",T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",TO_CHAR( T0.""U_DOM"" , 'DD/MM/YYYY') As ""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",TO_CHAR( T0.""U_CSC"" , 'DD/MM/YYYY') As ""U_CSC"",""U_EX_Fram"",""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_SEAL_NEXT"",""U_SEAL_NEXT"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
             Dim Str As String = String.Empty
-            Str = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"", T0.""DocStatus"" as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", " & _
+            Str = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", " & _
                   " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", " & _
                   " T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"", " & _
                   " T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",T0.""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",T0.""U_CSC"",""U_EX_Fram"",T0.""U_IMO"", " & _
@@ -7980,7 +7982,9 @@ Public Class ICSB
                 RetDT.TableName = "OCRD"
                 RetDT1 = RetDT.Copy
                 RetDS.Tables.Add(RetDT1)
-                Str = "SELECT T0.""DocEntry"" AS ""Survey_No"",T0.""U_SResult"" As ""Survey_Result"" ,T0.""U_UName"" As ""User_Name"",TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') ""Survey_Date"", T0.""CardCode"" as ""Customer_Code"", T0.""CardName"" as ""Customer_Name"", T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T1.""BaseType"" =17 and  T1.""BaseEntry"" ='" & DocEntry & "'"
+                Str = "SELECT T0.""DocEntry"" AS ""Survey_No"",T0.""U_EqNo"" AS ""Container_Num"", T0.""U_SResult"" As ""Survey_Result"" ,T0.""U_UName"" As ""User_Name"", " & _
+                      " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') ""Survey_Date"", T0.""CardCode"" as ""Customer_Code"", T0.""CardName"" as ""Customer_Name"", " & _
+                      " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T1.""BaseType"" =17 and  T1.""BaseEntry"" ='" & DocEntry & "'"
 
                 RetDT = New DataTable
                 RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
