@@ -14,6 +14,7 @@ Public Class ICSB
     Dim oLog As New modLogging
     Dim sFunction As String
     Dim DocEntry As String = ""
+    ''TESTING
     <WebMethod()> _
     Public Function HelloWorld() As String
   
