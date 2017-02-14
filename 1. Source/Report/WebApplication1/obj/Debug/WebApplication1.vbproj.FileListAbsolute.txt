@@ -27,3 +27,13 @@ E:\thom\icsb\WebApplication1\obj\Debug\WebApplication1.vbproj.GenerateResource.C
 E:\thom\icsb\WebApplication1\obj\Debug\WebApplication1.dll
 E:\thom\icsb\WebApplication1\obj\Debug\WebApplication1.xml
 E:\thom\icsb\WebApplication1\obj\Debug\WebApplication1.pdb
+C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\bin\WebApplication1.dll
+C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\bin\WebApplication1.pdb
+C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\bin\WebApplication1.xml
+C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\bin\log4net.dll
+C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.vbprojResolveAssemblyReference.cache
+C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.Resources.resources
+C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.vbproj.GenerateResource.Cache
+C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.dll
+C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.xml
+C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.pdb
