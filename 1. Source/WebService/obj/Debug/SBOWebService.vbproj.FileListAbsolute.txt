@@ -154,7 +154,6 @@ C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\bin\SBOWebService.xml
 C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\bin\Newtonsoft.Json.dll
 C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\bin\Newtonsoft.Json.xml
 C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\bin\Interop.Shell32.dll
-C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\obj\Debug\SBOWebService.vbprojResolveAssemblyReference.cache
 C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\obj\Debug\Interop.SAPbobsCOM.dll
 C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\obj\Debug\Interop.Shell32.dll
 C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\obj\Debug\SBOWebService.vbproj.ResolveComReference.cache

@@ -5342,18 +5342,19 @@ Public Class ICSB
                         EqupTye = dr1.Item("U_EQType").ToString.Trim()
                         oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value = dr1.Item("U_SCriteria").ToString.Trim()
 
-                        SQLStr = "SELECT Top 1  T1.""U_Rate"" " & _
-                                 " FROM ""@CCON""  T0 " & _
-                                 " Left Join ""@CCONGENERAL""  T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
-                                 " Left Join ""@EQTYPE"" T2 ON T2.""U_EQCODE""=T1.""U_EQGroup"" " & _
-                                 " WHERE T0.""U_Status"" ='Open' and  T0.""U_Ccode"" ='" & CardCode & "' and  T0.""U_CPeriod1"" <='" & DocDate & "' and  T0.""U_CPeriod2"" >='" & DocDate & "'   " & _
-                                 " and T1.""U_Stype""='" & STypeCode & "' and  T1.""U_Country""='" & Country & "' and T1.""U_City""='" & City & "' and T2.""U_EQTYPECODE""='" & EqupTye & "'"
+                        'SQLStr = "SELECT Top 1  T1.""U_Rate"" " & _
+                        '         " FROM ""@CCON""  T0 " & _
+                        '         " Left Join ""@CCONGENERAL""  T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
+                        '         " Left Join ""@EQTYPE"" T2 ON T2.""U_EQCODE""=T1.""U_EQGroup"" " & _
+                        '         " WHERE T0.""U_Status"" ='Open' and  T0.""U_Ccode"" ='" & CardCode & "' and  T0.""U_CPeriod1"" <='" & DocDate & "' and  T0.""U_CPeriod2"" >='" & DocDate & "'   " & _
+                        '         " and T1.""U_Stype""='" & STypeCode & "' and  T1.""U_Country""='" & Country & "' and T1.""U_City""='" & City & "' and T2.""U_EQTYPECODE""='" & EqupTye & "'"
 
-                        Rt = fn.ExecuteSQLQuery_SingleValue(SQLStr, Errmsg)
-                        If Rt = "" Then
-                            Throw New Exception("No Valid Contract Found!")
-                        End If
-                        oSO.Lines.UnitPrice = CDec(Rt)
+                        'Rt = fn.ExecuteSQLQuery_SingleValue(SQLStr, Errmsg)
+                        'If Rt = "" Then
+                        '    Throw New Exception("No Valid Contract Found!")
+                        'End If
+                        'oSO.Lines.UnitPrice = CDec(Rt)
+                        oSO.Lines.UnitPrice = 22
                         oSO.Lines.Add()
                     Next
                 Else
@@ -7073,30 +7074,41 @@ Public Class ICSB
                 oDO.UserFields.Fields.Item("U_SEAL_LAST").Value = dr.Item("U_SEAL_LAST").ToString.Trim()
                 oDO.UserFields.Fields.Item("U_SEAL_NEXT").Value = dr.Item("U_SEAL_NEXT").ToString.Trim()
                 oDO.UserFields.Fields.Item("U_VAL_SPIL").Value = dr.Item("U_VAL_SPIL").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_PayLoad").Value = dr.Item("U_PayLoad").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_Capacity").Value = dr.Item("U_Capacity").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_CSCNum").Value = dr.Item("U_CSCNum").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_IMO").Value = dr.Item("U_IMO").ToString.Trim()
                 Try
-                    oDO.UserFields.Fields.Item("U_DOM").Value = DateConvert(dr.Item("U_DOM").ToString.Trim())
+                    'oDO.UserFields.Fields.Item("U_DOM").Value = DateConvert(dr.Item("U_DOM").ToString.Trim())
+                    oDO.UserFields.Fields.Item("U_DOM").Value = (dr.Item("U_DOM").ToString.Trim())
                 Catch ex As Exception
-
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while Adding DOM", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
                 End Try
                 Try
                     oDO.UserFields.Fields.Item("U_MGW").Value = dr.Item("U_MGW").ToString.Trim()
                 Catch ex As Exception
-
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while Adding MGW", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
                 End Try
                 Try
                     oDO.UserFields.Fields.Item("U_Tare").Value = dr.Item("U_Tare").ToString.Trim()
                 Catch ex As Exception
-
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while adding Tare", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
                 End Try
                 Try
                     oDO.UserFields.Fields.Item("U_ACEP").Value = dr.Item("U_ACEP").ToString.Trim()
                 Catch ex As Exception
-
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while adding ACEP", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
                 End Try
                 Try
-                    oDO.UserFields.Fields.Item("U_CSC").Value = DateConvert(dr.Item("U_CSC").ToString.Trim())
+                    'oDO.UserFields.Fields.Item("U_CSC").Value = DateConvert(dr.Item("U_CSC").ToString.Trim())
+                    oDO.UserFields.Fields.Item("U_CSC").Value = (dr.Item("U_CSC").ToString.Trim())
                 Catch ex As Exception
-
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while Adding CSC", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
                 End Try
 
                 oDO.UserFields.Fields.Item("U_SurveyorID").Value = oSO.UserFields.Fields.Item("U_SurveyorID").Value
@@ -7112,7 +7124,7 @@ Public Class ICSB
                 oDO.UserFields.Fields.Item("U_Country").Value = oSO.UserFields.Fields.Item("U_Country").Value
                 oDO.UserFields.Fields.Item("U_City").Value = oSO.UserFields.Fields.Item("U_City").Value
                 oDO.UserFields.Fields.Item("U_Loc").Value = oSO.UserFields.Fields.Item("U_Loc").Value
-                oDO.Comments = oSO.Comments
+                oDO.Comments = dr.Item("Comments").ToString.Trim()
                 oDO.Lines.ItemCode = oSO.Lines.ItemCode
                 oDO.Lines.Quantity = 1
                 oDO.Lines.UserFields.Fields.Item("U_PDate").Value = oSO.Lines.UserFields.Fields.Item("U_PDate").Value
@@ -7701,30 +7713,42 @@ Public Class ICSB
                 oDO.UserFields.Fields.Item("U_SEAL_LAST").Value = dr.Item("U_SEAL_LAST").ToString.Trim()
                 oDO.UserFields.Fields.Item("U_SEAL_NEXT").Value = dr.Item("U_SEAL_NEXT").ToString.Trim()
                 oDO.UserFields.Fields.Item("U_VAL_SPIL").Value = dr.Item("U_VAL_SPIL").ToString.Trim()
-                Try
-                    oDO.UserFields.Fields.Item("U_DOM").Value = DateConvert(dr.Item("U_DOM").ToString.Trim())
-                Catch ex As Exception
+                oDO.UserFields.Fields.Item("U_PayLoad").Value = dr.Item("U_PayLoad").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_Capacity").Value = dr.Item("U_Capacity").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_CSCNum").Value = dr.Item("U_CSCNum").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_IMO").Value = dr.Item("U_IMO").ToString.Trim()
 
+                Try
+                    'oDO.UserFields.Fields.Item("U_DOM").Value = DateConvert(dr.Item("U_DOM").ToString.Trim())
+                    oDO.UserFields.Fields.Item("U_DOM").Value = (dr.Item("U_DOM").ToString.Trim())
+                Catch ex As Exception
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while updating DOM", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
                 End Try
                 Try
                     oDO.UserFields.Fields.Item("U_MGW").Value = dr.Item("U_MGW").ToString.Trim()
                 Catch ex As Exception
-
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while updating MGW", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
                 End Try
                 Try
                     oDO.UserFields.Fields.Item("U_Tare").Value = dr.Item("U_Tare").ToString.Trim()
                 Catch ex As Exception
-
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while updating Tare", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
                 End Try
                 Try
                     oDO.UserFields.Fields.Item("U_ACEP").Value = dr.Item("U_ACEP").ToString.Trim()
                 Catch ex As Exception
-
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while updating ACEP", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
                 End Try
                 Try
-                    oDO.UserFields.Fields.Item("U_CSC").Value = DateConvert(dr.Item("U_CSC").ToString.Trim())
+                    'oDO.UserFields.Fields.Item("U_CSC").Value = DateConvert(dr.Item("U_CSC").ToString.Trim())
+                    oDO.UserFields.Fields.Item("U_CSC").Value = (dr.Item("U_CSC").ToString.Trim())
                 Catch ex As Exception
-
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while updating CSC", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
                 End Try
 
                 'oDO.UserFields.Fields.Item("U_SurveyorID").Value = oSO.UserFields.Fields.Item("U_SurveyorID").Value
@@ -7740,7 +7764,7 @@ Public Class ICSB
                 'oDO.UserFields.Fields.Item("U_Country").Value = oSO.UserFields.Fields.Item("U_Country").Value
                 'oDO.UserFields.Fields.Item("U_City").Value = oSO.UserFields.Fields.Item("U_City").Value
                 'oDO.UserFields.Fields.Item("U_Loc").Value = oSO.UserFields.Fields.Item("U_Loc").Value
-                'oDO.Comments = oSO.Comments
+                oDO.Comments = dr.Item("Comments").ToString.Trim()
                 'oDO.Lines.ItemCode = oSO.Lines.ItemCode
                 'oDO.Lines.Quantity = 1
                 'oDO.Lines.UserFields.Fields.Item("U_PDate").Value = oSO.Lines.UserFields.Fields.Item("U_PDate").Value
@@ -7810,9 +7834,9 @@ Public Class ICSB
             Str = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", " & _
                   " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", " & _
                   " T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"", " & _
-                  " T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",T0.""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",T0.""U_CSC"",""U_EX_Fram"",T0.""U_IMO"", " & _
-                  " ""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"", " & _
-                  " ""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"", " & _
+                  " T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",T0.""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",T0.""U_CSCNum"",T0.""U_CSC"",""U_EX_Fram"",T0.""U_IMO"", " & _
+                  " ""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_SPIL"",""U_Capacity"", " & _
+                  " ""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_PayLoad"", " & _
                   " ""U_SEAL_NEXT"",""U_SEAL_NEXT"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
 
             Dim RetDT As New DataTable
@@ -7991,7 +8015,8 @@ Public Class ICSB
                 RetDS.Tables.Add(RetDT1)
                 Str = "SELECT T0.""DocEntry"" AS ""Survey_No"",T0.""U_EqNo"" AS ""Container_Num"", T0.""U_SResult"" As ""Survey_Result"" ,T0.""U_UName"" As ""User_Name"", " & _
                       " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') ""Survey_Date"", T0.""CardCode"" as ""Customer_Code"", T0.""CardName"" as ""Customer_Name"", " & _
-                      " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T1.""BaseType"" =17 and  T1.""BaseEntry"" ='" & DocEntry & "'"
+                      " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                      " WHERE T1.""BaseType"" =17 and  T1.""BaseEntry"" ='" & DocEntry & "' ORDER BY T0.""DocEntry"" "
 
                 RetDT = New DataTable
                 RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
