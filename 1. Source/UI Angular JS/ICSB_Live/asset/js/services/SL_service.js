@@ -25,6 +25,25 @@ App.service('SL_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
     };
 
 
+     //Find form name by link
+    this.gotoSurveyFromByLink = function (val) {
+
+        var data = {  "ODLN": [{  "U_SurvyNo": val }] }
+        var parms = encodeURIComponent(JSON.stringify(data));
+        var promise = $http.post(this.url + "SurveyTyep_Find", "value=" + parms, this.config)
+   .success(function (response) {
+       if (response.returnStatus == 1) {
+           return response;
+       } else {
+           //alert('Not Connecting to server');
+           return false;
+       }
+   });
+        return promise;
+
+    };
+
+
     //get all Survey_Criteria_Master
     this.getSurveyCriteria = function () {
        

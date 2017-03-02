@@ -50,15 +50,15 @@
     <td>Survey Result</td>
   </tr>
   <tr ng-repeat="d in SL">
-    <td><i class="fa fa-arrow-right fa-2x" ng-click="gotoSurveyFromByLink(d.Survey_No);" style="color:#faba0a;cursor:pointer;" aria-hidden="true"></i></td>
-    <td>{{d.Survey_No}}</td>
-    <td>{{d.User_Name}}</td>
-    <td>{{d.Survey_Date}}</td>
-    <td>{{d.Customer_Code}}</td>
-    <td>{{d.Customer_Name}}</td>
-    <td>{{d.Survey_Type}}</td>
-    <td>{{d.Location}}</td>
-    <td>{{d.Survey_Result}}</td>
+    <td><i class="fa fa-arrow-right fa-2x" ng-click="gotoSurveyFromByLink(d.U_SurveyNo);" style="color:#faba0a;cursor:pointer;" aria-hidden="true"></i></td>
+    <td>{{d.U_SurveyNo}}</td>
+    <td>{{d.U_UName}}</td>
+    <td>{{d.DocDate}}</td>
+    <td>{{d.CardCode}}</td>
+    <td>{{d.CardName}}</td>
+    <td>{{d.U_STypeCode}}</td>
+    <td>{{d.U_Loc}}</td>
+    <td>{{d.U_SResult}}</td>
   </tr>
 </table>
                             <div align="center" class="text-danger"  ng-show="!SL.length"> <strong> No Data...</strong></div>

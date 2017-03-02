@@ -105,6 +105,33 @@ function ($scope, $rootScope, $http, $window, $cookies,US,SL,hotkeys,$location) 
     }
     
 
+    $rootScope.gotoSurveyFromByLink = function (sno) {
+        SL.gotoSurveyFromByLink(sno).then(function (response) {
+            response.data.ODLN[0].U_OrderNo = $scope.data.ODLN[0].U_OrderNo;
+            console.log(response);
+            if (response.data.ODLN[0].U_FormName == "AOS") {
+                $cookies.put('AOS_data', JSON.stringify(response.data));
+                window.location = "Any_Other_Survey.aspx?AOSUpdate=true&sn=" + sno;
+            }
+            if (response.data.ODLN[0].U_FormName == "ONHS") {
+                $cookies.put('AOS_data', JSON.stringify(response.data));
+                window.location = "On_Hire_Survey.aspx?AOSUpdate=true&sn=" + sno;
+            }
+            if (response.data.ODLN[0].U_FormName == "CS1") {
+                $cookies.put('AOS_data', JSON.stringify(response.data));
+                console.log(response.data);
+                window.location = "CC_Survey1.aspx?AOSUpdate=true&sn=" + sno;
+            }
+            if (response.data.ODLN[0].U_FormName == "OFFHS") {
+                $cookies.put('AOS_data', JSON.stringify(response.data));
+                window.location = "Off_Hire_In_Service_Survey.aspx?AOSUpdate=true&sn=" + sno;
+            }
+
+
+        });
+
+    }
+
 
     $scope.findSL = function()
     {
