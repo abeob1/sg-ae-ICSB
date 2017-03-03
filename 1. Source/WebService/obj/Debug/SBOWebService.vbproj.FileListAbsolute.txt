@@ -162,3 +162,4 @@ C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\obj\Debug\SBOWebService.vbproj.
 C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\obj\Debug\SBOWebService.dll
 C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\obj\Debug\SBOWebService.xml
 C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\obj\Debug\SBOWebService.pdb
+C:\Solutions_SVN\ICSB\trunk\1. Source\WebService\obj\Debug\SBOWebService.vbprojResolveAssemblyReference.cache
