@@ -5313,10 +5313,11 @@ Public Class ICSB
                 Dim dr As DataRow = SQTO.Rows(0)
                 oSO.UserFields.Fields.Item("U_UCode").Value = dr.Item("U_UCode").ToString.Trim() 'dr.Item("U_UName").ToString.Trim()
                 oSO.UserFields.Fields.Item("U_UName").Value = dr.Item("U_UName").ToString.Trim()
-                oSO.UserFields.Fields.Item("U_Cdate").Value = dr.Item("U_Cdate")
+                oSO.UserFields.Fields.Item("U_Cdate").Value = GetDateTimeValue(dr.Item("U_Cdate").ToString)
                 DocDate = DateConvert(dr.Item("DocDate").ToString)
-                oSO.DocDate = DateConvert(dr.Item("DocDate").ToString)
-                oSO.DocDueDate = DateConvert(dr.Item("DocDate").ToString)
+                'oSO.DocDate = DateConvert(dr.Item("DocDate").ToString)
+                oSO.DocDate = GetDateTimeValue(dr.Item("DocDate").ToString)
+                oSO.DocDueDate = GetDateTimeValue(dr.Item("DocDate").ToString)
                 oSO.CardCode = dr.Item("CardCode").ToString
                 CardCode = dr.Item("CardCode").ToString
                 oSO.CardName = dr.Item("CardName").ToString
@@ -5337,24 +5338,24 @@ Public Class ICSB
                     For Each dr1 As DataRow In SQTOGEN.Rows
                         oSO.Lines.ItemCode = STypeCode
                         oSO.Lines.Quantity = dr1.Item("Quantity")
-                        oSO.Lines.UserFields.Fields.Item("U_PDate").Value = dr1.Item("U_PDate").ToString.Trim()
+                        oSO.Lines.UserFields.Fields.Item("U_PDate").Value = GetDateTimeValue(dr1.Item("U_PDate").ToString.Trim())
                         oSO.Lines.UserFields.Fields.Item("U_EQType").Value = dr1.Item("U_EQType").ToString.Trim()
                         EqupTye = dr1.Item("U_EQType").ToString.Trim()
                         oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value = dr1.Item("U_SCriteria").ToString.Trim()
 
-                        'SQLStr = "SELECT Top 1  T1.""U_Rate"" " & _
-                        '         " FROM ""@CCON""  T0 " & _
-                        '         " Left Join ""@CCONGENERAL""  T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
-                        '         " Left Join ""@EQTYPE"" T2 ON T2.""U_EQCODE""=T1.""U_EQGroup"" " & _
-                        '         " WHERE T0.""U_Status"" ='Open' and  T0.""U_Ccode"" ='" & CardCode & "' and  T0.""U_CPeriod1"" <='" & DocDate & "' and  T0.""U_CPeriod2"" >='" & DocDate & "'   " & _
-                        '         " and T1.""U_Stype""='" & STypeCode & "' and  T1.""U_Country""='" & Country & "' and T1.""U_City""='" & City & "' and T2.""U_EQTYPECODE""='" & EqupTye & "'"
+                        SQLStr = "SELECT Top 1  T1.""U_Rate"" " & _
+                                 " FROM ""@CCON""  T0 " & _
+                                 " Left Join ""@CCONGENERAL""  T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
+                                 " Left Join ""@EQTYPE"" T2 ON T2.""U_EQCODE""=T1.""U_EQGroup"" " & _
+                                 " WHERE T0.""U_Status"" ='Open' and  T0.""U_Ccode"" ='" & CardCode & "' and  T0.""U_CPeriod1"" <='" & DocDate & "' and  T0.""U_CPeriod2"" >='" & DocDate & "'   " & _
+                                 " and T1.""U_Stype""='" & STypeCode & "' and  T1.""U_Country""='" & Country & "' and T1.""U_City""='" & City & "' and T2.""U_EQTYPECODE""='" & EqupTye & "'"
 
-                        'Rt = fn.ExecuteSQLQuery_SingleValue(SQLStr, Errmsg)
-                        'If Rt = "" Then
-                        '    Throw New Exception("No Valid Contract Found!")
-                        'End If
-                        'oSO.Lines.UnitPrice = CDec(Rt)
-                        oSO.Lines.UnitPrice = 22
+                        Rt = fn.ExecuteSQLQuery_SingleValue(SQLStr, Errmsg)
+                        If Rt = "" Then
+                            Throw New Exception("No Valid Contract Found!")
+                        End If
+                        oSO.Lines.UnitPrice = CDec(Rt)
+                        'oSO.Lines.UnitPrice = 22
                         oSO.Lines.Add()
                     Next
                 Else
@@ -5461,7 +5462,8 @@ Public Class ICSB
                         'oSO.Lines.ItemCode = STypeCode
                         oSO.Lines.SetCurrentLine(0)
                         oSO.Lines.Quantity = dr1.Item("Quantity")
-                        oSO.Lines.UserFields.Fields.Item("U_PDate").Value = DateConvert(dr1.Item("U_PDate").ToString.Trim())
+                        'oSO.Lines.UserFields.Fields.Item("U_PDate").Value = DateConvert(dr1.Item("U_PDate").ToString.Trim())
+                        oSO.Lines.UserFields.Fields.Item("U_PDate").Value = GetDateTimeValue(dr1.Item("U_PDate").ToString.Trim())
                         'oSO.Lines.UserFields.Fields.Item("U_EQType").Value = dr1.Item("U_EQType").ToString.Trim()
                         'EqupTye = dr1.Item("U_EQType").ToString.Trim()
                         'oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value = dr1.Item("U_SCriteria").ToString.Trim()
@@ -7042,7 +7044,7 @@ Public Class ICSB
 
                 oDO.UserFields.Fields.Item("U_UCode").Value = dr.Item("U_UCode").ToString.Trim()
                 oDO.UserFields.Fields.Item("U_UName").Value = dr.Item("U_UName").ToString.Trim()
-                oDO.UserFields.Fields.Item("U_Cdate").Value = dr.Item("U_Cdate")
+                oDO.UserFields.Fields.Item("U_Cdate").Value = GetDateTimeValue(dr.Item("U_Cdate").ToString)
                 oDO.DocDate = DateConvert(dr.Item("DocDate").ToString)
                 oDO.DocDueDate = DateConvert(dr.Item("DocDate").ToString)
                 oDO.CardCode = oSO.CardCode
@@ -8055,5 +8057,12 @@ Public Class ICSB
         dsNew.Tables.Add(dt)
         dt.Dispose()
         Return dsNew
+    End Function
+
+    Public Function GetDateTimeValue(ByVal DateString As String) As DateTime
+        Dim objBridge As SAPbobsCOM.SBObob
+        '   objBridge = oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoBridge)
+        objBridge = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoBridge)
+        Return objBridge.Format_StringToDate(DateString).Fields.Item(0).Value
     End Function
 End Class
