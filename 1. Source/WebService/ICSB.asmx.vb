@@ -7114,7 +7114,7 @@ Public Class ICSB
                 End Try
 
                 oDO.UserFields.Fields.Item("U_SurveyorID").Value = oSO.UserFields.Fields.Item("U_SurveyorID").Value
-                oDO.NumAtCard = oSO.NumAtCard 'dr.Item("NumAtCard").ToString.Trim
+                oDO.NumAtCard = dr.Item("NumAtCard").ToString.Trim
                 oDO.UserFields.Fields.Item("U_SuvExAgent").Value = dr.Item("U_SuvExAgent").ToString.Trim()
                 oDO.UserFields.Fields.Item("U_NoPh").Value = dr.Item("U_NoPh").ToString.Trim()
                 oDO.UserFields.Fields.Item("U_EqNo").Value = dr.Item("U_EqNo").ToString.Trim()
