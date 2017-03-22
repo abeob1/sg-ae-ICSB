@@ -5781,19 +5781,30 @@ Public Class ICSB
                     End If
                 ElseIf DType = "By Country" Then
                     If DocNum = "" Then
+                        'Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        '        " TO_CHAR(T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                        '        " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
+                        '        " FROM ORDR T0 " & _
+                        '        " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
+                        '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR(T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                                 " FROM ORDR T0 " & _
-                                " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
-                                " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
+                                " where T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                     Else
+                        'Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        '        " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                        '        " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
+                        '        " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
+                        '        "                                       FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
+                        '        "                                       and  T0.""DocEntry""<'" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
+                        '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                                 " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
-                                "                                       FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
-                                "                                       and  T0.""DocEntry""<'" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
+                                "                                       FROM ORDR T0 where T0.""DocEntry""<'" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
                                 " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
                     End If
                 Else
@@ -5940,19 +5951,30 @@ Public Class ICSB
                     End If
                 ElseIf DType = "By Country" Then
                     If DocNum = "" Then
+                        'Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        '        " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                        '        " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
+                        '        " FROM ORDR T0 " & _
+                        '        " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
+                        '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" DESC"
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
-                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
-                                " FROM ORDR T0 " & _
-                                " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
-                                " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" DESC"
+                               " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                               " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
+                               " FROM ORDR T0 " & _
+                               " where T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" DESC"
                     Else
+                        'Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        '        " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                        '        " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
+                        '        " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
+                        '        "                                       FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "') " & _
+                        '        "                                       AND T0.""DocEntry"" > '" & DocNum & "' ORDER BY T0.""DocEntry"" ASC) " & _
+                        '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                                 " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
-                                "                                       FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "') " & _
-                                "                                       AND T0.""DocEntry"" > '" & DocNum & "' ORDER BY T0.""DocEntry"" ASC) " & _
+                                "                                       FROM ORDR T0 where T0.""DocEntry"" > '" & DocNum & "' ORDER BY T0.""DocEntry"" ASC) " & _
                                 " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
                     End If
                 Else
@@ -6098,21 +6120,33 @@ Public Class ICSB
                     End If
                 ElseIf DType = "By Country" Then
                     If DocNum = "" Then
+                        'Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                        '        " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
+                        '        " T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"",  " & _
+                        '        " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                        '        " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
+                        '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"",  " & _
                                 " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
-                                " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
-                                " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
+                                " where T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                     Else
-                        'Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
+                        ''Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
+                        'Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                        '        " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
+                        '        " T0.""CardCode"",T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
+                        '        " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                        '        " where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" FROM ORDR T0 " & _
+                        '        "                          where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
+                        '        "                          and  T0.""DocEntry"" = '" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
+                        '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
                                 " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
                                 " where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" FROM ORDR T0 " & _
-                                "                          where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
-                                "                          and  T0.""DocEntry"" = '" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
+                                "                          where T0.""DocEntry"" = '" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
                                 " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
                     End If
                 Else
@@ -7684,7 +7718,7 @@ Public Class ICSB
                 ' oDO.UserFields.Fields.Item("U_UCode").Value = dr.Item("U_UCode").ToString.Trim()
                 'oDO.UserFields.Fields.Item("U_UName").Value = dr.Item("U_UName").ToString.Trim()
                 'oDO.UserFields.Fields.Item("U_Cdate").Value = dr.Item("U_Cdate")
-                'oDO.DocDate = DateConvert(dr.Item("DocDate").ToString)
+                oDO.DocDate = DateConvert(dr.Item("DocDate").ToString)
                 'oDO.DocDueDate = DateConvert(dr.Item("DocDate").ToString)
                 'oDO.CardCode = oSO.CardCode
                 'oDO.CardName = oSO.CardName
