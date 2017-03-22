@@ -422,7 +422,13 @@ Public Class ICSB
                 Name = "%" & Name & "%"
             End If
             'Dim Str As String = "SELECT T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "'"
-            Dim Str As String = "SELECT 'L' as ""U_Ctype"",T0.""Code"" As ""U_Ccode"", T0.""Name"" as ""U_Cname"", T0.""U_TelNo"" as ""U_TelNo"", T0.""U_FaxNo"" as ""U_FaxNo"", T0.""U_MNo"" as ""U_Mno"", T0.""U_Email"" as ""U_Email"" FROM ""@LEADM""  T0 WHERE T0.""Code"" like '" & Code & "' and  T0.""Name"" like '" & Name & "' UNION ALL SELECT 'C' as ""U_Ctype"",T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "' order by ""U_Cname"""
+            Dim Str As String
+            Str = "SELECT 'L' as ""U_Ctype"",T0.""Code"" As ""U_Ccode"", T0.""Name"" as ""U_Cname"", T0.""U_TelNo"" as ""U_TelNo"", T0.""U_FaxNo"" as ""U_FaxNo"", " & _
+                  " T0.""U_MNo"" as ""U_Mno"", T0.""U_Email"" as ""U_Email"" FROM ""@LEADM""  T0 WHERE T0.""Code"" like '" & Code & "' and  T0.""Name"" like '" & Name & "' " & _
+                  " UNION ALL " & _
+                  " SELECT 'C' as ""U_Ctype"",T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", " & _
+                  " T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' " & _
+                  " and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "' order by ""U_Cname""  "
 
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
