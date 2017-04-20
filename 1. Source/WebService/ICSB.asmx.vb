@@ -5349,19 +5349,28 @@ Public Class ICSB
                         EqupTye = dr1.Item("U_EQType").ToString.Trim()
                         oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value = dr1.Item("U_SCriteria").ToString.Trim()
 
-                        SQLStr = "SELECT Top 1  T1.""U_Rate"" " & _
+                        SQLStr = "SELECT Top 1  T1.""U_Rate"",T1.""U_Currency"" " & _
                                  " FROM ""@CCON""  T0 " & _
                                  " Left Join ""@CCONGENERAL""  T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
                                  " Left Join ""@EQTYPE"" T2 ON T2.""U_EQCODE""=T1.""U_EQGroup"" " & _
                                  " WHERE T0.""U_Status"" ='Open' and  T0.""U_Ccode"" ='" & CardCode & "' and  T0.""U_CPeriod1"" <='" & DocDate & "' and  T0.""U_CPeriod2"" >='" & DocDate & "'   " & _
                                  " and T1.""U_Stype""='" & STypeCode & "' and  T1.""U_Country""='" & Country & "' and T1.""U_City""='" & City & "' and T2.""U_EQTYPECODE""='" & EqupTye & "'"
 
-                        Rt = fn.ExecuteSQLQuery_SingleValue(SQLStr, Errmsg)
-                        If Rt = "" Then
-                            Throw New Exception("No Valid Contract Found!")
-                        End If
+                        'Rt = fn.ExecuteSQLQuery_SingleValue(SQLStr, Errmsg)
+                        'If Rt = "" Then
+                        '    Throw New Exception("No Valid Contract Found!")
+                        'End If
+                        'oSO.Lines.UnitPrice = CDec(Rt)
+                        'oSO.Lines.Add()
+
+                        Dim dtPrice As DataTable
+                        dtPrice = fn.ExecuteSQLQuery(SQLStr, Errmsg)
+                        Dim oDr As DataRow = dtPrice.Rows(0)
+                        Rt = oDr.Item("U_Rate").ToString.Trim()
+                        Dim sCurrency As String = String.Empty
+                        sCurrency = oDr.Item("U_Currency").ToString.Trim()
                         oSO.Lines.UnitPrice = CDec(Rt)
-                        'oSO.Lines.UnitPrice = 22
+                        oSO.Lines.Currency = sCurrency
                         oSO.Lines.Add()
                     Next
                 Else
