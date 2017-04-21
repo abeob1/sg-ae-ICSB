@@ -16,7 +16,7 @@ Public Class ICSB
     Dim DocEntry As String = ""
     <WebMethod()> _
     Public Function HelloWorld() As String
-  
+
         Dim sErrDesc As String = ""
 
         '   Return      :   0 - FAILURE
@@ -33,7 +33,7 @@ Public Class ICSB
 
         Try
             sFuncName = "ConnectToTargetCompany()"
-            
+
             Dim oCompany As New SAPbobsCOM.Company
 
 
@@ -63,7 +63,7 @@ Public Class ICSB
 
                 Throw New ArgumentException(sErrDesc)
             End If
-            
+
 
         Catch ex As Exception
             sErrDesc = ex.Message
@@ -328,12 +328,14 @@ Public Class ICSB
             Dim ds As DataSet = fn.jsontodata(value)
             Dim Errmsg As String = ""
             Dim sErrDesc As String = ""
+            Dim sUid As String = ""
 
             If ds.Tables("OCRD").Rows.Count > 0 Then
                 OCRD = ds.Tables("OCRD")
                 Dim dr As DataRow = OCRD.Rows(0)
                 Code = dr.Item("U_Ccode").ToString.Trim
                 Name = dr.Item("U_Cname").ToString.Trim
+                sUid = dr.Item("uid").ToString.Trim
             End If
 
             If Code = "" Then
@@ -351,8 +353,14 @@ Public Class ICSB
             Else
                 Name = "%" & Name & "%"
             End If
-            'Dim Str As String = "SELECT T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "'"
-            Dim Str As String = "SELECT 'C' as ""U_Ctype"",T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "' order by ""U_Cname"""
+
+            ''Dim Str As String = "SELECT T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "'"
+            'Dim Str As String = "SELECT 'C' as ""U_Ctype"",T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "' order by ""U_Cname"""
+            Dim Str As String = String.Empty
+            Str = "SELECT T1.""CardType"" as ""U_Ctype"",T0.""U_CardCode"" AS ""U_Ccode"",T1.""CardName"" as ""U_Cname"",T1.""Phone1"" as ""U_TelNo"", " & _
+                  " T1.""Fax"" as ""U_FaxNo"",T1.""Cellular"" AS ""U_Mno"",T1.""E_Mail"" as ""U_Email"" " & _
+                  " FROM ""@WUSERL"" T0 INNER JOIN ""OCRD"" T1 ON T1.""CardCode"" = T0.""U_CardCode"" WHERE IFNULL(T1.""U_WebAccess"",'') = 'Y' AND T1.""CardType"" = 'C' " & _
+                  " AND T0.""Code"" = '" & sUid & "' AND IFNULL(T1.""CardCode"",'') <> '' AND T1.""CardCode""  like '" & Code & "' and T1.""CardName"" like '" & Name & "' order by ""U_Cname"""
 
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
@@ -421,7 +429,7 @@ Public Class ICSB
             Else
                 Name = "%" & Name & "%"
             End If
-            'Dim Str As String = "SELECT T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "'"
+            ''Dim Str As String = "SELECT T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "'"
             Dim Str As String
             Str = "SELECT 'L' as ""U_Ctype"",T0.""Code"" As ""U_Ccode"", T0.""Name"" as ""U_Cname"", T0.""U_TelNo"" as ""U_TelNo"", T0.""U_FaxNo"" as ""U_FaxNo"", " & _
                   " T0.""U_MNo"" as ""U_Mno"", T0.""U_Email"" as ""U_Email"" FROM ""@LEADM""  T0 WHERE T0.""Code"" like '" & Code & "' and  T0.""Name"" like '" & Name & "' " & _
@@ -566,8 +574,8 @@ Public Class ICSB
                     SQLDT.TableName = "SUID"
                     RetDT = SQLDT.Copy()
                     RetDS.Tables.Add(RetDT)
-                    End If
-                    Context.Response.Output.Write(fn.ds2json(RetDS))
+                End If
+                Context.Response.Output.Write(fn.ds2json(RetDS))
             End If
 
         Catch ex As Exception
@@ -6169,7 +6177,7 @@ Public Class ICSB
                 End If
 
 
-                
+
                 Dim RetDT As New DataTable
                 Dim RetDT1 As New DataTable
                 Dim RetDT2 As New DataTable
