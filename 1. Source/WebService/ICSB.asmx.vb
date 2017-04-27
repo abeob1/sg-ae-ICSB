@@ -7186,6 +7186,7 @@ Public Class ICSB
                 oDO.Comments = dr.Item("Comments").ToString.Trim()
                 oDO.Lines.ItemCode = oSO.Lines.ItemCode
                 oDO.Lines.Quantity = 1
+                oDO.Lines.Currency = oSO.Lines.Currency
                 oDO.Lines.UserFields.Fields.Item("U_PDate").Value = oSO.Lines.UserFields.Fields.Item("U_PDate").Value
                 oDO.Lines.UserFields.Fields.Item("U_EQType").Value = oSO.Lines.UserFields.Fields.Item("U_EQType").Value
                 'EqupTye = dr1.Item("U_EQType").ToString.Trim()
