@@ -219,19 +219,19 @@
 
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-4 control-label">
-                            IMO
-                        </label>
-                        <div class="col-sm-8">
-                             <select ng-disabled="updatedisabled" class="form-control" ng-options="item.Name as item.Name for item in IMO" ng-model="data.ODLN[0].U_IMO"></select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-4 control-label">
                              Survey Criteria
                         </label>
                         <div class="col-sm-8">
                            <select class="form-control" ng-disabled="false" ng-options="item.U_SURCRTACODE as item.U_SURCRTANAME for item in SurveyCriteria" ng-model="data.ODLN[0].U_SCriteria" ></select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-4 control-label">
+                            IMO
+                        </label>
+                        <div class="col-sm-8">
+                             <select ng-disabled="updatedisabled" class="form-control" ng-options="item.Name as item.Name for item in IMO" ng-model="data.ODLN[0].U_IMO"></select>
                         </div>
                     </div>
 
