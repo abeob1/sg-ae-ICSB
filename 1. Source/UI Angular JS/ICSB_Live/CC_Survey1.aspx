@@ -782,7 +782,11 @@ CSC Number
                     </button></span>
  <span><button type="button" class="btn btn-white"  ng-click="SurveyList();">
                         <i class="fa fa-th-list"></i> Back to Survey List
-                    </button></span>
+                    </button>
+                    
+                    <a  ng-hide="data.ODLN[0].U_SurvyNo===undefined" target="_blank" href="CleaningCertificateReport.aspx?key={{data.ODLN[0].U_SurvyNo}}"<button class="btn btn-white"  ng-disabled="false">
+                                              <i class="fa fa-print" aria-hidden="true"></i> Print</button></a>
+                    </span>
 
 
                         <span>
