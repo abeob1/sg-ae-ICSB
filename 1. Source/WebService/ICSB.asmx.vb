@@ -6671,6 +6671,7 @@ Public Class ICSB
                 oDO.Lines.BaseLine = 0
 
                 oDO.Lines.UnitPrice = oSO.Lines.UnitPrice
+                oDO.Lines.Currency = oSO.Lines.Currency
                 oDO.Lines.Add()
                 RetCode = oDO.Add
                 If RetCode <> 0 Then
@@ -6785,9 +6786,6 @@ Public Class ICSB
 
                 End Try
 
-
-
-
                 oDO.UserFields.Fields.Item("U_SurveyorID").Value = oSO.UserFields.Fields.Item("U_SurveyorID").Value
                 oDO.NumAtCard = oSO.NumAtCard 'dr.Item("NumAtCard").ToString.Trim
                 oDO.UserFields.Fields.Item("U_SuvExAgent").Value = dr.Item("U_SuvExAgent").ToString.Trim()
@@ -6814,6 +6812,7 @@ Public Class ICSB
                 oDO.Lines.BaseLine = 0
 
                 oDO.Lines.UnitPrice = oSO.Lines.UnitPrice
+                oDO.Lines.Currency = oSO.Lines.Currency
                 oDO.Lines.Add()
                 RetCode = oDO.Add
                 If RetCode <> 0 Then
@@ -6991,8 +6990,6 @@ Public Class ICSB
                 Catch ex As Exception
                 End Try
 
-
-
                 oDO.UserFields.Fields.Item("U_FormName").Value = dr.Item("U_FormName").ToString.Trim()
                 oDO.UserFields.Fields.Item("U_SResult").Value = dr.Item("U_SResult").ToString.Trim()
 
@@ -7021,6 +7018,7 @@ Public Class ICSB
                 oDO.Lines.BaseLine = 0
 
                 oDO.Lines.UnitPrice = oSO.Lines.UnitPrice
+                oDO.Lines.Currency = oSO.Lines.Currency
                 oDO.Lines.Add()
                 RetCode = oDO.Add
                 If RetCode <> 0 Then
