@@ -37,3 +37,13 @@ C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\obj\Debug\WebApplic
 C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.dll
 C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.xml
 C:\Solutions_SVN\ICSB\trunk\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.pdb
+E:\SVN\ICSB\1. Source\Report\WebApplication1\bin\WebApplication1.dll
+E:\SVN\ICSB\1. Source\Report\WebApplication1\bin\WebApplication1.pdb
+E:\SVN\ICSB\1. Source\Report\WebApplication1\bin\WebApplication1.xml
+E:\SVN\ICSB\1. Source\Report\WebApplication1\bin\log4net.dll
+E:\SVN\ICSB\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.vbprojResolveAssemblyReference.cache
+E:\SVN\ICSB\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.Resources.resources
+E:\SVN\ICSB\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.vbproj.GenerateResource.Cache
+E:\SVN\ICSB\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.dll
+E:\SVN\ICSB\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.xml
+E:\SVN\ICSB\1. Source\Report\WebApplication1\obj\Debug\WebApplication1.pdb
