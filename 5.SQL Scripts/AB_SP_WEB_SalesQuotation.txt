@@ -1,0 +1,41 @@
+Create procedure "AB_SP_WEB_SalesQuotation" (in DocKey INTEGER) as 
+
+begin 
+
+SELECT
+
+--NEW PROC 11/04/2017
+--------------------Company Info---------------------------------
+
+T10."CompnyName",T10."Phone1", T10."Fax", T10."FreeZoneNo", T10."TaxIdNum",T10."PrintHeadr",
+T10."BitmapPath",B."Picture",B."U_Stamp",T10."Name", 
+T10."CompnyAddr", IFNULL(T10."Street",'') AS "Street",IFNULL(T10."Block",'') AS "Block", 
+IFNULL(T10."ZipCode",'') AS "ZipCode",T10."LogoImage",T10."IntrntAdrs",
+T0."DocEntry",T0."DocNum",T0."U_Status",T0."U_Uname",T0."U_Cdate",T0."U_Qdate1",T0."U_Qdate2",T0."U_Ccode",T0."U_Cname",
+T0."U_CPeriod1",T0."U_CPeriod2",T0."U_Pcode",T0."U_Addr1",T0."U_Addr2",T0."U_Addr3",T0."U_Addr4",
+T0."U_Addr5",T0."U_Addr6",ifnull(T0."U_TelNo",'') "U_TelNo",ifnull( T0."U_FaxNo",'') "U_FaxNo",
+ifnull(T0."U_Mno",'') "U_Mno",ifnull(T0."U_Email",'') "U_Email",T0."U_Remarks",T1."U_Stype",T2."ItemName",
+T1."U_Conti",T1."U_Country",Upper(T3."U_CName") "U_CName",T1."U_City",T4."U_CName",T1."U_Currency",
+T1."U_EQGroup",T6."U_EQGRPNAME",T1."U_Rate",T1."U_UOM",T5."U_UOMNAME",T1."U_GST" 
+FROM "@SQTO" T0 
+Inner Join "@SQTOGENERAL" T1 on T0."DocEntry" = T1."DocEntry" 
+Left Join OITM T2 on T1."U_Stype"=T2."ItemCode" 
+Left Join "@COUNTRY" T3 on T3."U_CCode"= T1."U_Country" 
+Left Join "@CITY" T4 on T4."U_CCode"=T1."U_City"
+Left Join "@UOM" T5 on T5."U_UOMCODE"=T1."U_UOM"
+left join "@EQGRP"  T6 on T6."U_EQGRPCODE"=T1."U_EQGroup"
+join(
+
+ select T0."CompnyName",T0."Phone1", T0."Fax", T0."FreeZoneNo", T0."TaxIdNum",T0."PrintHeadr",
+ T1."ZipCode",T0."CompnyAddr",T1."Block",T1."Street",T3."LogoImage",T1."IntrntAdrs",T2."Name",T3."BitmapPath"
+ from "OADM" T0 
+ join "ADM1" T1  on 1=1
+ join "OADP" T3  on 1=1
+ join "OCRY" T2 on T2."Code"=T1."Country"
+) T10 on 1=1 
+--CANGES
+LEFT JOIN "OCRD" B ON B."CardCode" = T0."U_Ccode"
+
+WHERE T0."DocEntry" = :DocKey  ;
+
+End ;
