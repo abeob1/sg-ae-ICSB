@@ -531,6 +531,7 @@ CSC Number
                          <option value='PTFE'>PTFE</option>
                          <option value='SWR'>SWR</option>
                          <option value='SUPERTANKY'>SUPERTANKY</option>
+                         <option value='EPDM'>EPDM</option>
                          
                          </select>
                             
