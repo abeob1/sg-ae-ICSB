@@ -532,6 +532,7 @@ CSC Number
                          <option value='SWR'>SWR</option>
                          <option value='SUPERTANKY'>SUPERTANKY</option>
                          <option value='EPDM'>EPDM</option>
+                         <option value='NOT FITTED'>NOT FITTED</option>
                          
                          </select>
                             
