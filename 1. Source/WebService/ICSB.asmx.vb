@@ -7870,7 +7870,7 @@ Public Class ICSB
 
     <WebMethod()> _
   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SurveyTyep_Find(value As String)
+    Public Sub SurveyTyep_Find(ByVal value As String)
         Try
             Dim Code As String = ""
             Dim Name As String = ""
@@ -8098,6 +8098,237 @@ Public Class ICSB
         End Try
     End Sub
 #End Region
+#Region "Survey List"
+    <WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Sub GetSurveyNo(ByVal value As String)
+        Dim OCRD As New DataTable
+        OCRD = New DataTable
+        Dim ds As DataSet = fn.jsontodata(value)
+        Dim Errmsg As String = ""
+        Dim RetDS = New DataSet()
+        Dim sSurveyNo As String = String.Empty
+        Dim sUserCode As String = String.Empty
+
+        Try
+            If ds.Tables("ODLN").Rows.Count > 0 Then
+                OCRD = ds.Tables("ODLN")
+                Dim dr As DataRow = OCRD.Rows(0)
+                sSurveyNo = dr.Item("U_SurvyNo").ToString.Trim()
+                sUserCode = dr.Item("uid").ToString.Trim().ToUpper
+            End If
+
+            Dim sSQL As String = String.Empty
+            Dim DType As String = String.Empty
+            Dim sCompCode As String = String.Empty
+
+            sSQL = "SELECT T0.""U_DAuthor"",ifnull(T0.""U_ComCode"",'')  As ""U_ComCode"" FROM ""@WUSER""  T0 WHERE Upper(T0.""Code"") ='" & sUserCode & "'"
+            Dim dt As New DataTable
+            dt = fn.ExecuteSQLQuery(sSQL, Errmsg)
+            If Errmsg <> "" Then
+                Throw New Exception(Errmsg)
+            End If
+            If dt.Rows.Count > 0 Then
+                Dim dr As DataRow = dt.Rows(0)
+                DType = dr.Item("U_DAuthor").ToString.Trim()
+                sCompCode = dr.Item("U_ComCode").ToString.Trim()
+            End If
+
+            Dim Str As String = String.Empty
+            If DType = "By Company" Then
+                If sCompCode = "" Then
+                    Throw New Exception("No Record Found!")
+                End If
+                If sSurveyNo = "" Then
+                    Str = "SELECT T0.""DocEntry"" ""U_SurvyNo"" FROM ODLN T0 " & _
+                          " WHERE T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
+                Else
+                    Str = "SELECT T0.""DocEntry"" ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocEntry"" like '" & sSurveyNo & "' " & _
+                          " AND T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
+                End If
+            ElseIf DType = "By Country" Then
+                If sSurveyNo = "" Then
+                    Str = "SELECT T0.""DocEntry"" as ""U_SurvyNo"" FROM ODLN T0 " & _
+                         " WHERE T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
+                Else
+                    Str = "SELECT T0.""DocEntry"" as ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocEntry"" like '" & sSurveyNo & "' " & _
+                         " AND T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
+                End If
+                
+            ElseIf DType = "" Then
+                Throw New Exception("No Record Found!")
+            End If
+
+            Dim RetDT As New DataTable
+            Dim RetDT1 As New DataTable
+            RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
+            If Errmsg <> "" Then
+                Throw New Exception(Errmsg)
+            End If
+            If RetDT.Rows.Count > 0 Then
+                RetDT.TableName = "ODLN"
+                RetDT1 = RetDT.Copy
+                RetDS.Tables.Add(RetDT1)
+
+                Context.Response.Output.Write(fn.ds2json(RetDS))
+            Else
+                Throw New Exception("No Records Found")
+            End If
+        Catch ex As Exception
+            Context.Response.Output.Write(fn.ds2json(ErrorHandling(ex.Message.ToString)))
+        End Try
+    End Sub
+    <WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Sub GetSalesOrderNo(ByVal value As String)
+        Dim OCRD As New DataTable
+        OCRD = New DataTable
+        Dim ds As DataSet = fn.jsontodata(value)
+        Dim Errmsg As String = ""
+        Dim RetDS = New DataSet()
+        Dim sOrderNo As String = String.Empty
+        Dim sUserCode As String = String.Empty
+
+        Try
+            If ds.Tables("ODLN").Rows.Count > 0 Then
+                OCRD = ds.Tables("ODLN")
+                Dim dr As DataRow = OCRD.Rows(0)
+                sOrderNo = dr.Item("U_OrderNo").ToString.Trim()
+                sUserCode = dr.Item("uid").ToString.Trim().ToUpper
+            End If
+
+            Dim sSQL As String = String.Empty
+            Dim DType As String = String.Empty
+            Dim sCompCode As String = String.Empty
+
+            sSQL = "SELECT T0.""U_DAuthor"",ifnull(T0.""U_ComCode"",'')  As ""U_ComCode"" FROM ""@WUSER""  T0 WHERE Upper(T0.""Code"") ='" & sUserCode & "'"
+            Dim dt As New DataTable
+            dt = fn.ExecuteSQLQuery(sSQL, Errmsg)
+            If Errmsg <> "" Then
+                Throw New Exception(Errmsg)
+            End If
+            If dt.Rows.Count > 0 Then
+                Dim dr As DataRow = dt.Rows(0)
+                DType = dr.Item("U_DAuthor").ToString.Trim()
+                sCompCode = dr.Item("U_ComCode").ToString.Trim()
+            End If
+
+            Dim Str As String = String.Empty
+            If DType = "By Company" Then
+                If sCompCode = "" Then
+                    Throw New Exception("No Record Found!")
+                End If
+                If sOrderNo = "" Then
+                    Str = "SELECT T0.""DocEntry"" ""U_OrderNo"" FROM ORDR T0 " & _
+                          " WHERE T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
+                Else
+                    Str = "SELECT T0.""DocEntry"" ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocEntry"" like '" & sOrderNo & "' " & _
+                          " AND T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
+                End If
+            ElseIf DType = "By Country" Then
+                If sOrderNo = "" Then
+                    Str = "SELECT T0.""DocEntry"" as ""U_OrderNo"" FROM ORDR T0 " & _
+                         " WHERE T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
+                Else
+                    Str = "SELECT T0.""DocEntry"" as ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocEntry"" like '" & sOrderNo & "' " & _
+                         " AND T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
+                End If
+
+            ElseIf DType = "" Then
+                Throw New Exception("No Record Found!")
+            End If
+
+            Dim RetDT As New DataTable
+            Dim RetDT1 As New DataTable
+            RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
+            If Errmsg <> "" Then
+                Throw New Exception(Errmsg)
+            End If
+            If RetDT.Rows.Count > 0 Then
+                RetDT.TableName = "ODLN"
+                RetDT1 = RetDT.Copy
+                RetDS.Tables.Add(RetDT1)
+
+                Context.Response.Output.Write(fn.ds2json(RetDS))
+            Else
+                Throw New Exception("No Records Found")
+            End If
+        Catch ex As Exception
+            Context.Response.Output.Write(fn.ds2json(ErrorHandling(ex.Message.ToString)))
+        End Try
+    End Sub
+    <WebMethod()> _
+  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Sub GetSurveyList(ByVal value As String)
+        Try
+            Dim Code As String = ""
+            Dim Name As String = ""
+            Dim OCRD As New DataTable
+            OCRD = New DataTable
+            Dim LEADMDS = New DataSet()
+            Dim SQLDT As New DataTable
+            Dim RetDS = New DataSet()
+            Dim ds As DataSet = fn.jsontodata(value)
+            Dim Errmsg As String = ""
+            Dim sErrDesc As String = ""
+            Dim SoNo As String = ""
+            Dim sOrderNo As String = String.Empty
+            Dim sCustCode As String = String.Empty
+            Dim sCustName As String = String.Empty
+            Dim sSurveyDtFrom As String = String.Empty
+            Dim sSurveyDtTo As String = String.Empty
+            Dim sContainerNo As String = String.Empty
+
+            If ds.Tables("ODLN").Rows.Count > 0 Then
+                OCRD = ds.Tables("ODLN")
+                Dim dr As DataRow = OCRD.Rows(0)
+                DocEntry = dr.Item("U_SurvyNo").ToString.Trim()
+                sOrderNo = dr.Item("U_OrderNo").ToString.Trim()
+                sCustCode = dr.Item("U_Ccode").ToString.Trim()
+                sCustName = dr.Item("U_Cname").ToString.Trim()
+                sSurveyDtFrom = dr.Item("U_SrvyDatFrm").ToString.Trim()
+                sSurveyDtTo = dr.Item("U_SrvyDatTo").ToString.Trim()
+                sContainerNo = dr.Item("U_ContainerNo").ToString.Trim()
+            End If
+
+            Dim dSurveyDtFrom As Date = GetDateTimeValue(sSurveyDtFrom)
+            Dim dSurveyDtTo As Date = GetDateTimeValue(sSurveyDtTo)
+
+            'Dim Str As String = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"", T0.""DocStatus"" as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"",T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",TO_CHAR( T0.""U_DOM"" , 'DD/MM/YYYY') As ""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",TO_CHAR( T0.""U_CSC"" , 'DD/MM/YYYY') As ""U_CSC"",""U_EX_Fram"",""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_SEAL_NEXT"",""U_SEAL_NEXT"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
+            Dim Str As String = String.Empty
+            Str = "SELECT T0.""DocEntry"" as ""Survey_No"",T1.""BaseEntry"" AS ""Order_No"", T0.""U_UName"" AS ""User_Name"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""Survey_Date"", " & _
+                  " T0.""CardCode"" AS ""Customer_Code"", T0.""CardName"" AS ""Customer_Name"",T1.""Dscription"" as ""Survey_Type"", " & _
+                  " T0.""U_Country"" AS ""Location"",T0.""U_SResult"" AS ""Survey_Result"" " & _
+                  " FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                  " WHERE T0.""DocEntry"" = (CASE WHEN IFNULL('" & DocEntry & "','') = '' THEN T0.""DocEntry"" ELSE '" & DocEntry & "' END) " & _
+                  " AND T1.""BaseEntry"" = (CASE WHEN IFNULL('" & sOrderNo & "','') = '' THEN T1.""BaseEntry"" ELSE '" & sOrderNo & "' END) " & _
+                  " AND T0.""CardCode"" = (CASE WHEN IFNULL('" & sCustCode & "','') = '' THEN T0.""CardCode"" ELSE '" & sCustCode & "' END) " & _
+                  " AND T0.""CardName"" = (CASE WHEN IFNULL('" & sCustName & "','') = '' THEN T0.""CardName"" ELSE '" & sCustName & "' END) " & _
+                  " AND T0.""U_Cdate"" >= (CASE WHEN IFNULL('" & dSurveyDtFrom.ToString("yyyy-MM-dd") & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtFrom.ToString("yyyy-MM-dd") & "' END) " & _
+                  " AND T0.""U_Cdate"" <= (CASE WHEN IFNULL('" & dSurveyDtTo.ToString("yyyy-MM-dd") & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtTo.ToString("yyyy-MM-dd") & "' END) " & _
+                  " AND T0.""U_EqNo"" <= (CASE WHEN IFNULL('" & sContainerNo & "','') = '' THEN T0.""U_EqNo"" ELSE '" & sContainerNo & "' END) "
+
+            Dim RetDT As New DataTable
+            Dim RetDT1 As New DataTable
+            Dim RetDT2 As New DataTable
+            RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
+            If Errmsg <> "" Then
+                Throw New Exception(Errmsg)
+            End If
+            If RetDT.Rows.Count > 0 Then
+                RetDT.TableName = "ODLN"
+                RetDT1 = RetDT.Copy
+                RetDS.Tables.Add(RetDT1)
+
+                Context.Response.Output.Write(fn.ds2json(RetDS))
+            Else
+                Throw New Exception("No Records Found")
+            End If
+        Catch ex As Exception
+            Context.Response.Output.Write(fn.ds2json(ErrorHandling(ex.Message.ToString)))
+        End Try
+    End Sub
+#End Region
     Public Function DateConvert(ByVal St As String) As String
         Dim dt As String = ""
         dt = St.Substring(6, 4) & "-" & St.Substring(3, 2) & "-" & St.Substring(0, 2)
@@ -8120,6 +8351,12 @@ Public Class ICSB
     End Function
 
     Public Function GetDateTimeValue(ByVal DateString As String) As DateTime
+        Dim sErrDesc As String = String.Empty
+        fn.GetSAPConnection(sErrDesc)
+        If sErrDesc <> "" Then
+            Throw New Exception(sErrDesc)
+        End If
+
         Dim objBridge As SAPbobsCOM.SBObob
         '   objBridge = oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoBridge)
         objBridge = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoBridge)
