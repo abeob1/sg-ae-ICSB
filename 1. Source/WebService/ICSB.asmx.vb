@@ -76,7 +76,7 @@ Public Class ICSB
     End Function
     <WebMethod()> _
   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub Login(value As String)
+    Public Sub Login(ByVal value As String)
         sFunction = "Login"
         Try
             If PublicVariable.DEBUG_ON = 1 Then
@@ -176,7 +176,7 @@ Public Class ICSB
 #Region "Master"
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub AgentMaster(value As String)
+    Public Sub AgentMaster(ByVal value As String)
         Try
             Dim Code As String = ""
             Dim Name As String = ""
@@ -246,7 +246,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub CustomerMaster_CustomerOnly(value As String)
+    Public Sub CustomerMaster_CustomerOnly(ByVal value As String)
         Try
             Dim Code As String = ""
             Dim Name As String = ""
@@ -316,7 +316,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub CustomerMaster_CustomerOnly_SO(value As String)
+    Public Sub CustomerMaster_CustomerOnly_SO(ByVal value As String)
         Try
             Dim Code As String = ""
             Dim Name As String = ""
@@ -394,7 +394,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub CustomerMaster(value As String)
+    Public Sub CustomerMaster(ByVal value As String)
         Try
             Dim Code As String = ""
             Dim Name As String = ""
@@ -523,7 +523,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SurveyorIDMaster(value As String)
+    Public Sub SurveyorIDMaster(ByVal value As String)
         sFunction = "SurveyorIDMaster"
         Try
             If PublicVariable.DEBUG_ON = 1 Then
@@ -673,7 +673,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub CountryMaster(value As String)
+    Public Sub CountryMaster(ByVal value As String)
         Try
 
             Dim ds As DataSet = fn.jsontodata(value)
@@ -747,7 +747,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub LocationMaster(value As String)
+    Public Sub LocationMaster(ByVal value As String)
         Try
 
             Dim ds As DataSet = fn.jsontodata(value)
@@ -816,7 +816,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub CityMaster(value As String)
+    Public Sub CityMaster(ByVal value As String)
         Try
 
             Dim ds As DataSet = fn.jsontodata(value)
@@ -1186,7 +1186,7 @@ Public Class ICSB
 #Region "Sales Quoation"
     <WebMethod()> _
         <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesQuotationAdd(value As String)
+    Public Sub SalesQuotationAdd(ByVal value As String)
         sFunction = "SalesQuotationAdd"
         Try
 
@@ -1365,7 +1365,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
         <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesQuotation_Update(value As String)
+    Public Sub SalesQuotation_Update(ByVal value As String)
         sFunction = "SalesQuotation_Update"
         Try
 
@@ -1787,7 +1787,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesQuotation_PreviousRecord(value As String)
+    Public Sub SalesQuotation_PreviousRecord(ByVal value As String)
         sFunction = "SalesQuotation_PreviousRecord"
         Try
             If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
@@ -1911,7 +1911,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesQuotation_NextRecord(value As String)
+    Public Sub SalesQuotation_NextRecord(ByVal value As String)
         sFunction = "SalesQuotation_NextRecord"
         Try
             If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
@@ -2035,7 +2035,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesQuotation_FindRecord_List(value As String)
+    Public Sub SalesQuotation_FindRecord_List(ByVal value As String)
         sFunction = "SalesQuotation_FindRecord_List"
         Try
             oLog.WriteToLogFile_Debug(value, sFunction)
@@ -2158,7 +2158,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesQuotation_FindRecord(value As String)
+    Public Sub SalesQuotation_FindRecord(ByVal value As String)
         sFunction = "SalesQuotation_FindRecord"
         Try
             oLog.WriteToLogFile_Debug(value, sFunction)
@@ -2327,7 +2327,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub Sales_Quotation_Approval_Status(value As String)
+    Public Sub Sales_Quotation_Approval_Status(ByVal value As String)
         Try
             Dim FromCreateDt As String = ""
             Dim ToCreateDt As String = ""
@@ -2408,7 +2408,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub Sales_Quotation_Approval_Submit(value As String)
+    Public Sub Sales_Quotation_Approval_Submit(ByVal value As String)
         sFunction = "Sales_Quotation_Approval_Submit"
 
         Try
@@ -2449,7 +2449,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub Sales_Quotation_Approver_Submit(value As String)
+    Public Sub Sales_Quotation_Approver_Submit(ByVal value As String)
         sFunction = "Sales_Quotation_Approver_Submit"
 
         Try
@@ -2498,7 +2498,7 @@ Public Class ICSB
 #Region "Lead"
     <WebMethod()> _
   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub LeadAdd(value As String)
+    Public Sub LeadAdd(ByVal value As String)
 
         sFunction = "LeadAdd"
         Try
@@ -2577,7 +2577,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub LeadUpdate(value As String)
+    Public Sub LeadUpdate(ByVal value As String)
         Try
             Dim LEADM As New DataTable
             LEADM = New DataTable
@@ -2724,7 +2724,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub LeadPreviousRecord(value As String)
+    Public Sub LeadPreviousRecord(ByVal value As String)
         Try
             Dim LEADM As New DataTable
             LEADM = New DataTable
@@ -2782,7 +2782,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub LeadNextRecord(value As String)
+    Public Sub LeadNextRecord(ByVal value As String)
         Try
             Dim LEADM As New DataTable
             LEADM = New DataTable
@@ -2840,7 +2840,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub LeadFindRecord(value As String)
+    Public Sub LeadFindRecord(ByVal value As String)
         Try
             Dim Code As String = ""
             Dim Name As String = ""
@@ -2948,7 +2948,7 @@ Public Class ICSB
 #Region "Customer Contract"
     <WebMethod()> _
         <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub CustomerContractAdd(value As String)
+    Public Sub CustomerContractAdd(ByVal value As String)
         sFunction = "CustomerContract"
         Try
 
@@ -3138,7 +3138,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
         <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub CustomerContract_Update(value As String)
+    Public Sub CustomerContract_Update(ByVal value As String)
         sFunction = "CustomerContract_Update"
         Try
 
@@ -3560,7 +3560,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub CustomerContract_PreviousRecord(value As String)
+    Public Sub CustomerContract_PreviousRecord(ByVal value As String)
         sFunction = "CustomerContract_PreviousRecord"
         Try
             If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
@@ -3684,7 +3684,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub CustomerContract_NextRecord(value As String)
+    Public Sub CustomerContract_NextRecord(ByVal value As String)
         sFunction = "CustomerContract_NextRecord"
         Try
             If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
@@ -3808,7 +3808,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub CustomerContract_FindRecord_List(value As String)
+    Public Sub CustomerContract_FindRecord_List(ByVal value As String)
         sFunction = "CustomerContract_FindRecord_List"
         Try
             oLog.WriteToLogFile_Debug(value, sFunction)
@@ -3931,7 +3931,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub CustomerContract_FindRecord(value As String)
+    Public Sub CustomerContract_FindRecord(ByVal value As String)
         sFunction = "CustomerContract_FindRecord"
         Try
             oLog.WriteToLogFile_Debug(value, sFunction)
@@ -4102,7 +4102,7 @@ Public Class ICSB
 #Region "Agent Contract"
     <WebMethod()> _
         <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub AgentContractAdd(value As String)
+    Public Sub AgentContractAdd(ByVal value As String)
         sFunction = "AgentContract"
         Try
 
@@ -4298,7 +4298,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
         <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub AgentContract_Update(value As String)
+    Public Sub AgentContract_Update(ByVal value As String)
         sFunction = "AgentContract_Update"
         Try
 
@@ -4744,7 +4744,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub AgentContract_PreviousRecord(value As String)
+    Public Sub AgentContract_PreviousRecord(ByVal value As String)
         sFunction = "AgentContract_PreviousRecord"
         Try
             If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
@@ -4868,7 +4868,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub AgentContract_NextRecord(value As String)
+    Public Sub AgentContract_NextRecord(ByVal value As String)
         sFunction = "AgentContract_NextRecord"
         Try
             If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
@@ -4992,7 +4992,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub AgentContract_FindRecord_List(value As String)
+    Public Sub AgentContract_FindRecord_List(ByVal value As String)
         sFunction = "AgentContract_FindRecord_List"
         Try
             oLog.WriteToLogFile_Debug(value, sFunction)
@@ -5115,7 +5115,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub AgentContract_FindRecord(value As String)
+    Public Sub AgentContract_FindRecord(ByVal value As String)
         sFunction = "AgentContract_FindRecord"
         Try
             oLog.WriteToLogFile_Debug(value, sFunction)
@@ -5286,7 +5286,7 @@ Public Class ICSB
 #Region "Sales Order"
     <WebMethod()> _
           <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesOrderAdd(value As String)
+    Public Sub SalesOrderAdd(ByVal value As String)
         sFunction = "SalesOrderAdd"
         Try
 
@@ -5414,7 +5414,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
          <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesOrderUpdate(value As String)
+    Public Sub SalesOrderUpdate(ByVal value As String)
         sFunction = "SalesOrderUpdate"
         Try
 
@@ -5536,7 +5536,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesOrder_FirstRecord(value As String)
+    Public Sub SalesOrder_FirstRecord(ByVal value As String)
         sFunction = "SalesOrder_FirstRecord"
         Try
 
@@ -5576,13 +5576,13 @@ Public Class ICSB
                 ElseIf CompCode = "" Then
                     Throw New Exception("No Record Found!")
                 End If
-                Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                         " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                         " T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", " & _
                         " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
                         " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" ASC"
             ElseIf DType = "By Country" Then
-                Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                          " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                          " T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", " & _
                          " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
@@ -5645,7 +5645,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesOrder_LastRecord(value As String)
+    Public Sub SalesOrder_LastRecord(ByVal value As String)
         sFunction = "SalesOrder_LastRecord"
         Try
 
@@ -5685,13 +5685,13 @@ Public Class ICSB
                 ElseIf CompCode = "" Then
                     Throw New Exception("No Record Found!")
                 End If
-                Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                         " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  " & _
                         " T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
                         " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
                         " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" DESC"
             ElseIf DType = "By Country" Then
-                Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                          " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  " & _
                          " T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
                          " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
@@ -5754,7 +5754,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesOrder_PreviousRecord(value As String)
+    Public Sub SalesOrder_PreviousRecord(ByVal value As String)
         sFunction = "SalesOrder_PreviousRecord"
         Try
             If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
@@ -5789,13 +5789,13 @@ Public Class ICSB
                         Throw New Exception("No Record Found!")
                     End If
                     If DocNum = "" Then
-                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR(T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                                 " FROM ORDR T0 " & _
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" ASC"
                     Else
-                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                                 " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
@@ -5810,20 +5810,20 @@ Public Class ICSB
                         '        " FROM ORDR T0 " & _
                         '        " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
-                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR(T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                                 " FROM ORDR T0 " & _
                                 " where T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                     Else
-                        'Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        'Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                         '        " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                         '        " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                         '        " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
                         '        "                                       FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
                         '        "                                       and  T0.""DocEntry""<'" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
-                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                                 " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
@@ -5868,7 +5868,7 @@ Public Class ICSB
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
 
-                    Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                    Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                             " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                             " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                             " FROM ORDR T0 " & _
@@ -5925,7 +5925,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesOrder_NextRecord(value As String)
+    Public Sub SalesOrder_NextRecord(ByVal value As String)
         sFunction = "SalesOrder_NextRecord"
         Try
             If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
@@ -5961,13 +5961,13 @@ Public Class ICSB
                     End If
 
                     If DocNum = "" Then
-                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                                 " FROM ORDR T0 " & _
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" DESC"
                     Else
-                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                                 " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
@@ -5982,7 +5982,7 @@ Public Class ICSB
                         '        " FROM ORDR T0 " & _
                         '        " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" DESC"
-                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                                " FROM ORDR T0 " & _
@@ -5995,7 +5995,7 @@ Public Class ICSB
                         '        "                                       FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "') " & _
                         '        "                                       AND T0.""DocEntry"" > '" & DocNum & "' ORDER BY T0.""DocEntry"" ASC) " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
-                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                                 " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
@@ -6040,7 +6040,7 @@ Public Class ICSB
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
 
-                    Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                    Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                             " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                             " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
                             " FROM ORDR T0 " & _
@@ -6096,7 +6096,7 @@ Public Class ICSB
 
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesOrder_Find(value As String)
+    Public Sub SalesOrder_Find(ByVal value As String)
         sFunction = "SalesOrder_Find"
         Try
             If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
@@ -6130,14 +6130,14 @@ Public Class ICSB
                         Throw New Exception("No Record Found!")
                     End If
                     If DocNum = "" Then
-                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"",  " & _
                                 " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" ASC"
                     Else
                         'Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
-                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
                                 " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
@@ -6153,7 +6153,7 @@ Public Class ICSB
                         '        " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
                         '        " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
-                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"",  " & _
                                 " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
@@ -6168,7 +6168,7 @@ Public Class ICSB
                         '        "                          where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
                         '        "                          and  T0.""DocEntry"" = '" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
-                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                        Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
                                 " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
@@ -6213,7 +6213,7 @@ Public Class ICSB
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
 
-                    Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"", T0.""DocStatus"" as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" DESC"
+                    Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"", T0.""DocStatus"" as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" DESC"
                     RetDT = New DataTable
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                     If ErrMsg <> "" Then
@@ -6264,7 +6264,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesOrder_FindRecord_List(value As String)
+    Public Sub SalesOrder_FindRecord_List(ByVal value As String)
         sFunction = "SalesOrder_FindRecord_List"
         Try
             oLog.WriteToLogFile_Debug(value, sFunction)
@@ -6356,7 +6356,7 @@ Public Class ICSB
                         Throw New Exception("No Record Found!")
                     End If
                     If DocNum = "" Then
-                        Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                        Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"",  " & _
                                 " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
@@ -6366,7 +6366,7 @@ Public Class ICSB
 
                     Else
                         'Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
-                        Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                        Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
                                 " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
@@ -6378,7 +6378,7 @@ Public Class ICSB
                     End If
                 ElseIf DType = "By Country" Then
                     If DocNum = "" Then
-                        Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                        Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"",  " & _
                                 " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
@@ -6388,7 +6388,7 @@ Public Class ICSB
                                 " AND IFNULL(T0.""Project"",'') LIKE '" & ProjectCode & "' ORDER BY T0.""DocEntry"" ASC "
                     Else
                         'Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
-                        Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                        Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
                                 " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
@@ -6590,9 +6590,58 @@ Public Class ICSB
     '    End Sub
 #End Region
 #Region "Survey Tyep"
+
+    <WebMethod()>
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)>
+    Public Sub GetSurveyTypeHyperLink(ByVal value As String)
+        sFunction = "GetSurveyTypeHyperLink"
+        Dim dt As New DataTable
+        dt = New DataTable
+        Dim ds As DataSet = fn.jsontodata(value)
+        Dim RetDS = New DataSet
+
+        Dim Errmsg As String = ""
+        fn.GetSAPConnection(Errmsg)
+        If Errmsg <> "" Then
+            Throw New Exception(Errmsg)
+        End If
+
+        Try
+            If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
+
+            Dim sSurveyType As String = String.Empty
+            If ds.Tables("ODLN").Rows.Count > 0 Then
+                dt = ds.Tables("ODLN")
+                Dim dr As DataRow = dt.Rows(0)
+                sSurveyType = dr.Item("U_UCode").ToString.Trim()
+
+            End If
+            Dim sSQL As String = String.Empty
+
+            sSQL = "SELECT T0.""U_HYPERLINK"" FROM ""@SURVEYTYPE_HLINK""  T0 WHERE T0.""U_SURVEYTYPENAME"" = '" & sSurveyType & "'"
+            Dim RetDT As New DataTable
+            Dim RetDT1 As New DataTable
+            RetDT = fn.ExecuteSQLQuery(sSQL, Errmsg)
+            If Errmsg <> "" Then
+                Throw New Exception(Errmsg)
+            End If
+            If RetDT.Rows.Count > 0 Then
+                RetDT.TableName = "ODLN"
+                RetDT1 = RetDT.Copy
+                RetDS.Tables.Add(RetDT1)
+
+                Context.Response.Output.Write(fn.ds2json(RetDS))
+            Else
+                Throw New Exception("No Records Found")
+            End If
+        Catch ex As Exception
+            Context.Response.Output.Write(fn.ds2json(ErrorHandling(ex.Message.ToString)))
+        End Try
+    End Sub
+
     <WebMethod()> _
          <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub AnyOther_SurveyTyepAdd(value As String)
+    Public Sub AnyOther_SurveyTyepAdd(ByVal value As String)
         sFunction = "AnyOther_SurveyTyepAdd"
         Try
 
@@ -6707,7 +6756,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
      <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub OnHire_SurveyTyepAdd(value As String)
+    Public Sub OnHire_SurveyTyepAdd(ByVal value As String)
         sFunction = "OnHire_SurveyTyepAdd"
         Try
 
@@ -6848,7 +6897,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
          <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub OffHire_SurveyTyepAdd(value As String)
+    Public Sub OffHire_SurveyTyepAdd(ByVal value As String)
         sFunction = "OffHire_SurveyTyepAdd"
         Try
 
@@ -7054,7 +7103,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
          <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub Cleaning1_SurveyTyepAdd(value As String)
+    Public Sub Cleaning1_SurveyTyepAdd(ByVal value As String)
         sFunction = "Cleaning1_SurveyTyepAdd"
         Try
 
@@ -7230,7 +7279,7 @@ Public Class ICSB
 
     <WebMethod()> _
          <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub AnyOther_SurveyTyepUpdate(value As String)
+    Public Sub AnyOther_SurveyTyepUpdate(ByVal value As String)
         sFunction = "AnyOther_SurveyTyepUpdate"
         Try
 
@@ -7344,7 +7393,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub OnHire_SurveyTyepUpdate(value As String)
+    Public Sub OnHire_SurveyTyepUpdate(ByVal value As String)
         sFunction = "OnHire_SurveyTyepUpdate"
         Try
 
@@ -7487,7 +7536,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
          <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub OffHire_SurveyTyepUpdate(value As String)
+    Public Sub OffHire_SurveyTyepUpdate(ByVal value As String)
         sFunction = "OffHire_SurveyTyepUpdate"
         Try
 
@@ -7694,7 +7743,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
          <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub Cleaning1_SurveyTyepUpdate(value As String)
+    Public Sub Cleaning1_SurveyTyepUpdate(ByVal value As String)
         sFunction = "Cleaning1_SurveyTyepUpdate"
         Try
 
@@ -7893,7 +7942,7 @@ Public Class ICSB
 
             'Dim Str As String = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"", T0.""DocStatus"" as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"",T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",TO_CHAR( T0.""U_DOM"" , 'DD/MM/YYYY') As ""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",TO_CHAR( T0.""U_CSC"" , 'DD/MM/YYYY') As ""U_CSC"",""U_EX_Fram"",""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_SEAL_NEXT"",""U_SEAL_NEXT"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
             Dim Str As String = String.Empty
-            Str = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", " & _
+            Str = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"",T0.""DocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", " & _
                   " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", " & _
                   " T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"", " & _
                   " T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",T0.""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",T0.""U_CSCNum"",T0.""U_CSC"",""U_EX_Fram"",T0.""U_IMO"", " & _
@@ -7933,7 +7982,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub DamageHistory(value As String)
+    Public Sub DamageHistory(ByVal value As String)
         Try
             Dim EquNo As String = ""
             Dim OCRD As New DataTable
@@ -7987,7 +8036,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub DamageHistory_Full(value As String)
+    Public Sub DamageHistory_Full(ByVal value As String)
         Try
             Dim EquNo As String = ""
             Dim OCRD As New DataTable
@@ -8041,7 +8090,7 @@ Public Class ICSB
     End Sub
     <WebMethod()> _
   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Sub SalesOrder_SurveyDetails(value As String)
+    Public Sub SalesOrder_SurveyDetails(ByVal value As String)
         Try
             Dim Code As String = ""
             Dim Name As String = ""
@@ -8075,7 +8124,7 @@ Public Class ICSB
                 RetDT.TableName = "OCRD"
                 RetDT1 = RetDT.Copy
                 RetDS.Tables.Add(RetDT1)
-                Str = "SELECT T0.""DocEntry"" AS ""Survey_No"",T0.""U_EqNo"" AS ""Container_Num"", T0.""U_SResult"" As ""Survey_Result"" ,T0.""U_UName"" As ""User_Name"", " & _
+                Str = "SELECT T0.""DocEntry"" AS ""Survey_No"",T0.""DocNum"",T0.""U_EqNo"" AS ""Container_Num"", T0.""U_SResult"" As ""Survey_Result"" ,T0.""U_UName"" As ""User_Name"", " & _
                       " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') ""Survey_Date"", T0.""CardCode"" as ""Customer_Code"", T0.""CardName"" as ""Customer_Name"", " & _
                       " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
                       " WHERE T1.""BaseType"" =17 and  T1.""BaseEntry"" ='" & DocEntry & "' ORDER BY T0.""DocEntry"" "
@@ -8154,7 +8203,7 @@ Public Class ICSB
                     Str = "SELECT T0.""DocEntry"" as ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocEntry"" like '" & sSurveyNo & "' " & _
                          " AND T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                 End If
-                
+
             ElseIf DType = "" Then
                 Throw New Exception("No Record Found!")
             End If
@@ -8296,7 +8345,7 @@ Public Class ICSB
 
             'Dim Str As String = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"", T0.""DocStatus"" as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"",T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",TO_CHAR( T0.""U_DOM"" , 'DD/MM/YYYY') As ""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",TO_CHAR( T0.""U_CSC"" , 'DD/MM/YYYY') As ""U_CSC"",""U_EX_Fram"",""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_SEAL_NEXT"",""U_SEAL_NEXT"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
             Dim Str As String = String.Empty
-            Str = "SELECT T0.""DocEntry"" as ""Survey_No"",T1.""BaseEntry"" AS ""Order_No"", T0.""U_UName"" AS ""User_Name"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""Survey_Date"", " & _
+            Str = "SELECT T0.""DocEntry"" as ""Survey_No"",T0.""DocNum"",T1.""BaseEntry"" AS ""Order_No"",T1.""BaseRef"" AS ""SODocNum"", T0.""U_UName"" AS ""User_Name"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""Survey_Date"", " & _
                   " T0.""CardCode"" AS ""Customer_Code"", T0.""CardName"" AS ""Customer_Name"",T1.""Dscription"" as ""Survey_Type"", " & _
                   " T0.""U_Country"" AS ""Location"",T0.""U_SResult"" AS ""Survey_Result"" " & _
                   " FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
@@ -8304,8 +8353,8 @@ Public Class ICSB
                   " AND T1.""BaseEntry"" = (CASE WHEN IFNULL('" & sOrderNo & "','') = '' THEN T1.""BaseEntry"" ELSE '" & sOrderNo & "' END) " & _
                   " AND T0.""CardCode"" = (CASE WHEN IFNULL('" & sCustCode & "','') = '' THEN T0.""CardCode"" ELSE '" & sCustCode & "' END) " & _
                   " AND T0.""CardName"" = (CASE WHEN IFNULL('" & sCustName & "','') = '' THEN T0.""CardName"" ELSE '" & sCustName & "' END) " & _
-                  " AND T0.""U_Cdate"" >= (CASE WHEN IFNULL('" & dSurveyDtFrom.ToString("yyyy-MM-dd") & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtFrom.ToString("yyyy-MM-dd") & "' END) " & _
-                  " AND T0.""U_Cdate"" <= (CASE WHEN IFNULL('" & dSurveyDtTo.ToString("yyyy-MM-dd") & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtTo.ToString("yyyy-MM-dd") & "' END) " & _
+                  " AND T0.""U_Cdate"" >= (CASE WHEN IFNULL('" & sSurveyDtFrom & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtFrom.ToString("yyyy-MM-dd") & "' END) " & _
+                  " AND T0.""U_Cdate"" <= (CASE WHEN IFNULL('" & sSurveyDtTo & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtTo.ToString("yyyy-MM-dd") & "' END) " & _
                   " AND T0.""U_EqNo"" <= (CASE WHEN IFNULL('" & sContainerNo & "','') = '' THEN T0.""U_EqNo"" ELSE '" & sContainerNo & "' END) "
 
             Dim RetDT As New DataTable
