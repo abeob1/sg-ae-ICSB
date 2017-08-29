@@ -8189,18 +8189,18 @@ Public Class ICSB
                     Throw New Exception("No Record Found!")
                 End If
                 If sSurveyNo = "" Then
-                    Str = "SELECT T0.""DocEntry"" ""U_SurvyNo"" FROM ODLN T0 " & _
+                    Str = "SELECT T0.""DocNum"" AS ""U_SurvyNo"" FROM ODLN T0 " & _
                           " WHERE T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
                 Else
-                    Str = "SELECT T0.""DocEntry"" ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocEntry"" like '" & sSurveyNo & "' " & _
+                    Str = "SELECT T0.""DocNum"" AS ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocNum"" like '" & sSurveyNo & "' " & _
                           " AND T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
                 End If
             ElseIf DType = "By Country" Then
                 If sSurveyNo = "" Then
-                    Str = "SELECT T0.""DocEntry"" as ""U_SurvyNo"" FROM ODLN T0 " & _
+                    Str = "SELECT T0.""DocNum"" AS ""U_SurvyNo"" FROM ODLN T0 " & _
                          " WHERE T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                 Else
-                    Str = "SELECT T0.""DocEntry"" as ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocEntry"" like '" & sSurveyNo & "' " & _
+                    Str = "SELECT T0.""DocNum"" AS ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocNum"" like '" & sSurveyNo & "' " & _
                          " AND T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                 End If
 
@@ -8268,18 +8268,18 @@ Public Class ICSB
                     Throw New Exception("No Record Found!")
                 End If
                 If sOrderNo = "" Then
-                    Str = "SELECT T0.""DocEntry"" ""U_OrderNo"" FROM ORDR T0 " & _
+                    Str = "SELECT T0.""DocNum"" AS ""U_OrderNo"" FROM ORDR T0 " & _
                           " WHERE T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
                 Else
-                    Str = "SELECT T0.""DocEntry"" ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocEntry"" like '" & sOrderNo & "' " & _
+                    Str = "SELECT T0.""DocNum"" AS ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocNum"" like '" & sOrderNo & "' " & _
                           " AND T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
                 End If
             ElseIf DType = "By Country" Then
                 If sOrderNo = "" Then
-                    Str = "SELECT T0.""DocEntry"" as ""U_OrderNo"" FROM ORDR T0 " & _
+                    Str = "SELECT T0.""DocNum"" AS ""U_OrderNo"" FROM ORDR T0 " & _
                          " WHERE T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                 Else
-                    Str = "SELECT T0.""DocEntry"" as ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocEntry"" like '" & sOrderNo & "' " & _
+                    Str = "SELECT T0.""DocNum"" AS ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocNum"" like '" & sOrderNo & "' " & _
                          " AND T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                 End If
 
@@ -8321,6 +8321,7 @@ Public Class ICSB
             Dim Errmsg As String = ""
             Dim sErrDesc As String = ""
             Dim SoNo As String = ""
+            Dim sSurveyNo As String = String.Empty
             Dim sOrderNo As String = String.Empty
             Dim sCustCode As String = String.Empty
             Dim sCustName As String = String.Empty
@@ -8331,7 +8332,7 @@ Public Class ICSB
             If ds.Tables("ODLN").Rows.Count > 0 Then
                 OCRD = ds.Tables("ODLN")
                 Dim dr As DataRow = OCRD.Rows(0)
-                DocEntry = dr.Item("U_SurvyNo").ToString.Trim()
+                sSurveyNo = dr.Item("U_SurvyNo").ToString.Trim()
                 sOrderNo = dr.Item("U_OrderNo").ToString.Trim()
                 sCustCode = dr.Item("U_Ccode").ToString.Trim()
                 sCustName = dr.Item("U_Cname").ToString.Trim()
@@ -8349,8 +8350,8 @@ Public Class ICSB
                   " T0.""CardCode"" AS ""Customer_Code"", T0.""CardName"" AS ""Customer_Name"",T1.""Dscription"" as ""Survey_Type"", " & _
                   " T0.""U_Country"" AS ""Location"",T0.""U_SResult"" AS ""Survey_Result"" " & _
                   " FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
-                  " WHERE T0.""DocEntry"" = (CASE WHEN IFNULL('" & DocEntry & "','') = '' THEN T0.""DocEntry"" ELSE '" & DocEntry & "' END) " & _
-                  " AND T1.""BaseEntry"" = (CASE WHEN IFNULL('" & sOrderNo & "','') = '' THEN T1.""BaseEntry"" ELSE '" & sOrderNo & "' END) " & _
+                  " WHERE T0.""DocNum"" = (CASE WHEN IFNULL('" & sSurveyNo & "','') = '' THEN T0.""DocNum"" ELSE '" & sSurveyNo & "' END) " & _
+                  " AND T1.""BaseRef"" = (CASE WHEN IFNULL('" & sOrderNo & "','') = '' THEN T1.""BaseRef"" ELSE '" & sOrderNo & "' END) " & _
                   " AND T0.""CardCode"" = (CASE WHEN IFNULL('" & sCustCode & "','') = '' THEN T0.""CardCode"" ELSE '" & sCustCode & "' END) " & _
                   " AND T0.""CardName"" = (CASE WHEN IFNULL('" & sCustName & "','') = '' THEN T0.""CardName"" ELSE '" & sCustName & "' END) " & _
                   " AND T0.""U_Cdate"" >= (CASE WHEN IFNULL('" & sSurveyDtFrom & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtFrom.ToString("yyyy-MM-dd") & "' END) " & _
