@@ -1,0 +1,146 @@
+<table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            Charge Type
+                                        </th>
+                                        <th>
+                                            Continent
+                                        </th>
+                                        <th>
+                                            Country
+                                        </th>
+                                        <th>
+                                            City
+                                        </th>
+                                        <th>
+                                            Location
+                                        </th>
+                                        <th>
+                                            Currency
+                                        </th>
+                                        <th>
+                                            Rate
+                                        </th>
+                                        <th>
+                                            U.O.M
+                                        </th>
+                                        <th>
+                                            GST
+                                        </th>
+                                        <th>
+                                            Remarks
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            1
+                                        </th>
+                                        <td>
+                                            ONH
+                                        </td>
+                                        <td>
+                                            ASIS
+                                        </td>
+                                        <td>
+                                            CHINA
+                                        </td>
+                                        <td>
+                                            SHA
+                                        </td>
+                                        <td>
+                                            EI DEPOT
+                                        </td>
+                                        <td>
+                                            USD
+                                        </td>
+                                        <td>
+                                            7.00
+                                        </td>
+                                        <td>
+                                            PER UNIT
+                                        </td>
+                                        <td>
+                                            OS 0%
+                                        </td>
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            2
+                                        </th>
+                                        <td>
+                                            ONH
+                                        </td>
+                                        <td>
+                                            ASIS
+                                        </td>
+                                        <td>
+                                            Table cell
+                                        </td>
+                                        <td>
+                                            Table cell
+                                        </td>
+                                        <td>
+                                            EI DEPOT
+                                        </td>
+                                        <td>
+                                            USD
+                                        </td>
+                                        <td>
+                                            4.00
+                                        </td>
+                                        <td>
+                                            PER UNIT
+                                        </td>
+                                        <td>
+                                            OS 0%
+                                        </td>
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            3
+                                        </th>
+                                        <td>
+                                            ONH
+                                        </td>
+                                        <td>
+                                            ASIS
+                                        </td>
+                                        <td>
+                                            Table cell
+                                        </td>
+                                        <td>
+                                            Table cell
+                                        </td>
+                                        <td>
+                                            EI DEPOTl
+                                        </td>
+                                        <td>
+                                            USD
+                                        </td>
+                                        <td>
+                                            7.00
+                                        </td>
+                                        <td>
+                                            PER UNIT
+                                        </td>
+                                        <td>
+                                            OS 0%
+                                        </td>
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
