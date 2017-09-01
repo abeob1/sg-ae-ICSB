@@ -5579,13 +5579,19 @@ Public Class ICSB
                 Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                         " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                         " T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", " & _
-                        " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                        " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                        " FROM ""ORDR"" T0 " & _
+                        " INNER JOIN ""RDR1"" T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
+                        " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                         " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" ASC"
             ElseIf DType = "By Country" Then
                 Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                          " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                          " T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", " & _
-                         " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                         " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                         " FROM ORDR T0 " & _
+                         " INNER JOIN ""RDR1"" T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
+                         " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                          " where T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
             Else
                 Throw New Exception("No Record Found!")
@@ -5688,13 +5694,19 @@ Public Class ICSB
                 Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                         " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  " & _
                         " T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
-                        " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                        " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft""  " & _
+                        " FROM ORDR T0 " & _
+                        " INNER JOIN RDR1 T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
+                        " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                         " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" DESC"
             ElseIf DType = "By Country" Then
                 Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                          " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  " & _
                          " T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
-                         " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                         " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                         " FROM ORDR T0  " & _
+                         " INNER JOIN RDR1 T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
+                         " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                          " where T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" DESC"
             Else
                 Throw New Exception("No Record Found!")
@@ -5791,16 +5803,23 @@ Public Class ICSB
                     If DocNum = "" Then
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR(T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
+                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
+                                " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                                 " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" ASC"
                     Else
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
-                                " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
-                                "                                       FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
-                                "                                       and  T0.""DocEntry""<'" & DocNum & "' ORDER BY T0.""DocEntry"" DESC)"
+                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
+                                " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                                " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
+                                " where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
+                                "                          FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
+                                "                          and  T0.""DocEntry""<'" & DocNum & "' ORDER BY T0.""DocEntry"" DESC)"
                     End If
                 ElseIf DType = "By Country" Then
                     If DocNum = "" Then
@@ -5812,8 +5831,11 @@ Public Class ICSB
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR(T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
+                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
+                                " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                                 " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                     Else
                         'Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
@@ -5825,8 +5847,12 @@ Public Class ICSB
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
-                                " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
+                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
+                                " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                                " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
+                                " where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
                                 "                                       FROM ORDR T0 where T0.""DocEntry""<'" & DocNum & "' " & _
                                 "                                       AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) " & _
                                 "                                       ORDER BY T0.""DocEntry"" DESC) " & _
@@ -5870,8 +5896,11 @@ Public Class ICSB
 
                     Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                             " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                            " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
+                            " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
+                            " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                             " FROM ORDR T0 " & _
+                            " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                            " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                             " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
                             " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" DESC"
                     RetDT = New DataTable
@@ -5963,14 +5992,21 @@ Public Class ICSB
                     If DocNum = "" Then
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
+                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
+                                " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                                 " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" DESC"
                     Else
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
-                                " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
+                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
+                                " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                                " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
+                                " where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
                                 "                                       FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "') " & _
                                 "                                       AND T0.""DocEntry"" > '" & DocNum & "' ORDER BY T0.""DocEntry"" ASC)"
                     End If
@@ -5984,8 +6020,11 @@ Public Class ICSB
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" DESC"
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                               " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
+                               " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
+                               " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                                " FROM ORDR T0 " & _
+                               " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                               " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                " where T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" DESC"
                     Else
                         'Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
@@ -5997,8 +6036,12 @@ Public Class ICSB
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
-                                " FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
+                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
+                                " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                                " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
+                                " where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" " & _
                                 "                                       FROM ORDR T0 where T0.""DocEntry"" > '" & DocNum & "' " & _
                                 "                                       AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY""))  " & _
                                 "                                       ORDER BY T0.""DocEntry"" ASC) " & _
@@ -6042,8 +6085,11 @@ Public Class ICSB
 
                     Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                             " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                            " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
+                            " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
+                            " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                             " FROM ORDR T0 " & _
+                            " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                            " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                             " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" ASC"
                     RetDT = New DataTable
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -6133,14 +6179,20 @@ Public Class ICSB
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"",  " & _
-                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft""  " & _
+                                " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" ASC"
                     Else
                         'Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
-                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft""  " & _
+                                " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" FROM ORDR T0 " & _
                                 "                          where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
                                 "                          and  T0.""DocEntry"" = '" & DocNum & "' ORDER BY T0.""DocEntry"" DESC)"
@@ -6156,7 +6208,10 @@ Public Class ICSB
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"",  " & _
-                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft""  " & _
+                                " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                     Else
                         ''Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
@@ -6171,7 +6226,10 @@ Public Class ICSB
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
-                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                                " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" FROM ORDR T0 " & _
                                 "                          where T0.""DocEntry"" = '" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
                                 " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
@@ -6213,7 +6271,14 @@ Public Class ICSB
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
 
-                    Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"", T0.""DocStatus"" as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" DESC"
+                    Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"", T0.""DocStatus"" as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", " & _
+                            " TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", T0.""CardCode"", T0.""CardName"", " & _
+                            " T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", " & _
+                            " T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                            " FROM ORDR T0 " & _
+                            " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                            " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
+                            " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" DESC"
                     RetDT = New DataTable
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                     If ErrMsg <> "" Then
@@ -6359,7 +6424,10 @@ Public Class ICSB
                         Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"",  " & _
-                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                                " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
                                 " AND IFNULL(T0.""U_UCode"",'') like '" & CardCode & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND IFNULL(T0.""CardName"",'') LIKE '" & CardName & "' " & _
                                 " AND IFNULL(T0.""Project"",'') LIKE '" & ProjectCode & "' ORDER BY T0.""DocEntry"" ASC "
@@ -6369,7 +6437,10 @@ Public Class ICSB
                         Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
-                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                                " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""DocEntry"" IN (SELECT ifnull(T0.""DocEntry"",0) ""DocEntry"" FROM ORDR T0 " & _
                                 "                          where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
                                 "                          and  T0.""DocEntry"" LIKE '" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
@@ -6381,7 +6452,10 @@ Public Class ICSB
                         Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"",  " & _
-                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                                " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
                                 " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) " & _
                                 " AND IFNULL(T0.""U_UCode"",'') like '" & CardCode & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND IFNULL(T0.""CardName"",'') LIKE '" & CardName & "' " & _
@@ -6391,7 +6465,10 @@ Public Class ICSB
                         Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
-                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 " & _
+                                " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                                " FROM ORDR T0 " & _
+                                " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""DocEntry"" IN (SELECT ifnull(T0.""DocEntry"",0) ""DocEntry"" FROM ORDR T0 " & _
                                 "                          where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
                                 "                          and  T0.""DocEntry"" LIKE '" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
@@ -6618,7 +6695,7 @@ Public Class ICSB
             End If
             Dim sSQL As String = String.Empty
 
-            sSQL = "SELECT T0.""U_HYPERLINK"" FROM ""@SURVEYTYPE_HLINK""  T0 WHERE T0.""U_SURVEYTYPENAME"" = '" & sSurveyType & "'"
+            sSQL = "SELECT T0.""U_HYPERLINK_BEFORE"", T0.""U_HYPERLINK_AFTER"" FROM ""@SURVEYTYPE_HLINK""  T0 WHERE T0.""U_SURVEYTYPE"" = '" & sSurveyType & "'"
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
             RetDT = fn.ExecuteSQLQuery(sSQL, Errmsg)
@@ -7948,7 +8025,11 @@ Public Class ICSB
                   " T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",T0.""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",T0.""U_CSCNum"",T0.""U_CSC"",""U_EX_Fram"",T0.""U_IMO"", " & _
                   " ""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_SPIL"",""U_Capacity"", " & _
                   " ""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_PayLoad"", " & _
-                  " ""U_SEAL_NEXT"",""U_SEAL_NEXT"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
+                  " ""U_SEAL_NEXT"",""U_SEAL_NEXT"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                  " FROM ODLN T0 " & _
+                  " INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                  " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
+                  " WHERE T0.""DocEntry"" ='" & DocEntry & "'"
 
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
@@ -8126,7 +8207,9 @@ Public Class ICSB
                 RetDS.Tables.Add(RetDT1)
                 Str = "SELECT T0.""DocEntry"" AS ""Survey_No"",T0.""DocNum"",T0.""U_EqNo"" AS ""Container_Num"", T0.""U_SResult"" As ""Survey_Result"" ,T0.""U_UName"" As ""User_Name"", " & _
                       " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') ""Survey_Date"", T0.""CardCode"" as ""Customer_Code"", T0.""CardName"" as ""Customer_Name"", " & _
-                      " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                      " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                      " FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                      " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                       " WHERE T1.""BaseType"" =17 and  T1.""BaseEntry"" ='" & DocEntry & "' ORDER BY T0.""DocEntry"" "
 
                 RetDT = New DataTable
@@ -8146,6 +8229,7 @@ Public Class ICSB
             Context.Response.Output.Write(fn.ds2json(ErrorHandling(ex.Message.ToString)))
         End Try
     End Sub
+
 #End Region
 #Region "Survey List"
     <WebMethod()> _
