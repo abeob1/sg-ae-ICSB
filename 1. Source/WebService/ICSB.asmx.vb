@@ -6668,54 +6668,6 @@ Public Class ICSB
 #End Region
 #Region "Survey Tyep"
 
-    <WebMethod()>
-    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)>
-    Public Sub GetSurveyTypeHyperLink(ByVal value As String)
-        sFunction = "GetSurveyTypeHyperLink"
-        Dim dt As New DataTable
-        dt = New DataTable
-        Dim ds As DataSet = fn.jsontodata(value)
-        Dim RetDS = New DataSet
-
-        Dim Errmsg As String = ""
-        fn.GetSAPConnection(Errmsg)
-        If Errmsg <> "" Then
-            Throw New Exception(Errmsg)
-        End If
-
-        Try
-            If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
-
-            Dim sSurveyType As String = String.Empty
-            If ds.Tables("ODLN").Rows.Count > 0 Then
-                dt = ds.Tables("ODLN")
-                Dim dr As DataRow = dt.Rows(0)
-                sSurveyType = dr.Item("U_UCode").ToString.Trim()
-
-            End If
-            Dim sSQL As String = String.Empty
-
-            sSQL = "SELECT T0.""U_HYPERLINK_BEFORE"", T0.""U_HYPERLINK_AFTER"" FROM ""@SURVEYTYPE_HLINK""  T0 WHERE T0.""U_SURVEYTYPE"" = '" & sSurveyType & "'"
-            Dim RetDT As New DataTable
-            Dim RetDT1 As New DataTable
-            RetDT = fn.ExecuteSQLQuery(sSQL, Errmsg)
-            If Errmsg <> "" Then
-                Throw New Exception(Errmsg)
-            End If
-            If RetDT.Rows.Count > 0 Then
-                RetDT.TableName = "ODLN"
-                RetDT1 = RetDT.Copy
-                RetDS.Tables.Add(RetDT1)
-
-                Context.Response.Output.Write(fn.ds2json(RetDS))
-            Else
-                Throw New Exception("No Records Found")
-            End If
-        Catch ex As Exception
-            Context.Response.Output.Write(fn.ds2json(ErrorHandling(ex.Message.ToString)))
-        End Try
-    End Sub
-
     <WebMethod()> _
          <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Sub AnyOther_SurveyTyepAdd(ByVal value As String)
@@ -8206,6 +8158,7 @@ Public Class ICSB
                 RetDT1 = RetDT.Copy
                 RetDS.Tables.Add(RetDT1)
                 Str = "SELECT T0.""DocEntry"" AS ""Survey_No"",T0.""DocNum"",T0.""U_EqNo"" AS ""Container_Num"", T0.""U_SResult"" As ""Survey_Result"" ,T0.""U_UName"" As ""User_Name"", " & _
+                      " CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                       " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') ""Survey_Date"", T0.""CardCode"" as ""Customer_Code"", T0.""CardName"" as ""Customer_Name"", " & _
                       " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                       " FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
