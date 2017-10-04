@@ -17,12 +17,12 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-4 control-label">
-                            Survey No
+                            Survey Number
                         </label>
                         <div class="col-sm-8">
                             <div class="input-group">
                                 <input ng-disabled="updatedisabled" type="text" ng-model="U_SurvyNo" class="form-control"
-                                    ng-keydown="CCselected=false" id="SurveyNo" placeholder="Survey No">
+                                    ng-keydown="CCselected=false" id="SurveyNo" placeholder="Survey Number">
                                 <span class="input-group-btn">
                                     <button class="btn btn-info" type="button" ng-disabled="updatedisabled" ng-click="getsurveyno(U_SurvyNo);">
                                         <i class="fa fa-search" aria-hidden="true"></i>
@@ -33,12 +33,12 @@
                     </div>
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-4 control-label">
-                            Sales Order No
+                            Sales Order Number
                         </label>
                         <div class="col-sm-8">
                             <div class="input-group">
                                 <input type="text" ng-disabled="updatedisabled" ng-model="U_OrderNo" class="form-control"
-                                    ng-keydown="CCselected=false" id="SalesOrderNo" placeholder="Sales Order No" />
+                                    ng-keydown="CCselected=false" id="SalesOrderNo" placeholder="Sales Order Number" />
                                 <span class="input-group-btn">
                                     <button class="btn btn-info" type="button" ng-disabled="updatedisabled" ng-click="getSalesOrderNo(U_OrderNo);">
                                         <i class="fa fa-search" aria-hidden="true"></i>
@@ -102,7 +102,9 @@
                             Container Number
                         </label>
                         <div class="col-sm-8">
-                            <input type="text" ng-model="U_ContainerNo" ng-disabled="updatedisabled" class="form-control" placeholder="Container Number"/>
+                           <div style="position:relative"><div class="tooltiptext" id="equtool">Sample: MSCU 123456 7</div></div> 
+                           <input type="text" ng-keypress="checkEQNO($event.charCode);" onfocus="toolshow('equtool');" onblur="toolhide('equtool');"    capitalize ng-model="U_ContainerNo" class="form-control" id="Text5"
+                                placeholder="Container Number">
                         </div>
                     </div>
                     <div class="form-group"></div> 
