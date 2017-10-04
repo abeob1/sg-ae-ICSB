@@ -269,20 +269,23 @@ Public Class ICSB
             If Code = "" Then
                 Code = "%"
             ElseIf Code.Contains("*") = True Then
-                Code = Code.Replace("*", "%")
+                Code = Code.ToUpper().Replace("*", "%")
             Else
-                Code = "%" & Code & "%"
+                Code = "%" & Code.ToUpper() & "%"
             End If
 
             If Name = "" Then
                 Name = "%"
             ElseIf Name.Contains("*") = True Then
-                Name = Name.Replace("*", "%")
+                Name = Name.ToUpper().Replace("*", "%")
             Else
-                Name = "%" & Name & "%"
+                Name = "%" & Name.ToUpper() & "%"
             End If
             'Dim Str As String = "SELECT T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "'"
-            Dim Str As String = "SELECT 'C' as ""U_Ctype"",T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "' order by ""U_Cname"""
+            Dim Str As String = "SELECT 'C' as ""U_Ctype"",T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", " & _
+                                " T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" " & _
+                                " FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' " & _
+                                " and  UPPER(T0.""CardCode"")  like '" & Code.ToUpper() & "' and UPPER(T0.""CardName"") like '" & Name.ToUpper() & "' order by ""U_Cname"""
 
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
@@ -341,17 +344,17 @@ Public Class ICSB
             If Code = "" Then
                 Code = "%"
             ElseIf Code.Contains("*") = True Then
-                Code = Code.Replace("*", "%")
+                Code = Code.ToUpper().Replace("*", "%")
             Else
-                Code = "%" & Code & "%"
+                Code = "%" & Code.ToUpper() & "%"
             End If
 
             If Name = "" Then
                 Name = "%"
             ElseIf Name.Contains("*") = True Then
-                Name = Name.Replace("*", "%")
+                Name = Name.ToUpper().Replace("*", "%")
             Else
-                Name = "%" & Name & "%"
+                Name = "%" & Name.ToUpper() & "%"
             End If
 
             ''Dim Str As String = "SELECT T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "'"
@@ -360,7 +363,8 @@ Public Class ICSB
             Str = "SELECT T1.""CardType"" as ""U_Ctype"",T0.""U_CardCode"" AS ""U_Ccode"",T1.""CardName"" as ""U_Cname"",T1.""Phone1"" as ""U_TelNo"", " & _
                   " T1.""Fax"" as ""U_FaxNo"",T1.""Cellular"" AS ""U_Mno"",T1.""E_Mail"" as ""U_Email"" " & _
                   " FROM ""@WUSERL"" T0 INNER JOIN ""OCRD"" T1 ON T1.""CardCode"" = T0.""U_CardCode"" WHERE IFNULL(T1.""U_WebAccess"",'') = 'Y' AND T1.""CardType"" = 'C' " & _
-                  " AND T0.""Code"" = '" & sUid & "' AND IFNULL(T1.""CardCode"",'') <> '' AND T1.""CardCode""  like '" & Code & "' and T1.""CardName"" like '" & Name & "' order by ""U_Cname"""
+                  " AND T0.""Code"" = '" & sUid & "' AND IFNULL(T1.""CardCode"",'') <> '' " & _
+                  " AND UPPER(T1.""CardCode"")  like '" & Code.ToUpper() & "' and UPPER(T1.""CardName"") like '" & Name.ToUpper() & "' order by ""U_Cname"""
 
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
@@ -1810,10 +1814,20 @@ Public Class ICSB
                 Dim DocEntry As String = ""
 
                 If DocNum = "" Then
-                    Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""U_Qdate1"" , 'DD/MM/YYYY') As ""U_Qdate1"", TO_CHAR( T0.""U_Qdate2"" , 'DD/MM/YYYY') As ""U_Qdate2"", T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"", T0.""U_ARemarks"" FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" ASC"
+                    Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                            " TO_CHAR( T0.""U_Qdate1"" , 'DD/MM/YYYY') As ""U_Qdate1"", TO_CHAR( T0.""U_Qdate2"" , 'DD/MM/YYYY') As ""U_Qdate2"", T0.""U_Ccode"", " & _
+                            " T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", " & _
+                            " T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", " & _
+                            " T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"", T0.""U_ARemarks"" " & _
+                            " FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" ASC"
 
                 Else
-                    Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""U_Qdate1"" , 'DD/MM/YYYY') As ""U_Qdate1"", TO_CHAR( T0.""U_Qdate2"" , 'DD/MM/YYYY') As ""U_Qdate2"", T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"", T0.""U_ARemarks"" FROM ""@SQTO"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@SQTO""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
+                    Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                            " TO_CHAR( T0.""U_Qdate1"" , 'DD/MM/YYYY') As ""U_Qdate1"", TO_CHAR( T0.""U_Qdate2"" , 'DD/MM/YYYY') As ""U_Qdate2"", T0.""U_Ccode"", " & _
+                            " T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", " & _
+                            " T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", " & _
+                            " T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"", T0.""U_ARemarks"" " & _
+                            " FROM ""@SQTO"" T0  where T0.""DocEntry"" = (SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@SQTO""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
                 End If
 
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -1829,7 +1843,8 @@ Public Class ICSB
 
                     RetDT = New DataTable
 
-                    Query = "SELECT T1.""U_Stype"", T1.""U_Conti"", T1.""U_Country"", T1.""U_City"", T1.""U_Currency"", T1.""U_EQGroup"", T1.""U_Rate"", T1.""U_UOM"", T1.""U_GST"", T1.""U_Remarks"" FROM ""@SQTOGENERAL""  T1 WHERE T1.""DocEntry"" = '" & DocEntry & "'"
+                    Query = "SELECT T1.""U_Stype"", T1.""U_Conti"", T1.""U_Country"", T1.""U_City"", T1.""U_Currency"", T1.""U_EQGroup"", T1.""U_Rate"", T1.""U_UOM"", " & _
+                            " T1.""U_GST"", T1.""U_Remarks"" FROM ""@SQTOGENERAL""  T1 WHERE T1.""DocEntry"" = '" & DocEntry & "'"
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                     If ErrMsg <> "" Then
                         Throw New Exception(ErrMsg)
@@ -1840,7 +1855,8 @@ Public Class ICSB
 
 
                     RetDT = New DataTable
-                    Query = "SELECT T0.""U_Ctype"", T0.""U_Continent"", T0.""U_Country"", T0.""U_City"", T0.""U_EQGroup"", T0.""U_Currency"", T0.""U_Rate"", T0.""U_UOM"", T0.""U_GST"", T0.""U_Remarks"" FROM ""@SQTOADDON""  T0 WHERE T0.""DocEntry""  = '" & DocEntry & "'"
+                    Query = "SELECT T0.""U_Ctype"", T0.""U_Continent"", T0.""U_Country"", T0.""U_City"", T0.""U_EQGroup"", T0.""U_Currency"", T0.""U_Rate"", T0.""U_UOM"", " & _
+                            " T0.""U_GST"", T0.""U_Remarks"" FROM ""@SQTOADDON""  T0 WHERE T0.""DocEntry""  = '" & DocEntry & "'"
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                     If ErrMsg <> "" Then
                         Throw New Exception(ErrMsg)
@@ -1852,7 +1868,11 @@ Public Class ICSB
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
 
-                    Query = "SELECT Top 1 T0.""DocNum"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""U_Qdate1"" , 'DD/MM/YYYY') As ""U_Qdate1"", TO_CHAR( T0.""U_Qdate2"" , 'DD/MM/YYYY') As ""U_Qdate2"", T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" DESC"
+                    Query = "SELECT Top 1 T0.""DocNum"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                            " TO_CHAR( T0.""U_Qdate1"" , 'DD/MM/YYYY') As ""U_Qdate1"", TO_CHAR( T0.""U_Qdate2"" , 'DD/MM/YYYY') As ""U_Qdate2"", T0.""U_Ccode"", " & _
+                            " T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", " & _
+                            " T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", " & _
+                            " T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" DESC"
                     RetDT = New DataTable
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                     If ErrMsg <> "" Then
@@ -1866,7 +1886,8 @@ Public Class ICSB
 
                         RetDT = New DataTable
 
-                        Query = "SELECT T1.""U_Stype"", T1.""U_Conti"", T1.""U_Country"", T1.""U_City"", T1.""U_Currency"", T1.""U_EQGroup"", T1.""U_Rate"", T1.""U_UOM"", T1.""U_GST"", T1.""U_Remarks"" FROM ""@SQTOGENERAL""  T1 WHERE T1.""DocEntry"" = '" & DocEntry & "'"
+                        Query = "SELECT T1.""U_Stype"", T1.""U_Conti"", T1.""U_Country"", T1.""U_City"", T1.""U_Currency"", T1.""U_EQGroup"", T1.""U_Rate"", T1.""U_UOM"", " & _
+                                " T1.""U_GST"", T1.""U_Remarks"" FROM ""@SQTOGENERAL""  T1 WHERE T1.""DocEntry"" = '" & DocEntry & "'"
                         RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                         If ErrMsg <> "" Then
                             Throw New Exception(ErrMsg)
@@ -1877,7 +1898,8 @@ Public Class ICSB
 
 
                         RetDT = New DataTable
-                        Query = "SELECT T0.""U_Ctype"", T0.""U_Continent"", T0.""U_Country"", T0.""U_City"", T0.""U_EQGroup"", T0.""U_Currency"", T0.""U_Rate"", T0.""U_UOM"", T0.""U_GST"", T0.""U_Remarks"" FROM ""@SQTOADDON""  T0 WHERE T0.""DocEntry""  = '" & DocEntry & "'"
+                        Query = "SELECT T0.""U_Ctype"", T0.""U_Continent"", T0.""U_Country"", T0.""U_City"", T0.""U_EQGroup"", T0.""U_Currency"", T0.""U_Rate"", T0.""U_UOM"", " & _
+                                " T0.""U_GST"", T0.""U_Remarks"" FROM ""@SQTOADDON""  T0 WHERE T0.""DocEntry""  = '" & DocEntry & "'"
                         RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                         If ErrMsg <> "" Then
                             Throw New Exception(ErrMsg)
@@ -2335,6 +2357,8 @@ Public Class ICSB
             Dim FromCode As String = ""
             Dim ToCode As String = ""
             Dim ApprovalSt As String = ""
+            Dim dtFromDate As Date
+            Dim dtToDate As Date
 
             Dim Code As String = ""
             Dim Name As String = ""
@@ -2359,10 +2383,14 @@ Public Class ICSB
             End If
 
             If FromCreateDt = "" Then
-                FromCreateDt = "2000-01-01"
+                'FromCreateDt = "2000-01-01"
+            Else
+                dtFromDate = GetDateTimeValue(FromCreateDt)
             End If
             If ToCreateDt = "" Then
-                ToCreateDt = "9999-12-31"
+                'ToCreateDt = "9999-12-31"
+            Else
+                dtToDate = GetDateTimeValue(ToCreateDt)
             End If
             If CreateBy = "" Then
                 CreateBy = "%"
@@ -2375,6 +2403,7 @@ Public Class ICSB
                 If sErrDesc <> "" Then
                     Throw New Exception(sErrDesc)
                 End If
+            
             End If
 
             If ToCode = "" Then
@@ -2385,7 +2414,13 @@ Public Class ICSB
             End If
 
             'Dim Str As String = "SELECT T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "'"
-            Dim Str As String = "SELECT T0.""DocNum"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As  ""U_Cdate"", T0.""U_Uname"", T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_Qdate1"" , 'DD/MM/YYYY') as ""U_Qdate1"", TO_CHAR( T0.""U_Qdate2"" , 'DD/MM/YYYY') as ""U_Qdate2"", T0.""U_Status"", ifnull(T0.""U_ApprovedBy"",'') ""U_ApprovedBy"" , TO_CHAR( T0.""U_ApprovedDt"" , 'DD/MM/YYYY') as ""U_ApprovedDt"" FROM ""@SQTO""  T0 WHERE T0.""U_Status"" ='" & ApprovalSt & "' and  T0.""U_Cdate""  between '" & FromCreateDt & "' and '" & ToCreateDt & "'   and T0.""U_Uname"" like '" & CreateBy & "'  and  T0.""U_Ccode"" between '" & FromCode & "' and '" & ToCode & "'"
+            Dim Str As String = "SELECT T0.""DocNum"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As  ""U_Cdate"", T0.""U_Uname"", T0.""U_Ccode"", T0.""U_Cname"", " & _
+                                " TO_CHAR( T0.""U_Qdate1"" , 'DD/MM/YYYY') as ""U_Qdate1"", TO_CHAR( T0.""U_Qdate2"" , 'DD/MM/YYYY') as ""U_Qdate2"", T0.""U_Status"", " & _
+                                " ifnull(T0.""U_ApprovedBy"",'') ""U_ApprovedBy"" , TO_CHAR( T0.""U_ApprovedDt"" , 'DD/MM/YYYY') as ""U_ApprovedDt"" " & _
+                                " FROM ""@SQTO""  T0 WHERE T0.""U_Status"" ='" & ApprovalSt & "' " & _
+                                " and T0.""U_Cdate"" >= (CASE WHEN IFNULL('" & FromCreateDt & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dtFromDate.ToString("yyyy-MM-dd") & "' END) " & _
+                                " and T0.""U_Cdate"" <= (CASE WHEN IFNULL('" & ToCreateDt & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dtToDate.ToString("yyyy-MM-dd") & "' END)   " & _
+                                " and T0.""U_Uname"" like '" & CreateBy & "'  and  T0.""U_Ccode"" between '" & FromCode & "' and '" & ToCode & "'"
 
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
@@ -8226,18 +8261,18 @@ Public Class ICSB
                     Throw New Exception("No Record Found!")
                 End If
                 If sSurveyNo = "" Then
-                    Str = "SELECT T0.""DocNum"" AS ""U_SurvyNo"" FROM ODLN T0 " & _
+                    Str = "SELECT T0.""DocEntry"" AS ""U_SurvyNo"" FROM ODLN T0 " & _
                           " WHERE T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
                 Else
-                    Str = "SELECT T0.""DocNum"" AS ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocNum"" like '" & sSurveyNo & "' " & _
+                    Str = "SELECT T0.""DocEntry"" AS ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocEntry"" like '" & sSurveyNo & "' " & _
                           " AND T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
                 End If
             ElseIf DType = "By Country" Then
                 If sSurveyNo = "" Then
-                    Str = "SELECT T0.""DocNum"" AS ""U_SurvyNo"" FROM ODLN T0 " & _
+                    Str = "SELECT T0.""DocEntry"" AS ""U_SurvyNo"" FROM ODLN T0 " & _
                          " WHERE T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                 Else
-                    Str = "SELECT T0.""DocNum"" AS ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocNum"" like '" & sSurveyNo & "' " & _
+                    Str = "SELECT T0.""DocEntry"" AS ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocEntry"" like '" & sSurveyNo & "' " & _
                          " AND T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                 End If
 
@@ -8305,18 +8340,18 @@ Public Class ICSB
                     Throw New Exception("No Record Found!")
                 End If
                 If sOrderNo = "" Then
-                    Str = "SELECT T0.""DocNum"" AS ""U_OrderNo"" FROM ORDR T0 " & _
+                    Str = "SELECT T0.""DocEntry"" AS ""U_OrderNo"" FROM ORDR T0 " & _
                           " WHERE T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
                 Else
-                    Str = "SELECT T0.""DocNum"" AS ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocNum"" like '" & sOrderNo & "' " & _
+                    Str = "SELECT T0.""DocEntry"" AS ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocEntry"" like '" & sOrderNo & "' " & _
                           " AND T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
                 End If
             ElseIf DType = "By Country" Then
                 If sOrderNo = "" Then
-                    Str = "SELECT T0.""DocNum"" AS ""U_OrderNo"" FROM ORDR T0 " & _
+                    Str = "SELECT T0.""DocEntry"" AS ""U_OrderNo"" FROM ORDR T0 " & _
                          " WHERE T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                 Else
-                    Str = "SELECT T0.""DocNum"" AS ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocNum"" like '" & sOrderNo & "' " & _
+                    Str = "SELECT T0.""DocEntry"" AS ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocEntry"" like '" & sOrderNo & "' " & _
                          " AND T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
                 End If
 
@@ -8387,13 +8422,13 @@ Public Class ICSB
                   " T0.""CardCode"" AS ""Customer_Code"", T0.""CardName"" AS ""Customer_Name"",T1.""Dscription"" as ""Survey_Type"", " & _
                   " T0.""U_Country"" AS ""Location"",T0.""U_SResult"" AS ""Survey_Result"" " & _
                   " FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
-                  " WHERE T0.""DocNum"" = (CASE WHEN IFNULL('" & sSurveyNo & "','') = '' THEN T0.""DocNum"" ELSE '" & sSurveyNo & "' END) " & _
-                  " AND T1.""BaseRef"" = (CASE WHEN IFNULL('" & sOrderNo & "','') = '' THEN T1.""BaseRef"" ELSE '" & sOrderNo & "' END) " & _
-                  " AND T0.""CardCode"" = (CASE WHEN IFNULL('" & sCustCode & "','') = '' THEN T0.""CardCode"" ELSE '" & sCustCode & "' END) " & _
-                  " AND T0.""CardName"" = (CASE WHEN IFNULL('" & sCustName & "','') = '' THEN T0.""CardName"" ELSE '" & sCustName & "' END) " & _
+                  " WHERE T0.""DocEntry"" = (CASE WHEN IFNULL('" & sSurveyNo & "','') = '' THEN T0.""DocEntry"" ELSE '" & sSurveyNo & "' END) " & _
+                  " AND T1.""BaseEntry"" = (CASE WHEN IFNULL('" & sOrderNo & "','') = '' THEN T1.""BaseEntry"" ELSE '" & sOrderNo & "' END) " & _
+                  " AND UPPER(T0.""CardCode"") = (CASE WHEN IFNULL('" & sCustCode.ToUpper() & "','') = '' THEN UPPER(T0.""CardCode"") ELSE '" & sCustCode.ToUpper() & "' END) " & _
+                  " AND UPPER(T0.""CardName"") = (CASE WHEN IFNULL('" & sCustName.ToUpper() & "','') = '' THEN UPPER(T0.""CardName"") ELSE '" & sCustName.ToUpper() & "' END) " & _
                   " AND T0.""U_Cdate"" >= (CASE WHEN IFNULL('" & sSurveyDtFrom & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtFrom.ToString("yyyy-MM-dd") & "' END) " & _
                   " AND T0.""U_Cdate"" <= (CASE WHEN IFNULL('" & sSurveyDtTo & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtTo.ToString("yyyy-MM-dd") & "' END) " & _
-                  " AND T0.""U_EqNo"" <= (CASE WHEN IFNULL('" & sContainerNo & "','') = '' THEN T0.""U_EqNo"" ELSE '" & sContainerNo & "' END) "
+                  " AND UPPER(T0.""U_EqNo"") = (CASE WHEN IFNULL('" & sContainerNo.ToUpper() & "','') = '' THEN UPPER(T0.""U_EqNo"") ELSE '" & sContainerNo.ToUpper() & "' END) "
 
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
