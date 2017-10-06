@@ -1152,10 +1152,8 @@ function ($scope, $rootScope, $http, $window, $cookies,US,AGS,hotkeys) {
     //update record 
      $scope.UpdateRecord = function()
     {
-    
     if($scope.val())
     {
-        
         
         var config = {
             headers: {
@@ -1169,9 +1167,10 @@ function ($scope, $rootScope, $http, $window, $cookies,US,AGS,hotkeys) {
        function (response) {
            // success callback
            console.log(response.data);
-           if (response.data.VALIDATE[0].Status == "Ture") {             
+           if (response.data.VALIDATE[0].Status == "True") { 
                $scope.addclick();
               alert(response.data.VALIDATE[0].Msg);
+              
            }
             else
             {

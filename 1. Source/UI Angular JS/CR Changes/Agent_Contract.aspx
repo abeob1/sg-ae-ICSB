@@ -229,7 +229,7 @@
                             Email
                         </label>
                         <div class="col-sm-8">
-                            <input type="email" ng-model="data.ACON[0].U_Email" ng-disabled="whilefind" class="form-control" id="Email16"
+                            <input type="text" ng-model="data.ACON[0].U_Email" ng-disabled="whilefind" class="form-control" id="Email16"
                                 placeholder="Email">
                         </div>
                     </div>
