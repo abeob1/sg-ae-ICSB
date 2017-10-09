@@ -625,7 +625,9 @@
       </div>
       <div class="modal-body" style="overflow:auto;height:400px;">
       <div>Sales Order No : {{mySdata.OCRD[0].DocEntry}}<br />Open Quantity : {{mySdata.OCRD[0].OpenQty}}</div>
-      <div align="center"><button type="button" class="btn-info btn" ng-disabled="mySdata.OCRD[0].OpenQty==0" ng-click="gotoSurveyFrom(mySdata.OCRD[0].FormName);">New Survey</button></div><br />
+      <div align="center"><button type="button" class="btn-info btn" ng-disabled="mySdata.OCRD[0].OpenQty==0" ng-click="gotoSurveyFrom(mySdata.OCRD[0].FormName);">New Survey</button>
+      <button type="button" class="btn-info btn" ng-show="mySdata.OCRD[0].FormatNo >= 2" ng-disabled="mySdata.OCRD[0].OpenQty==0" ng-click="OpenNewFormat00">New Survey Format2 </button>
+      </div><br />
         <table width="100%" border="0" class="table table-bordered table-responsive" cellspacing="5" cellpadding="5">
   <tr>
     <td>Link</td>
