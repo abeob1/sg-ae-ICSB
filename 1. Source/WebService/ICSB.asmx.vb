@@ -5874,6 +5874,7 @@ Public Class ICSB
                         '        " FROM ORDR T0 " & _
                         '        " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
+
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR(T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
@@ -5890,6 +5891,7 @@ Public Class ICSB
                         '        "                                       FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
                         '        "                                       and  T0.""DocEntry""<'" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
+                        
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
@@ -5938,7 +5940,6 @@ Public Class ICSB
                     RetDS.Tables.Add(RetDT2)
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
-
                     Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                             " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                             " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
@@ -6035,6 +6036,7 @@ Public Class ICSB
                     End If
 
                     If DocNum = "" Then
+                       
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
@@ -6063,6 +6065,7 @@ Public Class ICSB
                         '        " FROM ORDR T0 " & _
                         '        " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" DESC"
+                        
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
@@ -6079,6 +6082,7 @@ Public Class ICSB
                         '        "                                       FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "') " & _
                         '        "                                       AND T0.""DocEntry"" > '" & DocNum & "' ORDER BY T0.""DocEntry"" ASC) " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
+                        
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
@@ -6127,7 +6131,7 @@ Public Class ICSB
                     RetDS.Tables.Add(RetDT2)
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
-
+                    
                     Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                             " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                             " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
@@ -6221,6 +6225,7 @@ Public Class ICSB
                         Throw New Exception("No Record Found!")
                     End If
                     If DocNum = "" Then
+                        
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"",  " & _
@@ -6230,6 +6235,7 @@ Public Class ICSB
                                 " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" ASC"
                     Else
+                        
                         'Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
@@ -6315,7 +6321,6 @@ Public Class ICSB
                     RetDS.Tables.Add(RetDT2)
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
-
                     Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"", T0.""DocStatus"" as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", " & _
                             " TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", T0.""CardCode"", T0.""CardName"", " & _
                             " T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", " & _
@@ -6476,8 +6481,7 @@ Public Class ICSB
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
                                 " AND IFNULL(T0.""U_UCode"",'') like '" & CardCode & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND IFNULL(T0.""CardName"",'') LIKE '" & CardName & "' " & _
                                 " AND IFNULL(T0.""Project"",'') LIKE '" & ProjectCode & "' ORDER BY T0.""DocEntry"" ASC "
-
-                    Else
+                        Else
                         'Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
                         Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
@@ -6505,6 +6509,7 @@ Public Class ICSB
                                 " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) " & _
                                 " AND IFNULL(T0.""U_UCode"",'') like '" & CardCode & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND IFNULL(T0.""CardName"",'') LIKE '" & CardName & "' " & _
                                 " AND IFNULL(T0.""Project"",'') LIKE '" & ProjectCode & "' ORDER BY T0.""DocEntry"" ASC "
+                        
                     Else
                         'Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
                         Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
@@ -6525,22 +6530,6 @@ Public Class ICSB
                     Throw New Exception("No Record Found!")
                 End If
 
-                'If DocNum = "" Then
-                '    Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"",T0.""U_UCode"",T0.""U_UName"",TO_CHAR( T0.""U_Cdate"",'DD/MM/YYYY') As ""U_Cdate"", " & _
-                '            " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                '            " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
-                '            " FROM ORDR T0 " & _
-                '            " where IFNULL(T0.""U_UCode"",'') like '" & CardCode & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND IFNULL(T0.""CardName"",'') LIKE '" & CardName & "' " & _
-                '            " AND IFNULL(T0.""Project"",'') LIKE '" & ProjectCode & "' ORDER BY T0.""DocEntry"" ASC"
-                'Else
-                '    'Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"", T0.""DocStatus"" as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" FROM ORDR T0 where T0.""DocEntry"" = (SELECT	Top 1 ifnull(T0.""DocEntry"",0) ""DocEntry"" FROM ORDR T0 where T0.""U_UCode"" in (SELECT	 T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) and  T0.""DocEntry"" = '" & DocNum & "' ORDER BY T0.""DocEntry"" DESC)"
-                '    Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"",T0.""U_UCode"",T0.""U_UName"",TO_CHAR( T0.""U_Cdate"",'DD/MM/YYYY') As ""U_Cdate"", " & _
-                '            " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                '            " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"" " & _
-                '            " FROM ORDR T0 " & _
-                '            " where IFNULL(T0.""U_UCode"",'') like '" & CardCode & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND IFNULL(T0.""CardName"",'') LIKE '" & CardName & "' " & _
-                '            " AND IFNULL(T0.""Project"",'') LIKE '" & ProjectCode & "' AND IFNULL(T0.""DocEntry"",'') LIKE '" & DocNum & "' ORDER BY T0.""DocEntry"" ASC"
-                'End If
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                 If ErrMsg <> "" Then
                     Throw New Exception(ErrMsg)
@@ -8016,6 +8005,13 @@ Public Class ICSB
 
             'Dim Str As String = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"", T0.""DocStatus"" as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"",T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",TO_CHAR( T0.""U_DOM"" , 'DD/MM/YYYY') As ""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",TO_CHAR( T0.""U_CSC"" , 'DD/MM/YYYY') As ""U_CSC"",""U_EX_Fram"",""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_SEAL_NEXT"",""U_SEAL_NEXT"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
             Dim Str As String = String.Empty
+            'Str = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", " & _
+            '      " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", " & _
+            '      " T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"", " & _
+            '      " T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",T0.""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",T0.""U_CSCNum"",T0.""U_CSC"",""U_EX_Fram"",T0.""U_IMO"", " & _
+            '      " ""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_SPIL"",""U_Capacity"", " & _
+            '      " ""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_PayLoad"", " & _
+            '      " ""U_SEAL_NEXT"",""U_SEAL_NEXT"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
             Str = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"",T0.""DocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", " & _
                   " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", " & _
                   " T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"", " & _
@@ -8181,6 +8177,7 @@ Public Class ICSB
             Dim Errmsg As String = ""
             Dim sErrDesc As String = ""
             Dim SoNo As String = ""
+            Dim iFormCount As Integer = 0
 
             If ds.Tables("ORDR").Rows.Count > 0 Then
                 OCRD = ds.Tables("ORDR")
@@ -8189,11 +8186,17 @@ Public Class ICSB
             End If
 
 
-            Dim Str As String = "SELECT Top 1  T0.""DocEntry"", T0.""OpenQty"",IFNULL(T1.""U_FormLink"",'AOS') ""FormName"" FROM RDR1 T0 LEFT JOIN OITM T1 on T0.""ItemCode""=T1.""ItemCode"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
+            'Dim Str As String = "SELECT Top 1  T0.""DocEntry"", T0.""OpenQty"",IFNULL(T1.""U_FormLink"",'AOS') ""FormName"" FROM RDR1 T0 LEFT JOIN OITM T1 on T0.""ItemCode""=T1.""ItemCode"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
+            Dim Str As String = "SELECT Top 1  T0.""DocEntry"", T0.""OpenQty"",IFNULL(T1.""U_FormLink"",'AOS') ""FormName"",IFNULL(COUNT(T2.""U_FORM""),0) AS ""FormatNo"" " & _
+                                " FROM RDR1 T0 " & _
+                                " LEFT JOIN OITM T1 on T0.""ItemCode""=T1.""ItemCode"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_FORM"" T2 ON UPPER(T2.""U_SURVEYTYPE"") = UPPER(T1.""ItemCode"") WHERE T0.""DocEntry"" ='" & DocEntry & "' " & _
+                                " GROUP BY T0.""DocEntry"", T0.""OpenQty"",T1.""U_FormLink"" "
 
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
             Dim RetDT2 As New DataTable
+            Dim RetDT3 As New DataTable
             RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
             If Errmsg <> "" Then
                 Throw New Exception(Errmsg)
@@ -8202,6 +8205,10 @@ Public Class ICSB
                 RetDT.TableName = "OCRD"
                 RetDT1 = RetDT.Copy
                 RetDS.Tables.Add(RetDT1)
+                'Str = "SELECT T0.""DocEntry"" AS ""Survey_No"",T0.""U_EqNo"" AS ""Container_Num"", T0.""U_SResult"" As ""Survey_Result"" ,T0.""U_UName"" As ""User_Name"", " & _
+                '      " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') ""Survey_Date"", T0.""CardCode"" as ""Customer_Code"", T0.""CardName"" as ""Customer_Name"", " & _
+                '      " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                '      " WHERE T1.""BaseType"" =17 and  T1.""BaseEntry"" ='" & DocEntry & "' ORDER BY T0.""DocEntry"" "
                 Str = "SELECT T0.""DocEntry"" AS ""Survey_No"",T0.""DocNum"",T0.""U_EqNo"" AS ""Container_Num"", T0.""U_SResult"" As ""Survey_Result"" ,T0.""U_UName"" As ""User_Name"", " & _
                       " CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                       " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') ""Survey_Date"", T0.""CardCode"" as ""Customer_Code"", T0.""CardName"" as ""Customer_Name"", " & _
