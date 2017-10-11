@@ -6479,7 +6479,7 @@ Public Class ICSB
                                 " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
                                 " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
-                                " AND IFNULL(T0.""U_UCode"",'') like '" & CardCode & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND IFNULL(T0.""CardName"",'') LIKE '" & CardName & "' " & _
+                                " AND UPPER(IFNULL(T0.""CardCode"",'')) like '" & CardCode.ToUpper() & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND UPPER(IFNULL(T0.""CardName"",'')) LIKE '" & CardName.ToUpper().Replace("'", "''") & "' " & _
                                 " AND IFNULL(T0.""Project"",'') LIKE '" & ProjectCode & "' ORDER BY T0.""DocEntry"" ASC "
                         Else
                         'Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
@@ -6493,7 +6493,7 @@ Public Class ICSB
                                 " where T0.""DocEntry"" IN (SELECT ifnull(T0.""DocEntry"",0) ""DocEntry"" FROM ORDR T0 " & _
                                 "                          where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
                                 "                          and  T0.""DocEntry"" LIKE '" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
-                                " AND IFNULL(T0.""U_UCode"",'') like '" & CardCode & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND IFNULL(T0.""CardName"",'') LIKE '" & CardName & "' " & _
+                                " AND UPPER(IFNULL(T0.""CardCode"",'')) like '" & CardCode.ToUpper() & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND UPPER(IFNULL(T0.""CardName"",'')) LIKE '" & CardName.ToUpper().Replace("'", "''") & "' " & _
                                 " AND IFNULL(T0.""Project"",'') LIKE '" & ProjectCode & "' ORDER BY T0.""DocEntry"" ASC "
                     End If
                 ElseIf DType = "By Country" Then
@@ -6507,7 +6507,7 @@ Public Class ICSB
                                 " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
                                 " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) " & _
-                                " AND IFNULL(T0.""U_UCode"",'') like '" & CardCode & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND IFNULL(T0.""CardName"",'') LIKE '" & CardName & "' " & _
+                                " AND UPPER(IFNULL(T0.""CardCode"",'')) like '" & CardCode.ToUpper() & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND UPPER(IFNULL(T0.""CardName"",'')) LIKE '" & CardName.ToUpper().Replace("'", "''") & "' " & _
                                 " AND IFNULL(T0.""Project"",'') LIKE '" & ProjectCode & "' ORDER BY T0.""DocEntry"" ASC "
                         
                     Else
@@ -6523,7 +6523,7 @@ Public Class ICSB
                                 "                          where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
                                 "                          and  T0.""DocEntry"" LIKE '" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
                                 " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) " & _
-                                " AND IFNULL(T0.""U_UCode"",'') like '" & CardCode & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND IFNULL(T0.""CardName"",'') LIKE '" & CardName & "' " & _
+                                " AND UPPER(IFNULL(T0.""CardCode"",'')) like '" & CardCode.ToUpper() & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND UPPER(IFNULL(T0.""CardName"",'')) LIKE '" & CardName.ToUpper().Replace("'", "''") & "' " & _
                                 " AND IFNULL(T0.""Project"",'') LIKE '" & ProjectCode & "' ORDER BY T0.""DocEntry"" ASC "
                     End If
                 Else
