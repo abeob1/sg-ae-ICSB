@@ -5417,6 +5417,7 @@ Public Class ICSB
                         'oSO.Lines.Add()
 
                         Dim dtPrice As DataTable
+                        If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Executing Query " & SQLStr, sFunction)
                         dtPrice = fn.ExecuteSQLQuery(SQLStr, Errmsg)
                         Dim oDr As DataRow = dtPrice.Rows(0)
                         Rt = oDr.Item("U_Rate").ToString.Trim()
