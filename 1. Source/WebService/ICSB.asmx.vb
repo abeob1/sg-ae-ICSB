@@ -7339,6 +7339,194 @@ Public Class ICSB
             Context.Response.Output.Write(fn.ds2json(ErrorHandling(ex.Message.ToString)))
         End Try
     End Sub
+    <WebMethod()> _
+         <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Sub Cleaning1_NewFormat_SurveyTyepAdd(ByVal value As String)
+        sFunction = "Cleaning1_NewFormat_SurveyTyepAdd"
+        Try
+
+            If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
+            Dim SQTO As New DataTable
+            SQTO = New DataTable
+            Dim SQTOGEN As New DataTable
+            Dim SQTOADD As New DataTable
+            Dim SQTODS = New DataSet()
+            Dim RetDS = New DataSet()
+            Dim ds As DataSet = fn.jsontodata(value)
+            Dim Errmsg As String = ""
+            fn.GetSAPConnection(Errmsg)
+            If Errmsg <> "" Then
+                Throw New Exception(Errmsg)
+            End If
+            Dim STypeCode As String = ""
+            Dim STypeName As String = ""
+            Dim RetCode As Integer = 0
+            Dim SONo As String = ""
+            Dim errMessage As String = ""
+            Dim CardCode As String = ""
+            Dim DocDate As String = ""
+            Dim ProjectCode As String = ""
+            Dim Country As String = ""
+            Dim City As String = ""
+            Dim EqupTye As String = ""
+            Dim Rt As String = ""
+            Dim SQLStr As String = ""
+
+            Dim oSO As SAPbobsCOM.Documents
+            oSO = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oOrders)
+            Dim oDO As SAPbobsCOM.Documents
+            oDO = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oDeliveryNotes)
+
+
+            If ds.Tables("ODLN").Rows.Count > 0 Then
+                SQTO = ds.Tables("ODLN")
+                Dim dr As DataRow = SQTO.Rows(0)
+
+                If oSO.GetByKey(dr.Item("U_OrderNo")) = True Then
+
+                Else
+                    Throw New Exception("No Record Found!")
+                End If
+
+                oDO.UserFields.Fields.Item("U_UCode").Value = dr.Item("U_UCode").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_UName").Value = dr.Item("U_UName").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_Cdate").Value = GetDateTimeValue(dr.Item("U_Cdate").ToString)
+                oDO.DocDate = DateConvert(dr.Item("DocDate").ToString)
+                oDO.DocDueDate = DateConvert(dr.Item("DocDate").ToString)
+                oDO.CardCode = oSO.CardCode
+                oDO.CardName = oSO.CardName
+
+                oDO.UserFields.Fields.Item("U_FormName").Value = dr.Item("U_FormName").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_SResult").Value = dr.Item("U_SResult").ToString.Trim()
+
+                oDO.UserFields.Fields.Item("U_EX_Fram").Value = dr.Item("U_EX_Fram").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_FORMAT").Value = "2"
+                oDO.UserFields.Fields.Item("U_EX_Man").Value = dr.Item("U_EX_Man").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_EX_Ser").Value = dr.Item("U_EX_Ser").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_EX_Car").Value = dr.Item("U_EX_Car").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Free").Value = dr.Item("U_INT_Free").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Clean").Value = dr.Item("U_INT_Clean").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Dry").Value = dr.Item("U_INT_Dry").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Pitt").Value = dr.Item("U_INT_Pitt").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Disc").Value = dr.Item("U_INT_Disc").ToString.Trim()
+
+                oDO.UserFields.Fields.Item("U_INT_Cleanliness").Value = dr.Item("U_INT_Cleanliness").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Rust").Value = dr.Item("U_INT_Rust").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Deposits").Value = dr.Item("U_INT_Deposits").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_DamagedCoating").Value = dr.Item("U_INT_DamagedCoating").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_GasketMainHole").Value = dr.Item("U_INT_GasketMainHole").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_OilDirtFree").Value = dr.Item("U_INT_OilDirtFree").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_SteamCoil").Value = dr.Item("U_INT_SteamCoil").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Steam_Cleaned").Value = dr.Item("U_INT_Steam_Cleaned").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_GasktDschrgval").Value = dr.Item("U_INT_GasktDschrgval").ToString.Trim()
+
+                oDO.UserFields.Fields.Item("U_VAL_Val").Value = dr.Item("U_VAL_Val").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Bott").Value = dr.Item("U_VAL_Bott").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Man").Value = dr.Item("U_VAL_Man").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Syp").Value = dr.Item("U_VAL_Syp").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Tank").Value = dr.Item("U_VAL_Tank").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Avail").Value = dr.Item("U_VAL_Avail").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Steam").Value = dr.Item("U_VAL_Steam").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Gas").Value = dr.Item("U_VAL_Gas").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_SEAL_MAN").Value = dr.Item("U_SEAL_MAN").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_SEAL_AIR").Value = dr.Item("U_SEAL_AIR").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_SEAL_BOTT").Value = dr.Item("U_SEAL_BOTT").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_SEAL_LAST").Value = dr.Item("U_SEAL_LAST").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_SEAL_NEXT").Value = dr.Item("U_SEAL_NEXT").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_SPIL").Value = dr.Item("U_VAL_SPIL").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_PayLoad").Value = dr.Item("U_PayLoad").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_Capacity").Value = dr.Item("U_Capacity").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_CSCNum").Value = dr.Item("U_CSCNum").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_IMO").Value = dr.Item("U_IMO").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Cleanliness").Value = dr.Item("U_INT_Cleanliness").ToString.Trim()
+                Try
+                    'oDO.UserFields.Fields.Item("U_DOM").Value = DateConvert(dr.Item("U_DOM").ToString.Trim())
+                    oDO.UserFields.Fields.Item("U_DOM").Value = (dr.Item("U_DOM").ToString.Trim())
+                Catch ex As Exception
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while Adding DOM", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
+                End Try
+                Try
+                    oDO.UserFields.Fields.Item("U_MGW").Value = dr.Item("U_MGW").ToString.Trim()
+                Catch ex As Exception
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while Adding MGW", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
+                End Try
+                Try
+                    oDO.UserFields.Fields.Item("U_Tare").Value = dr.Item("U_Tare").ToString.Trim()
+                Catch ex As Exception
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while adding Tare", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
+                End Try
+                Try
+                    oDO.UserFields.Fields.Item("U_ACEP").Value = dr.Item("U_ACEP").ToString.Trim()
+                Catch ex As Exception
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while adding ACEP", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
+                End Try
+                Try
+                    'oDO.UserFields.Fields.Item("U_CSC").Value = DateConvert(dr.Item("U_CSC").ToString.Trim())
+                    oDO.UserFields.Fields.Item("U_CSC").Value = (dr.Item("U_CSC").ToString.Trim())
+                Catch ex As Exception
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while Adding CSC", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
+                End Try
+
+                oDO.UserFields.Fields.Item("U_SurveyorID").Value = oSO.UserFields.Fields.Item("U_SurveyorID").Value
+                oDO.NumAtCard = dr.Item("NumAtCard").ToString.Trim
+                oDO.UserFields.Fields.Item("U_SuvExAgent").Value = dr.Item("U_SuvExAgent").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_NoPh").Value = dr.Item("U_NoPh").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_EqNo").Value = dr.Item("U_EqNo").ToString.Trim()
+
+                '  STypeCode = dr.Item("U_STypeCode")
+                ' STypeName = dr.Item("U_STypeName")
+                oDO.UserFields.Fields.Item("U_STypeCode").Value = oSO.UserFields.Fields.Item("U_STypeCode").Value
+                oDO.UserFields.Fields.Item("U_U_STypeName").Value = oSO.UserFields.Fields.Item("U_U_STypeName").Value
+                oDO.UserFields.Fields.Item("U_Country").Value = oSO.UserFields.Fields.Item("U_Country").Value
+                oDO.UserFields.Fields.Item("U_City").Value = oSO.UserFields.Fields.Item("U_City").Value
+                oDO.UserFields.Fields.Item("U_Loc").Value = oSO.UserFields.Fields.Item("U_Loc").Value
+                oDO.Comments = dr.Item("Comments").ToString.Trim()
+                oDO.Lines.ItemCode = oSO.Lines.ItemCode
+                oDO.Lines.Quantity = 1
+                oDO.Lines.UserFields.Fields.Item("U_PDate").Value = oSO.Lines.UserFields.Fields.Item("U_PDate").Value
+                oDO.Lines.UserFields.Fields.Item("U_EQType").Value = oSO.Lines.UserFields.Fields.Item("U_EQType").Value
+                'EqupTye = dr1.Item("U_EQType").ToString.Trim()
+                oDO.Lines.UserFields.Fields.Item("U_SCriteria").Value = oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value
+                oDO.Lines.BaseType = 17 '23 ' - 'Sales Quotation'
+                oDO.Lines.BaseEntry = dr.Item("U_OrderNo")
+                oDO.Lines.BaseLine = 0
+
+                oDO.Lines.UnitPrice = oSO.Lines.UnitPrice
+                oDO.Lines.Currency = oSO.Lines.Currency
+                oDO.Lines.Add()
+                RetCode = oDO.Add
+                If RetCode <> 0 Then
+                    PublicVariable.oCompany.GetLastError(RetCode, errMessage)
+                    Throw New Exception(errMessage)
+                Else
+                    SONo = PublicVariable.oCompany.GetNewObjectKey()
+                End If
+            Else
+                Throw New Exception("No Input Data.")
+            End If
+
+            Dim RetDT As New DataTable
+            RetDT.TableName = "VALIDATE"
+            RetDT.Columns.Add("Status")
+            RetDT.Columns.Add("Msg")
+            RetDT.Rows.Add()
+            RetDT.Rows(0)(0) = True
+            RetDT.Rows(0)(1) = "Survey no. " & SONo.ToString & " Created Successfully"
+            RetDS.Tables.Add(RetDT)
+            Context.Response.Output.Write(fn.ds2json(RetDS))
+
+
+        Catch ex As Exception
+            If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
+            fn.ErrorHandling(ex.Message.ToString.Trim())
+            Context.Response.Output.Write(fn.ds2json(ErrorHandling(ex.Message.ToString)))
+        End Try
+    End Sub
 
     <WebMethod()> _
          <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
@@ -7979,6 +8167,195 @@ Public Class ICSB
             Context.Response.Output.Write(fn.ds2json(ErrorHandling(ex.Message.ToString)))
         End Try
     End Sub
+    <WebMethod()> _
+         <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Sub Cleaning1_NewFormat_SurveyTyepUpdate(ByVal value As String)
+        sFunction = "Cleaning1_NewFormat_SurveyTyepUpdate"
+        Try
+
+            If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
+            Dim SQTO As New DataTable
+            SQTO = New DataTable
+            Dim SQTOGEN As New DataTable
+            Dim SQTOADD As New DataTable
+            Dim SQTODS = New DataSet()
+            Dim RetDS = New DataSet()
+            Dim ds As DataSet = fn.jsontodata(value)
+            Dim Errmsg As String = ""
+            fn.GetSAPConnection(Errmsg)
+            If Errmsg <> "" Then
+                Throw New Exception(Errmsg)
+            End If
+            Dim STypeCode As String = ""
+            Dim STypeName As String = ""
+            Dim RetCode As Integer = 0
+            Dim SONo As String = ""
+            Dim errMessage As String = ""
+            Dim CardCode As String = ""
+            Dim DocDate As String = ""
+            Dim ProjectCode As String = ""
+            Dim Country As String = ""
+            Dim City As String = ""
+            Dim EqupTye As String = ""
+            Dim Rt As String = ""
+            Dim SQLStr As String = ""
+
+            'Dim oSO As SAPbobsCOM.Documents
+            'oSO = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oOrders)
+            Dim oDO As SAPbobsCOM.Documents
+            oDO = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oDeliveryNotes)
+
+
+            If ds.Tables("ODLN").Rows.Count > 0 Then
+                SQTO = ds.Tables("ODLN")
+                Dim dr As DataRow = SQTO.Rows(0)
+
+                If oDO.GetByKey(dr.Item("U_SurvyNo")) = True Then
+
+                Else
+                    Throw New Exception("No Record Found!")
+                End If
+
+                ' oDO.UserFields.Fields.Item("U_UCode").Value = dr.Item("U_UCode").ToString.Trim()
+                'oDO.UserFields.Fields.Item("U_UName").Value = dr.Item("U_UName").ToString.Trim()
+                'oDO.UserFields.Fields.Item("U_Cdate").Value = dr.Item("U_Cdate")
+                oDO.DocDate = DateConvert(dr.Item("DocDate").ToString)
+                'oDO.DocDueDate = DateConvert(dr.Item("DocDate").ToString)
+                'oDO.CardCode = oSO.CardCode
+                'oDO.CardName = oSO.CardName
+
+                'oDO.UserFields.Fields.Item("U_FormName").Value = dr.Item("U_FormName").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_FORMAT").Value = "2"
+                oDO.UserFields.Fields.Item("U_SResult").Value = dr.Item("U_SResult").ToString.Trim()
+
+                oDO.UserFields.Fields.Item("U_EX_Fram").Value = dr.Item("U_EX_Fram").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_EX_Man").Value = dr.Item("U_EX_Man").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_EX_Ser").Value = dr.Item("U_EX_Ser").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_EX_Car").Value = dr.Item("U_EX_Car").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Free").Value = dr.Item("U_INT_Free").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Clean").Value = dr.Item("U_INT_Clean").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Dry").Value = dr.Item("U_INT_Dry").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Pitt").Value = dr.Item("U_INT_Pitt").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Disc").Value = dr.Item("U_INT_Disc").ToString.Trim()
+
+                oDO.UserFields.Fields.Item("U_INT_Cleanliness").Value = dr.Item("U_INT_Cleanliness").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Rust").Value = dr.Item("U_INT_Rust").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Deposits").Value = dr.Item("U_INT_Deposits").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_DamagedCoating").Value = dr.Item("U_INT_DamagedCoating").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_GasketMainHole").Value = dr.Item("U_INT_GasketMainHole").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_OilDirtFree").Value = dr.Item("U_INT_OilDirtFree").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_SteamCoil").Value = dr.Item("U_INT_SteamCoil").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Steam_Cleaned").Value = dr.Item("U_INT_Steam_Cleaned").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_GasktDschrgval").Value = dr.Item("U_INT_GasktDschrgval").ToString.Trim()
+
+
+                oDO.UserFields.Fields.Item("U_VAL_Val").Value = dr.Item("U_VAL_Val").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Bott").Value = dr.Item("U_VAL_Bott").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Man").Value = dr.Item("U_VAL_Man").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Syp").Value = dr.Item("U_VAL_Syp").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Tank").Value = dr.Item("U_VAL_Tank").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Avail").Value = dr.Item("U_VAL_Avail").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Steam").Value = dr.Item("U_VAL_Steam").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_Gas").Value = dr.Item("U_VAL_Gas").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_SEAL_MAN").Value = dr.Item("U_SEAL_MAN").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_SEAL_AIR").Value = dr.Item("U_SEAL_AIR").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_SEAL_BOTT").Value = dr.Item("U_SEAL_BOTT").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_SEAL_LAST").Value = dr.Item("U_SEAL_LAST").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_SEAL_NEXT").Value = dr.Item("U_SEAL_NEXT").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_VAL_SPIL").Value = dr.Item("U_VAL_SPIL").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_PayLoad").Value = dr.Item("U_PayLoad").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_Capacity").Value = dr.Item("U_Capacity").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_CSCNum").Value = dr.Item("U_CSCNum").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_IMO").Value = dr.Item("U_IMO").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_INT_Cleanliness").Value = dr.Item("U_INT_Cleanliness").ToString.Trim()
+
+                Try
+                    'oDO.UserFields.Fields.Item("U_DOM").Value = DateConvert(dr.Item("U_DOM").ToString.Trim())
+                    oDO.UserFields.Fields.Item("U_DOM").Value = (dr.Item("U_DOM").ToString.Trim())
+                Catch ex As Exception
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while updating DOM", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
+                End Try
+                Try
+                    oDO.UserFields.Fields.Item("U_MGW").Value = dr.Item("U_MGW").ToString.Trim()
+                Catch ex As Exception
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while updating MGW", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
+                End Try
+                Try
+                    oDO.UserFields.Fields.Item("U_Tare").Value = dr.Item("U_Tare").ToString.Trim()
+                Catch ex As Exception
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while updating Tare", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
+                End Try
+                Try
+                    oDO.UserFields.Fields.Item("U_ACEP").Value = dr.Item("U_ACEP").ToString.Trim()
+                Catch ex As Exception
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while updating ACEP", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
+                End Try
+                Try
+                    'oDO.UserFields.Fields.Item("U_CSC").Value = DateConvert(dr.Item("U_CSC").ToString.Trim())
+                    oDO.UserFields.Fields.Item("U_CSC").Value = (dr.Item("U_CSC").ToString.Trim())
+                Catch ex As Exception
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile("Error while updating CSC", sFunction)
+                    If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
+                End Try
+
+                'oDO.UserFields.Fields.Item("U_SurveyorID").Value = oSO.UserFields.Fields.Item("U_SurveyorID").Value
+                oDO.NumAtCard = dr.Item("NumAtCard").ToString.Trim
+                'oDO.UserFields.Fields.Item("U_SuvExAgent").Value = dr.Item("U_SuvExAgent").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_NoPh").Value = dr.Item("U_NoPh").ToString.Trim()
+                oDO.UserFields.Fields.Item("U_EqNo").Value = dr.Item("U_EqNo").ToString.Trim()
+
+                '  STypeCode = dr.Item("U_STypeCode")
+                ' STypeName = dr.Item("U_STypeName")
+                'oDO.UserFields.Fields.Item("U_STypeCode").Value = oSO.UserFields.Fields.Item("U_STypeCode").Value
+                'oDO.UserFields.Fields.Item("U_U_STypeName").Value = oSO.UserFields.Fields.Item("U_U_STypeName").Value
+                'oDO.UserFields.Fields.Item("U_Country").Value = oSO.UserFields.Fields.Item("U_Country").Value
+                'oDO.UserFields.Fields.Item("U_City").Value = oSO.UserFields.Fields.Item("U_City").Value
+                'oDO.UserFields.Fields.Item("U_Loc").Value = oSO.UserFields.Fields.Item("U_Loc").Value
+                oDO.Comments = dr.Item("Comments").ToString.Trim()
+                'oDO.Lines.ItemCode = oSO.Lines.ItemCode
+                'oDO.Lines.Quantity = 1
+                'oDO.Lines.UserFields.Fields.Item("U_PDate").Value = oSO.Lines.UserFields.Fields.Item("U_PDate").Value
+                'oDO.Lines.UserFields.Fields.Item("U_EQType").Value = oSO.Lines.UserFields.Fields.Item("U_EQType").Value
+                ''EqupTye = dr1.Item("U_EQType").ToString.Trim()
+                'oDO.Lines.UserFields.Fields.Item("U_SCriteria").Value = oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value
+                'oDO.Lines.BaseType = 17 '23 ' - 'Sales Quotation'
+                'oDO.Lines.BaseEntry = dr.Item("U_OrderNo")
+                'oDO.Lines.BaseLine = 0
+
+                'oDO.Lines.UnitPrice = oSO.Lines.UnitPrice
+                'oDO.Lines.Add()
+                RetCode = oDO.Update
+                If RetCode <> 0 Then
+                    PublicVariable.oCompany.GetLastError(RetCode, errMessage)
+                    Throw New Exception(errMessage)
+                Else
+                    SONo = PublicVariable.oCompany.GetNewObjectKey()
+                End If
+            Else
+                Throw New Exception("No Input Data.")
+            End If
+
+            Dim RetDT As New DataTable
+            RetDT.TableName = "VALIDATE"
+            RetDT.Columns.Add("Status")
+            RetDT.Columns.Add("Msg")
+            RetDT.Rows.Add()
+            RetDT.Rows(0)(0) = True
+            RetDT.Rows(0)(1) = "Survey no. " & SONo.ToString & " Updated Successfully"
+            RetDS.Tables.Add(RetDT)
+            Context.Response.Output.Write(fn.ds2json(RetDS))
+
+
+        Catch ex As Exception
+            If PublicVariable.ERROR_ON = 1 Then oLog.WriteToLogFile(ex.Message, sFunction)
+            fn.ErrorHandling(ex.Message.ToString.Trim())
+            Context.Response.Output.Write(fn.ds2json(ErrorHandling(ex.Message.ToString)))
+        End Try
+    End Sub
 
     <WebMethod()> _
   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
@@ -8012,13 +8389,14 @@ Public Class ICSB
             '      " ""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_SPIL"",""U_Capacity"", " & _
             '      " ""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_PayLoad"", " & _
             '      " ""U_SEAL_NEXT"",""U_SEAL_NEXT"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
-            Str = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"",T0.""DocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", " & _
+            Str = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"",T0.""DocNum"",T1.""BaseEntry"" AS ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", " & _
                   " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", " & _
                   " T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"", " & _
                   " T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",T0.""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",T0.""U_CSCNum"",T0.""U_CSC"",""U_EX_Fram"",T0.""U_IMO"", " & _
                   " ""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_SPIL"",""U_Capacity"", " & _
                   " ""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_PayLoad"", " & _
-                  " ""U_SEAL_NEXT"",""U_SEAL_NEXT"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                  " ""U_INT_Cleanliness"",""U_INT_Rust"",""U_INT_Deposits"",""U_INT_DamagedCoating"",""U_INT_GasketMainHole"",""U_INT_OilDirtFree"",""U_INT_SteamCoil"",""U_INT_Steam_Cleaned"",""U_INT_GasktDschrgval"", " & _
+                  " ""U_SEAL_NEXT"",""U_SEAL_NEXT"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"",IFNULL(T0.""U_FORMAT"",1) AS ""FormatNo"" " & _
                   " FROM ODLN T0 " & _
                   " INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
                   " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
@@ -8210,7 +8588,7 @@ Public Class ICSB
                 '      " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
                 '      " WHERE T1.""BaseType"" =17 and  T1.""BaseEntry"" ='" & DocEntry & "' ORDER BY T0.""DocEntry"" "
                 Str = "SELECT T0.""DocEntry"" AS ""Survey_No"",T0.""DocNum"",T0.""U_EqNo"" AS ""Container_Num"", T0.""U_SResult"" As ""Survey_Result"" ,T0.""U_UName"" As ""User_Name"", " & _
-                      " CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
+                      " CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"",IFNULL(T0.""U_FORMAT"",1) AS ""FormatNo"", " & _
                       " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') ""Survey_Date"", T0.""CardCode"" as ""Customer_Code"", T0.""CardName"" as ""Customer_Name"", " & _
                       " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                       " FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
@@ -8225,6 +8603,65 @@ Public Class ICSB
                 RetDT.TableName = "DETAILS"
                 RetDT2 = RetDT.Copy
                 RetDS.Tables.Add(RetDT2)
+
+                Context.Response.Output.Write(fn.ds2json(RetDS))
+            Else
+                Throw New Exception("No Records Found")
+            End If
+        Catch ex As Exception
+            Context.Response.Output.Write(fn.ds2json(ErrorHandling(ex.Message.ToString)))
+        End Try
+    End Sub
+    <WebMethod()> _
+  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Sub GetSurveyFormat(ByVal value As String)
+        Try
+            Dim Code As String = ""
+            Dim Name As String = ""
+            Dim OCRD As New DataTable
+            OCRD = New DataTable
+            Dim LEADMDS = New DataSet()
+            Dim SQLDT As New DataTable
+            Dim RetDS = New DataSet()
+            Dim ds As DataSet = fn.jsontodata(value)
+            Dim Errmsg As String = ""
+            Dim sErrDesc As String = ""
+            Dim SoNo As String = ""
+            Dim iFormCount As Integer = 0
+
+            If ds.Tables("ODLN").Rows.Count > 0 Then
+                OCRD = ds.Tables("ODLN")
+                Dim dr As DataRow = OCRD.Rows(0)
+                DocEntry = dr.Item("U_SurvyNo")
+            End If
+
+
+            Dim Str As String
+            Str = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"",T0.""DocNum"",T1.""BaseEntry"" AS ""U_OrderNo"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", " & _
+                  " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", " & _
+                  " T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"", " & _
+                  " T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",T0.""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",T0.""U_CSCNum"",T0.""U_CSC"",""U_EX_Fram"",T0.""U_IMO"", " & _
+                  " ""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_SPIL"",""U_Capacity"", " & _
+                  " ""U_INT_Cleanliness"",""U_INT_Rust"",""U_INT_Deposits"",""U_INT_DamagedCoating"",""U_INT_GasketMainHole"",""U_INT_OilDirtFree"",""U_INT_SteamCoil"",""U_INT_Steam_Cleaned"",""U_INT_GasktDschrgval"", " & _
+                  " ""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_PayLoad"", " & _
+                  " ""U_SEAL_NEXT"",""U_SEAL_NEXT"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"",IFNULL(T0.""U_FORMAT"",1) AS ""FormatNo"" " & _
+                  " FROM ODLN T0 " & _
+                  " INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                  " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
+                  " WHERE T0.""DocEntry"" ='" & DocEntry & "'"
+
+            Dim RetDT As New DataTable
+            Dim RetDT1 As New DataTable
+            Dim RetDT2 As New DataTable
+            Dim RetDT3 As New DataTable
+            RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
+            If Errmsg <> "" Then
+                Throw New Exception(Errmsg)
+            End If
+            If RetDT.Rows.Count > 0 Then
+                RetDT.TableName = "ODLN"
+                RetDT1 = RetDT.Copy
+                RetDS.Tables.Add(RetDT1)
 
                 Context.Response.Output.Write(fn.ds2json(RetDS))
             Else
