@@ -448,11 +448,20 @@ function ($scope, $rootScope, $http, $window, $cookies,US,CSS,hotkeys,$location)
 		"U_EX_Man": "NO",
 		"U_EX_Ser": "NO",
 		"U_EX_Car": "NO",
-		"U_INT_Free": "NO",
-		"U_INT_Clean": "NO",
-		"U_INT_Dry": "NO",
-		"U_INT_Pitt": "NO",
-		"U_INT_Disc": "NO",
+		"U_INT_Free": "FIT",
+		"U_INT_Cleanliness": "FIT",
+        "U_INT_Rust": "FIT",
+        "U_INT_Deposits": "FIT",
+		"U_INT_Clean": "FIT",
+		"U_INT_Dry": "FIT",
+		"U_INT_Pitt": "FIT",
+        "U_INT_DamagedCoating": "FIT",
+        "U_INT_GasketMainHole": "FIT",
+		"U_INT_Disc": "FIT",
+        "U_INT_OilDirtFree": "FIT",
+        "U_INT_SteamCoil": "FIT",
+        "U_INT_Steam_Cleaned": "FIT",
+        "U_INT_GasktDschrgval": "FIT",
 		"U_VAL_Val": "NO",
 		"U_VAL_Bott": "YES",
 		"U_VAL_Man": "NO",
@@ -497,11 +506,20 @@ $scope.afterSave = function()
 		$scope.data.ODLN[0].U_EX_Man="NO";
 		$scope.data.ODLN[0].U_EX_Ser="NO";
 		$scope.data.ODLN[0].U_EX_Car="NO";
-		$scope.data.ODLN[0].U_INT_Free="NO";
-		$scope.data.ODLN[0].U_INT_Clean="NO";
-		$scope.data.ODLN[0].U_INT_Dry="NO";
-		$scope.data.ODLN[0].U_INT_Pitt="NO";
-		$scope.data.ODLN[0].U_INT_Disc="NO";
+		$scope.data.ODLN[0].U_INT_Free="FIT";
+		$scope.data.ODLN[0].U_INT_Clean="FIT";
+        $scope.data.ODLN[0].U_INT_Cleanliness = "FIT";
+        $scope.data.ODLN[0].U_INT_Rust = "FIT";
+        $scope.data.ODLN[0].U_INT_Deposits = "FIT";
+		$scope.data.ODLN[0].U_INT_Dry="FIT";
+		$scope.data.ODLN[0].U_INT_Pitt="FIT"; 
+        $scope.data.ODLN[0].U_INT_DamagedCoating = "FIT";
+        $scope.data.ODLN[0].U_INT_GasketMainHole = "FIT";
+		$scope.data.ODLN[0].U_INT_Disc="FIT";
+        $scope.data.ODLN[0].U_INT_OilDirtFree="FIT";
+        $scope.data.ODLN[0].U_INT_SteamCoil="FIT";
+        $scope.data.ODLN[0].U_INT_Steam_Cleaned = "FIT";
+        $scope.data.ODLN[0].U_INT_GasktDschrgval = "FIT";
 		$scope.data.ODLN[0].U_VAL_Val="YES";
 		$scope.data.ODLN[0].U_VAL_Bott="NO";
 		$scope.data.ODLN[0].U_VAL_Man="NO";
@@ -878,7 +896,7 @@ $scope.SAselected = true;
         }
 
         var parms = encodeURIComponent(JSON.stringify($scope.data));
-        $http.post(US.url+"Cleaning1_SurveyTyepAdd", "value=" + parms, config)
+        $http.post(US.url+"Cleaning1_NewFormat_SurveyTyepAdd", "value=" + parms, config)
    .then(
        function (response) {
            // success callback
@@ -916,11 +934,11 @@ $scope.SAselected = true;
 		    $scope.data.ODLN[0].U_EX_Man="YES";
 		    $scope.data.ODLN[0].U_EX_Ser="YES";
 		    $scope.data.ODLN[0].U_EX_Car="YES";
-		    $scope.data.ODLN[0].U_INT_Free="YES";
-		    $scope.data.ODLN[0].U_INT_Clean="YES";
-		    $scope.data.ODLN[0].U_INT_Dry="YES";
-		    $scope.data.ODLN[0].U_INT_Pitt="NO";
-		    $scope.data.ODLN[0].U_INT_Disc="NO";
+		    $scope.data.ODLN[0].U_INT_Free="FIT";
+		    $scope.data.ODLN[0].U_INT_Clean="FITTED";
+		    $scope.data.ODLN[0].U_INT_Dry="FITTED";
+		    $scope.data.ODLN[0].U_INT_Pitt="FITTED";
+		    $scope.data.ODLN[0].U_INT_Disc="FITTED";
 		   
         }
         else
@@ -929,11 +947,11 @@ $scope.SAselected = true;
 		    $scope.data.ODLN[0].U_EX_Man="NO";
 		    $scope.data.ODLN[0].U_EX_Ser="NO";
 		    $scope.data.ODLN[0].U_EX_Car="NO";
-		    $scope.data.ODLN[0].U_INT_Free="NO";
-		    $scope.data.ODLN[0].U_INT_Clean="NO";
-		    $scope.data.ODLN[0].U_INT_Dry="NO";
-		    $scope.data.ODLN[0].U_INT_Pitt="NO";
-		    $scope.data.ODLN[0].U_INT_Disc="NO";
+		    $scope.data.ODLN[0].U_INT_Free="NOT FITTED";
+		    $scope.data.ODLN[0].U_INT_Clean="NOT FITTED";
+		    $scope.data.ODLN[0].U_INT_Dry="NOT FITTED";
+		    $scope.data.ODLN[0].U_INT_Pitt="NOT FITTED";
+		    $scope.data.ODLN[0].U_INT_Disc="NOT FITTED";
 
         }
     }
@@ -1159,7 +1177,7 @@ $scope.SAselected = true;
         }
 
         var parms = encodeURIComponent(JSON.stringify($scope.data));
-        $http.post(US.url+"Cleaning1_SurveyTyepUpdate", "value=" + parms, config)
+        $http.post(US.url+"Cleaning1_NewFormat_SurveyTyepUpdate", "value=" + parms, config)
    .then(
        function (response) {
            // success callback

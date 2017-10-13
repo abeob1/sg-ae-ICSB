@@ -725,7 +725,7 @@ function ($scope, $rootScope, $http, $window, $cookies, US, SOS, hotkeys, $locat
                 "U_City": "",
                 "U_Loc": "",
                 "Comments": "",
-                "Project":""
+                "Project": ""
             }],
             "SQTOGEN": [],
             "SQTOADD": [],
@@ -1012,6 +1012,11 @@ function ($scope, $rootScope, $http, $window, $cookies, US, SOS, hotkeys, $locat
 
     }
 
+    $rootScope.OpenNewFormat = function () {
+        $cookies.put('AOS_data', JSON.stringify($scope.data));
+        window.location = "CC_Survey1_NewFormat.aspx?AOS=true";
+    }
+
     $rootScope.gotoSurveyFromByLink = function (sno) {
         SOS.gotoSurveyFromByLink(sno).then(function (response) {
             response.data.ODLN[0].U_OrderNo = $scope.data.ORDR[0].U_OrderNo;
@@ -1024,11 +1029,26 @@ function ($scope, $rootScope, $http, $window, $cookies, US, SOS, hotkeys, $locat
                 $cookies.put('AOS_data', JSON.stringify(response.data));
                 window.location = "On_Hire_Survey.aspx?AOSUpdate=true&sn=" + sno;
             }
+//            if (response.data.ODLN[0].U_FormName == "CS1") {
+//                $cookies.put('AOS_data', JSON.stringify(response.data));
+//                console.log(response.data);
+//                window.location = "CC_Survey1.aspx?AOSUpdate=true&sn=" + sno;
+//                        }
+
             if (response.data.ODLN[0].U_FormName == "CS1") {
-                $cookies.put('AOS_data', JSON.stringify(response.data));
-                console.log(response.data);
-                window.location = "CC_Survey1.aspx?AOSUpdate=true&sn=" + sno;
-            }
+                SOS.getFormat(sno).then(function (response) {
+                    if (response.data.ODLN[0].FormatNo == "1") {
+                       $cookies.put('AOS_data', JSON.stringify(response.data));
+                       console.log(response.data);
+                       window.location = "CC_Survey1.aspx?AOSUpdate=true&sn=" + sno;
+                    }
+                    if (response.data.ODLN[0].FormatNo == "2") {
+                       $cookies.put('AOS_data', JSON.stringify(response.data));
+                       console.log(response.data);
+                       window.location = "CC_Survey1_NewFormat.aspx?AOSUpdate=true&sn=" + sno;
+                    }
+            });
+        }
             if (response.data.ODLN[0].U_FormName == "OFFHS") {
                 $cookies.put('AOS_data', JSON.stringify(response.data));
                 window.location = "Off_Hire_In_Service_Survey.aspx?AOSUpdate=true&sn=" + sno;

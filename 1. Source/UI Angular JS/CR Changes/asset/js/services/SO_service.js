@@ -9,7 +9,7 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
 
     //get all Equipment Type
     this.getetype = function () {
-       
+
         var parms = "";
         var promise = $http.post(this.url + "Equipment_Type_Master", "value=" + parms, this.config)
    .success(function (response) {
@@ -27,7 +27,7 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
 
     //get all Survey_Criteria_Master
     this.getSurveyCriteria = function () {
-       
+
         var parms = "";
         var promise = $http.post(this.url + "Survey_Criteria_Master", "value=" + parms, this.config)
    .success(function (response) {
@@ -42,15 +42,15 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
 
     };
 
-    
-     //get all surveyor ID
+
+    //get all surveyor ID
     this.getSurveyorIDMaster = function () {
 
         var data = {
-	"SUID": [{
-		"uid": username
-	}]
-};
+            "SUID": [{
+                "uid": username
+            }]
+        };
         var parms = encodeURIComponent(JSON.stringify(data));
         var promise = $http.post(this.url + "SurveyorIDMaster_full", "value=" + "", this.config)
    .success(function (response) {
@@ -68,7 +68,7 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
     //Find form name by link
     this.gotoSurveyFromByLink = function (val) {
 
-        var data = {  "ODLN": [{  "U_SurvyNo": val }] }
+        var data = { "ODLN": [{ "U_SurvyNo": val}] }
         var parms = encodeURIComponent(JSON.stringify(data));
         var promise = $http.post(this.url + "SurveyTyep_Find", "value=" + parms, this.config)
    .success(function (response) {
@@ -83,15 +83,31 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
 
     };
 
+    this.getFormat = function (val) {
 
-     //get surveyor ID by username
+        var data = { "ODLN": [{ "U_SurvyNo": val}] }
+        var parms = encodeURIComponent(JSON.stringify(data));
+        var promise = $http.post(this.url + "GetSurveyFormat", "value=" + parms, this.config)
+            .success(function (response) {
+                if (response.returnStatus == 1) {
+                    return response;
+                }
+                else {
+                    return false;
+                }
+            });
+        return promise;
+    };
+
+
+    //get surveyor ID by username
     this.getsurveyorID = function (username) {
 
         var data = {
-	"SUID": [{
-		"uid": username
-	}]
-};
+            "SUID": [{
+                "uid": username
+            }]
+        };
         var parms = encodeURIComponent(JSON.stringify(data));
         var promise = $http.post(this.url + "SurveyorIDMaster", "value=" + parms, this.config)
    .success(function (response) {
@@ -111,13 +127,13 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
 
 
     //get all customer
-    this.getcustomer = function (code, name,uid) {
+    this.getcustomer = function (code, name, uid) {
 
         var data = {
             "OCRD": [{
                 "U_Ccode": code,
                 "U_Cname": name,
-                "uid":uid
+                "uid": uid
             }]
         };
         var parms = encodeURIComponent(JSON.stringify(data));
@@ -134,9 +150,11 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
 
     };
 
-    this.PreviousRecord = function (val,userId) {
+
+
+    this.PreviousRecord = function (val, userId) {
         var rdata = [];
-        var data = {  "ORDR": [{ "U_UCode": userId,"U_OrderNo":val }]};
+        var data = { "ORDR": [{ "U_UCode": userId, "U_OrderNo": val}] };
 
         var parms = encodeURIComponent(JSON.stringify(data));
         var promise = $http.post(this.url + "SalesOrder_PreviousRecord", "value=" + parms, this.config)
@@ -152,10 +170,10 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
     };
 
 
-    this.NextRecord = function (val,userId) {
-      
+    this.NextRecord = function (val, userId) {
+
         var rdata = [];
-        var data = {  "ORDR": [{ "U_UCode": userId,"U_OrderNo":val }]};
+        var data = { "ORDR": [{ "U_UCode": userId, "U_OrderNo": val}] };
 
         var parms = encodeURIComponent(JSON.stringify(data));
         var promise = $http.post(this.url + "SalesOrder_NextRecord", "value=" + parms, this.config)
@@ -174,7 +192,7 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
     this.LastRecord = function (val) {
 
         var rdata = [];
-        var data = {  "ORDR": [{"U_UCode": val }] };
+        var data = { "ORDR": [{ "U_UCode": val}] };
 
         var parms = encodeURIComponent(JSON.stringify(data));
         var promise = $http.post(this.url + "SalesOrder_LastRecord", "value=" + parms, this.config)
@@ -191,10 +209,10 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
 
 
 
-    this.SalesOrder_Find = function (sn,UN) {
+    this.SalesOrder_Find = function (sn, UN) {
 
         var rdata = [];
-        var data = {"ORDR": [{"U_UCode": UN,"U_OrderNo": sn}]}
+        var data = { "ORDR": [{ "U_UCode": UN, "U_OrderNo": sn}] }
 
         var parms = encodeURIComponent(JSON.stringify(data));
         var promise = $http.post(this.url + "SalesOrder_Find", "value=" + parms, this.config)
@@ -212,7 +230,7 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
     this.FirstRecord = function (val) {
 
         var rdata = [];
-        var data = {  "ORDR": [{"U_UCode": val }] };
+        var data = { "ORDR": [{ "U_UCode": val}] };
 
         var parms = encodeURIComponent(JSON.stringify(data));
         var promise = $http.post(this.url + "SalesOrder_FirstRecord", "value=" + parms, this.config)
@@ -227,10 +245,10 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
         return promise;
     };
 
-    this.FindMultiRecord = function (s,uid) {
+    this.FindMultiRecord = function (s, uid) {
 
         var rdata = [];
-        var data = { "ORDR":[s] };
+        var data = { "ORDR": [s] };
         //var data = {"ORDR":[{"U_UCode":uid,"U_OrderNo":parseInt(s.U_Qno)}]};
 
 
@@ -254,7 +272,7 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
 
         var rdata = [];
         var data = { "SQTO": [{ "U_Qno": val}] };
-       
+
 
         var parms = encodeURIComponent(JSON.stringify(data));
         var promise = $http.post(this.url + "SalesQuotation_FindRecord", "value=" + parms, this.config)
@@ -274,11 +292,11 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
 
     // SQ approval
 
-   this.aproval = function (val) {
+    this.aproval = function (val) {
 
         var rdata = [];
-        var data = { "APPROVAL": [{ "U_Qno": val}] };      
-       
+        var data = { "APPROVAL": [{ "U_Qno": val}] };
+
 
         var parms = encodeURIComponent(JSON.stringify(data));
         var promise = $http.post(this.url + "Sales_Quotation_Approval_Submit", "value=" + parms, this.config)
@@ -294,13 +312,13 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
     };
 
 
-      // checksurveychecksurvey 
+    // checksurveychecksurvey 
 
-   this.checksurvey = function (val) {
+    this.checksurvey = function (val) {
 
         var rdata = [];
-        var data = {  "ORDR": [{  "U_OrderNo": val }] };      
-       
+        var data = { "ORDR": [{ "U_OrderNo": val}] };
+
 
         var parms = encodeURIComponent(JSON.stringify(data));
         var promise = $http.post(this.url + "SalesOrder_SurveyDetails", "value=" + parms, this.config)
@@ -319,11 +337,11 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
 
     // SQA approval by approver
 
-   this.approver = function (code,status,remark,uname) {
+    this.approver = function (code, status, remark, uname) {
 
         var rdata = [];
-        var data = {"APPROVAL": [{"U_Qno": code ,"U_Status": status ,"U_Remarks": remark,"U_Uname": uname}]}
-       
+        var data = { "APPROVAL": [{ "U_Qno": code, "U_Status": status, "U_Remarks": remark, "U_Uname": uname}] }
+
 
         var parms = encodeURIComponent(JSON.stringify(data));
         var promise = $http.post(this.url + "Sales_Quotation_Approver_Submit", "value=" + parms, this.config)
@@ -338,7 +356,7 @@ App.service('SO_SERVICE', ['$http', 'util_SERVICE', function ($http, US) {
         return promise;
     };
 
-     
+
 
     this.updateUserRol = function (s, userid) {
         var rdata = [];
