@@ -1,0 +1,46 @@
+Create procedure "AB_SP_WEB_CleaningCertificate_NewFormat" (in DocKey INTEGER) as 
+begin 
+
+SELECT T10."CompnyName",T10."Phone1", T10."Fax", T10."FreeZoneNo", T10."TaxIdNum",T10."PrintHeadr",
+T10."CompnyAddr", T10."Street",T10."Block", T10."Name", T10."ZipCode",T10."LogoImage",T10."IntrntAdrs",
+T10."BitmapPath",B."Picture",B."U_Stamp",D."U_Sig",IFNULL(E."Street",'') AS "SuvExAgentStreet",
+IFNULL(E."Block",'') AS "SuvExAgentBlock",IFNULL(E."City",'') AS "SuvExAgentCity",IFNULL(E."County",'') AS "SuvExAgentCounty",
+T0."DocEntry",--T0."DocNum",
+IFNULL(T3."U_CCode",'') || TO_CHAR(T0."DocNum") || '/' || IFNULL(TO_CHAR(T1."BaseEntry"),'') AS "DocNum",
+T0."DocStatus",T0."DocDate",T0."CardCode",T0."CardName",T8."U_SName" As "U_SurveyorID",T0."U_SurveyorID" As "U_SurveyorCode",
+T0."NumAtCard",T1."Dscription",T3."U_CName",T4."U_CName",T9."U_LName" "U_Loc",T0."U_SuvExAgent",T0."U_EqNo",
+T6."U_EQTYPENAME",T7."U_SURCRTANAME",T0."U_SResult",T0."U_NoPh",T0."U_CSCNum",T0."U_CSC",T0."U_DOM",T0."U_MGW",
+T0."U_PayLoad",T0."U_Tare",T0."U_Capacity",T0."U_EX_Fram",T0."U_EX_Man",T0."U_EX_Ser",T0."U_EX_Car",
+T0."U_IMO",T0."U_INT_Free",T0."U_INT_Clean",T0."U_INT_Dry",T0."U_INT_Pitt",T0."U_INT_Disc",
+T0."U_INT_Cleanliness",T0."U_INT_Rust",T0."U_INT_Deposits",T0."U_INT_DamagedCoating",T0."U_INT_GasketMainHole",
+T0."U_INT_OilDirtFree",T0."U_INT_SteamCoil",T0."U_INT_Steam_Cleaned",T0."U_INT_GasktDschrgval",T0."U_VAL_Val",
+T0."U_VAL_Bott",T0."U_VAL_Man",T0."U_VAL_Syp",T0."U_VAL_Tank",T0."U_VAL_Avail",T0."U_VAL_Steam",T0."U_VAL_Gas",
+T0."U_SEAL_MAN",T0."U_SEAL_AIR",T0."U_SEAL_BOTT",T0."U_SEAL_LAST",T0."U_SEAL_NEXT",T0."U_AgentDocCode",
+T0."U_VAL_SPIL" AS "U_VAL_SPIL" , T0."Comments"
+	 --T1."U_EQType",--	 T0."U_City",--T0."U_Country",
+	 --T1."U_SCriteria",
+FROM "ODLN" T0 
+INNER JOIN "DLN1" T1 ON T0."DocEntry" = T1."DocEntry" 
+Left Join "@COUNTRY" T3 on T3."U_CCode"= T0."U_Country" 
+Left Join "@CITY" T4 on T4."U_CCode"=T0."U_City"
+left join "@EQTYPE"  T6 on T6."U_EQTYPECODE"=T1."U_EQType"
+left join "@SUCRITERIA"  T7 on T7."U_SURCRTACODE"=T1."U_SCriteria"
+left Join "@SURVEYORIDL"  T8 on T8."U_SCode" =T0."U_SurveyorID"
+left Join "@LOCATION" T9 on T9."U_LCode"=T0."U_Loc"
+join(
+ select T0."CompnyName",T0."Phone1", T0."Fax", T0."FreeZoneNo", T0."TaxIdNum",T0."PrintHeadr",T1."ZipCode",
+  T0."CompnyAddr",T1."Block",T1."Street",T3."LogoImage",T1."IntrntAdrs",
+  T2."Name",T3."BitmapPath"
+ from "OADM" T0 
+ join "ADM1" T1  on 1=1
+ join "OADP" T3  on 1=1
+ join "OCRY" T2 on T2."Code"=T1."Country"
+
+) T10 on 1=1 
+LEFT JOIN "OCRD" B ON B."CardName" = T0."U_SuvExAgent"
+LEFT JOIN "@SURVEYORID" C ON C."Code" = B."CardCode" AND C."Name" = B."CardName"
+LEFT JOIN "@SURVEYORIDL" D ON D."Code" = C."Code" AND D."U_SCode" = T0."U_SurveyorID"
+LEFT JOIN "CRD1" E ON E."CardCode" = B."CardCode"
+WHERE T0."DocEntry" = :DocKey  ;
+
+End ;
