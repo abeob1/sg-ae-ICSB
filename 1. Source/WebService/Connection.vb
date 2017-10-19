@@ -17,6 +17,7 @@ Public Class Connection
             Dim sErrMsg As String = ""
             strConnect = "SAPConnect"
             sCon = System.Configuration.ConfigurationSettings.AppSettings.Get(strConnect)
+
             MyArr = sCon.Split(";")
             sCon = "server= " + MyArr(1).ToString() + ";database=" + MyArr(0).ToString() + " ;uid=" + MyArr(2).ToString() + "; pwd=" + MyArr(3).ToString() + ";"
             sConnSAP = New SqlConnection(sCon)

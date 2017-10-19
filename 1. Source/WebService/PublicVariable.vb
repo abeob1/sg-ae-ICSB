@@ -11,6 +11,7 @@
     Public Shared sSAPUserID As String = ""
     Public Shared sSAPPwd As String = ""
     Public Shared LogPath As String = "E:\Abeo\ICSB\Gopi"
+    Public Shared sTempfilePath As String = ""
 
     Public Shared DEBUG_ON As Int16 = 1
     Public Shared ERROR_ON As Int16 = 1

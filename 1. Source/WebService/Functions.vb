@@ -194,9 +194,12 @@ Public Class Functions
             Dim strConnect As String = ""
             Dim sCon As String = ""
             Dim MyArr As Array
+            Dim sConTempFilePath As String = ""
 
             strConnect = "LogPath"
             sCon = System.Configuration.ConfigurationSettings.AppSettings.Get(strConnect)
+            sConTempFilePath = System.Configuration.ConfigurationSettings.AppSettings.Get("TempFilePath")
+
             MyArr = sCon.Split(";")
             PublicVariable.LogPath = MyArr(0).ToString()
 
@@ -211,6 +214,7 @@ Public Class Functions
             PublicVariable.sSAPLicenseManager = MyArr(6).ToString()
             PublicVariable.sSAPUserID = MyArr(1).ToString()
             PublicVariable.sSAPPwd = MyArr(2).ToString()
+            PublicVariable.sTempfilePath = sConTempFilePath
 
             If p_iDebugMode = DEBUG_ON Then Call modLog.WriteToLogFile_Debug("Completed with SUCCESS", sFuncName)
             GetSystemIntializeInfo = PublicVariable.RTN_SUCCESS

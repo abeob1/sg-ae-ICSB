@@ -2,6 +2,7 @@
 Imports System.Web.Services.Protocols
 Imports System.ComponentModel
 Imports System.Web.Script.Services
+Imports System.IO
 'Gopi
 ' To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line.
 ' <System.Web.Script.Services.ScriptService()> _
@@ -285,7 +286,7 @@ Public Class ICSB
             Dim Str As String = "SELECT 'C' as ""U_Ctype"",T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", " & _
                                 " T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" " & _
                                 " FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' " & _
-                                " and  UPPER(T0.""CardCode"")  like '" & Code.ToUpper() & "' and UPPER(T0.""CardName"") like '" & Name.ToUpper() & "' order by ""U_Cname"""
+                                " and  UPPER(T0.""CardCode"")  like '" & Code.ToUpper() & "' and UPPER(T0.""CardName"") like '" & Name.Replace("'", "''").ToUpper() & "' order by ""U_Cname"""
 
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
@@ -298,7 +299,8 @@ Public Class ICSB
                 RetDT.TableName = "OCRD"
                 RetDT1 = RetDT.Copy
                 RetDS.Tables.Add(RetDT1)
-                Str = "SELECT T0.""CardCode"" as ""U_Ccode"", T0.""Address"" ""U_AddrN"", T0.""Street"" ""U_Addr1"", T0.""Block"" ""U_Addr2"", T0.""City"" ""U_Addr3"", T0.""County"" ""U_Addr4"", T0.""StreetNo"" ""U_Addr5"", T0.""GlblLocNum"" ""U_Addr6"" FROM CRD1 T0  INNER JOIN OCRD T1 ON T0.""CardCode"" = T1.""CardCode"" WHERE T0.""AdresType"" ='B' and T1.""CardType"" ='C' and  T1.""CardCode""  like '" & Code & "' and  T1.""CardName"" like '" & Name & "'"
+                Str = "SELECT T0.""CardCode"" as ""U_Ccode"", T0.""Address"" ""U_AddrN"", T0.""Street"" ""U_Addr1"", T0.""Block"" ""U_Addr2"", T0.""City"" ""U_Addr3"", T0.""County"" ""U_Addr4"", T0.""StreetNo"" ""U_Addr5"", T0.""GlblLocNum"" ""U_Addr6"" FROM CRD1 T0  INNER JOIN OCRD T1 ON T0.""CardCode"" = T1.""CardCode"" " & _
+                      " WHERE T0.""AdresType"" ='B' and T1.""CardType"" ='C' and  UPPER(T1.""CardCode"")  like '" & Code.ToUpper() & "' and  UPPER(T1.""CardName"") like '" & Name.Replace("'", "''").ToUpper() & "'"
 
                 RetDT = New DataTable
                 RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
@@ -377,7 +379,8 @@ Public Class ICSB
                 RetDT.TableName = "OCRD"
                 RetDT1 = RetDT.Copy
                 RetDS.Tables.Add(RetDT1)
-                Str = "SELECT T0.""CardCode"" as ""U_Ccode"", T0.""Address"" ""U_AddrN"", T0.""Street"" ""U_Addr1"", T0.""Block"" ""U_Addr2"", T0.""City"" ""U_Addr3"", T0.""County"" ""U_Addr4"", T0.""StreetNo"" ""U_Addr5"", T0.""GlblLocNum"" ""U_Addr6"" FROM CRD1 T0  INNER JOIN OCRD T1 ON T0.""CardCode"" = T1.""CardCode"" WHERE T0.""AdresType"" ='B' and T1.""CardType"" ='C' and  T1.""CardCode""  like '" & Code & "' and  T1.""CardName"" like '" & Name & "'"
+                Str = "SELECT T0.""CardCode"" as ""U_Ccode"", T0.""Address"" ""U_AddrN"", T0.""Street"" ""U_Addr1"", T0.""Block"" ""U_Addr2"", T0.""City"" ""U_Addr3"", T0.""County"" ""U_Addr4"", T0.""StreetNo"" ""U_Addr5"", T0.""GlblLocNum"" ""U_Addr6"" FROM CRD1 T0  INNER JOIN OCRD T1 ON T0.""CardCode"" = T1.""CardCode"" " & _
+                      " WHERE T0.""AdresType"" ='B' and T1.""CardType"" ='C' and  UPPER(T1.""CardCode"")  like '" & Code.ToUpper() & "' and  UPPER(T1.""CardName"") like '" & Name.Replace("'", "''").ToUpper() & "'"
 
                 RetDT = New DataTable
                 RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
@@ -436,11 +439,11 @@ Public Class ICSB
             ''Dim Str As String = "SELECT T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "'"
             Dim Str As String
             Str = "SELECT 'L' as ""U_Ctype"",T0.""Code"" As ""U_Ccode"", T0.""Name"" as ""U_Cname"", T0.""U_TelNo"" as ""U_TelNo"", T0.""U_FaxNo"" as ""U_FaxNo"", " & _
-                  " T0.""U_MNo"" as ""U_Mno"", T0.""U_Email"" as ""U_Email"" FROM ""@LEADM""  T0 WHERE T0.""Code"" like '" & Code & "' and  T0.""Name"" like '" & Name & "' " & _
+                  " T0.""U_MNo"" as ""U_Mno"", T0.""U_Email"" as ""U_Email"" FROM ""@LEADM""  T0 WHERE UPPER(T0.""Code"") like '" & Code.ToUpper() & "' and  UPPER(T0.""Name"") like '" & Name.ToUpper() & "' " & _
                   " UNION ALL " & _
                   " SELECT 'C' as ""U_Ctype"",T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", " & _
                   " T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' " & _
-                  " and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "' order by ""U_Cname""  "
+                  " and  UPPER(T0.""CardCode"")  like '" & Code.ToUpper() & "' and UPPER(T0.""CardName"") like '" & Name.ToUpper() & "' order by ""U_Cname""  "
 
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
@@ -453,7 +456,8 @@ Public Class ICSB
                 RetDT.TableName = "OCRD"
                 RetDT1 = RetDT.Copy
                 RetDS.Tables.Add(RetDT1)
-                Str = "SELECT T0.""CardCode"" as ""U_Ccode"", T0.""Address"" ""U_AddrN"", T0.""Street"" ""U_Addr1"", T0.""Block"" ""U_Addr2"", T0.""City"" ""U_Addr3"", T0.""County"" ""U_Addr4"", T0.""StreetNo"" ""U_Addr5"", T0.""GlblLocNum"" ""U_Addr6"" FROM CRD1 T0  INNER JOIN OCRD T1 ON T0.""CardCode"" = T1.""CardCode"" WHERE T0.""AdresType"" ='B' and T1.""CardType"" ='C' and  T1.""CardCode""  like '" & Code & "' and  T1.""CardName"" like '" & Name & "' Union All SELECT T0.""Code"" as ""U_Ccode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"" FROM ""@LEADM""  T0 where T0.""Code""  like '" & Code & "' and  T0.""Name"" like '" & Name & "'"
+                Str = "SELECT T0.""CardCode"" as ""U_Ccode"", T0.""Address"" ""U_AddrN"", T0.""Street"" ""U_Addr1"", T0.""Block"" ""U_Addr2"", T0.""City"" ""U_Addr3"", T0.""County"" ""U_Addr4"", T0.""StreetNo"" ""U_Addr5"", T0.""GlblLocNum"" ""U_Addr6"" FROM CRD1 T0  INNER JOIN OCRD T1 ON T0.""CardCode"" = T1.""CardCode"" WHERE T0.""AdresType"" ='B' and T1.""CardType"" ='C' and  T1.""CardCode""  like '" & Code & "' and  T1.""CardName"" like '" & Name & "' Union All SELECT T0.""Code"" as ""U_Ccode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"" " & _
+                      " FROM ""@LEADM""  T0 where UPPER(T0.""Code"")  like '" & Code.ToUpper() & "' and  UPPER(T0.""Name"") like '" & Name.ToUpper() & "'"
 
                 RetDT = New DataTable
                 RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
@@ -3918,8 +3922,8 @@ Public Class ICSB
                             " T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", " & _
                             " T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" " & _
                             " FROM ""@CCON"" T0 " & _
-                            " where T0.""U_Ccode"" like '" & CardCode & "' " & _
-                            " and  T0.""U_Cdate"" like '" & CreateDate & "'  and  T0.""U_Cname"" like '" & CardName.Replace("'", "''") & "' " & _
+                            " where UPPER(T0.""U_Ccode"") like '" & CardCode.ToUpper() & "' " & _
+                            " and  T0.""U_Cdate"" like '" & CreateDate & "'  and  UPPER(T0.""U_Cname"") like '" & CardName.Replace("'", "''").ToUpper() & "' " & _
                             " and  T0.""U_Pcode"" like '" & ProjectCode & "'    ORDER BY T0.""DocEntry"" DESC"
 
                 Else
@@ -5336,10 +5340,12 @@ Public Class ICSB
         Try
 
             If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(value, sFunction)
+            If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(PublicVariable.sTempfilePath, sFunction)
             Dim SQTO As New DataTable
             SQTO = New DataTable
             Dim SQTOGEN As New DataTable
             Dim SQTOADD As New DataTable
+            Dim SOTOATTACH As New DataTable
             Dim SQTODS = New DataSet()
             Dim RetDS = New DataSet()
             Dim ds As DataSet = fn.jsontodata(value)
@@ -5392,6 +5398,33 @@ Public Class ICSB
                 City = dr.Item("U_City").ToString.Trim()
                 oSO.UserFields.Fields.Item("U_Loc").Value = dr.Item("U_Loc").ToString.Trim()
                 oSO.Comments = dr.Item("Comments").ToString.Trim
+
+                Dim oAttachEntry As Integer = 0
+                If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
+                    SOTOATTACH = ds.Tables("ATTACHMENT")
+                    For Each odr As DataRow In SOTOATTACH.Rows
+                        Dim oAttach As SAPbobsCOM.Attachments2
+                        oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
+
+                        Dim sSourcePath, sFileName, sFileExt As String
+                        sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
+                        sFileName = odr.Item("U_FileName").ToString.Trim()
+                        sFileExt = Path.GetExtension(sFileName)
+                        sFileExt = sFileExt.Replace(".", "")
+                        oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
+                        oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
+                        oAttach.Lines.FileExtension = sFileExt
+                        oAttach.Lines.Add()
+
+                        If oAttach.Add() = 0 Then
+                            oAttachEntry = PublicVariable.oCompany.GetNewObjectKey()
+                        Else
+                            Throw New Exception("Error while adding attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
+                        End If
+                    Next
+                End If
+                oSO.AttachmentEntry = oAttachEntry
+
                 If ds.Tables("SQTOGEN").Rows.Count > 0 Then
                     SQTOGEN = ds.Tables("SQTOGEN")
                     For Each dr1 As DataRow In SQTOGEN.Rows
@@ -5419,10 +5452,14 @@ Public Class ICSB
                         Dim dtPrice As DataTable
                         If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Executing Query " & SQLStr, sFunction)
                         dtPrice = fn.ExecuteSQLQuery(SQLStr, Errmsg)
-                        Dim oDr As DataRow = dtPrice.Rows(0)
-                        Rt = oDr.Item("U_Rate").ToString.Trim()
                         Dim sCurrency As String = String.Empty
-                        sCurrency = oDr.Item("U_Currency").ToString.Trim()
+                        Try
+                            Dim oDr As DataRow = dtPrice.Rows(0)
+                            Rt = oDr.Item("U_Rate").ToString.Trim()
+                            sCurrency = oDr.Item("U_Currency").ToString.Trim()
+                        Catch ex As Exception
+                            Throw New Exception("Cannot determine price/Contract not found")
+                        End Try
                         oSO.Lines.UnitPrice = CDec(Rt)
                         oSO.Lines.Currency = sCurrency
                         oSO.Lines.Add()
@@ -5469,6 +5506,7 @@ Public Class ICSB
             SQTO = New DataTable
             Dim SQTOGEN As New DataTable
             Dim SQTOADD As New DataTable
+            Dim SOTOATTACH As New DataTable
             Dim SQTODS = New DataSet()
             Dim RetDS = New DataSet()
             Dim ds As DataSet = fn.jsontodata(value)
@@ -5525,6 +5563,41 @@ Public Class ICSB
                 oSO.UserFields.Fields.Item("U_UpdatedBy_UserCode").Value = dr.Item("U_UCode").ToString.Trim()
                 oSO.UserFields.Fields.Item("U_UpdateBy_UserName").Value = dr.Item("U_UName").ToString.Trim()
                 oSO.Comments = dr.Item("Comments").ToString.Trim
+
+                'Dim oAttachEntry As Integer = 0
+                'Dim bAttchAdd As Boolean = False
+                'If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
+                '    SOTOATTACH = ds.Tables("ATTACHMENT")
+                '    For Each odr As DataRow In SOTOATTACH.Rows
+                '        Dim oAttach As SAPbobsCOM.Attachments2
+                '        oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
+
+                '        If oAttach.GetByKey(oSO.AttachmentEntry) Then
+                '            Dim sSourcePath, sFileName, sFileExt As String
+                '            sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
+                '            sFileName = odr.Item("U_FileName").ToString.Trim()
+                '            sFileExt = Path.GetExtension(sFileName)
+                '            sFileExt = sFileExt.Replace(".", "")
+                '            oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
+                '            oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
+                '            oAttach.Lines.FileExtension = sFileExt
+                '            oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
+                '            oAttach.Lines.Add()
+                '            bAttchAdd = True
+                '        End If
+
+                '        If bAttchAdd = True Then
+                '            bAttchAdd = False
+                '            If oAttach.Update() = 0 Then
+                '                If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Attachment updated successfully", sFunction)
+                '            Else
+                '                Throw New Exception("Error while updating attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
+                '            End If
+                '        End If
+                '    Next
+                'End If
+                ''oSO.AttachmentEntry = oAttachEntry
+
                 If ds.Tables("SQTOGEN").Rows.Count > 0 Then
                     SQTOGEN = ds.Tables("SQTOGEN")
                     For Each dr1 As DataRow In SQTOGEN.Rows
@@ -5623,7 +5696,7 @@ Public Class ICSB
                     Throw New Exception("No Record Found!")
                 End If
                 Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
-                        " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
+                        " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""U_IMO"", " & _
                         " T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", " & _
                         " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                         " FROM ""ORDR"" T0 " & _
@@ -5632,7 +5705,7 @@ Public Class ICSB
                         " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" ASC"
             ElseIf DType = "By Country" Then
                 Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
-                         " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
+                         " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""U_IMO"", " & _
                          " T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", " & _
                          " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                          " FROM ORDR T0 " & _
@@ -5676,6 +5749,19 @@ Public Class ICSB
                 RetDT.TableName = "SQTOGEN"
                 RetDT2 = RetDT.Copy
                 RetDS.Tables.Add(RetDT2)
+
+                RetDT = New DataTable
+                Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                        " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                If ErrMsg <> "" Then
+                    Throw New Exception(ErrMsg)
+                End If
+                RetDT.TableName = "ATTACHMENT"
+                RetDT3 = RetDT.Copy
+                RetDS.Tables.Add(RetDT3)
 
                 Context.Response.Output.Write(fn.ds2json(RetDS))
             Else
@@ -5738,7 +5824,7 @@ Public Class ICSB
                     Throw New Exception("No Record Found!")
                 End If
                 Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
-                        " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  " & _
+                        " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""U_IMO"",  " & _
                         " T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
                         " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft""  " & _
                         " FROM ORDR T0 " & _
@@ -5747,7 +5833,7 @@ Public Class ICSB
                         " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" DESC"
             ElseIf DType = "By Country" Then
                 Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
-                         " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  " & _
+                         " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""U_IMO"",  " & _
                          " T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"",  T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"", " & _
                          " T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                          " FROM ORDR T0  " & _
@@ -5791,6 +5877,19 @@ Public Class ICSB
                 RetDT.TableName = "SQTOGEN"
                 RetDT2 = RetDT.Copy
                 RetDS.Tables.Add(RetDT2)
+
+                RetDT = New DataTable
+                Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                        " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                If ErrMsg <> "" Then
+                    Throw New Exception(ErrMsg)
+                End If
+                RetDT.TableName = "ATTACHMENT"
+                RetDT3 = RetDT.Copy
+                RetDS.Tables.Add(RetDT3)
 
                 Context.Response.Output.Write(fn.ds2json(RetDS))
             Else
@@ -5849,7 +5948,7 @@ Public Class ICSB
                     If DocNum = "" Then
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR(T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
-                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
+                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"",T0.""U_IMO"", " & _
                                 " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                                 " FROM ORDR T0 " & _
                                 " INNER JOIN RDR1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
@@ -5857,7 +5956,7 @@ Public Class ICSB
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" ASC"
                     Else
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
-                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""U_IMO"",T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
                                 " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                                 " FROM ORDR T0 " & _
@@ -5877,7 +5976,7 @@ Public Class ICSB
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
 
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
-                                " TO_CHAR(T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                                " TO_CHAR(T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"",T0.""U_IMO"", T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
                                 " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                                 " FROM ORDR T0 " & _
@@ -5894,7 +5993,7 @@ Public Class ICSB
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
                         
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
-                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""U_IMO"", T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
                                 " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                                 " FROM ORDR T0 " & _
@@ -5913,6 +6012,7 @@ Public Class ICSB
                 Dim RetDT As New DataTable
                 Dim RetDT1 As New DataTable
                 Dim RetDT2 As New DataTable
+                Dim RetDT3 As New DataTable
                 Dim RetDS As New DataSet
                 Dim ErrMsg As String
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -5939,10 +6039,24 @@ Public Class ICSB
                     RetDT.TableName = "SQTOGEN"
                     RetDT2 = RetDT.Copy
                     RetDS.Tables.Add(RetDT2)
+
+                    RetDT = New DataTable
+                    Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                            " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                            " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                            " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                    RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                    If ErrMsg <> "" Then
+                        Throw New Exception(ErrMsg)
+                    End If
+                    RetDT.TableName = "ATTACHMENT"
+                    RetDT3 = RetDT.Copy
+                    RetDS.Tables.Add(RetDT3)
+
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
                     Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
-                            " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                            " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", T0.""U_IMO"", T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                             " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
                             " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                             " FROM ORDR T0 " & _
@@ -5975,6 +6089,18 @@ Public Class ICSB
                         RetDT2 = RetDT.Copy
                         RetDS.Tables.Add(RetDT2)
 
+                        RetDT = New DataTable
+                        Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                                " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                                " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                                " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                        RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                        If ErrMsg <> "" Then
+                            Throw New Exception(ErrMsg)
+                        End If
+                        RetDT.TableName = "ATTACHMENT"
+                        RetDT3 = RetDT.Copy
+                        RetDS.Tables.Add(RetDT3)
 
                         Context.Response.Output.Write(fn.ds2json(RetDS))
 
@@ -6039,7 +6165,7 @@ Public Class ICSB
                     If DocNum = "" Then
                        
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
-                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", T0.""U_IMO"", T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
                                 " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                                 " FROM ORDR T0 " & _
@@ -6048,7 +6174,7 @@ Public Class ICSB
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" DESC"
                     Else
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
-                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", T0.""U_IMO"", T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
                                 " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                                 " FROM ORDR T0 " & _
@@ -6068,7 +6194,7 @@ Public Class ICSB
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" DESC"
                         
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
-                               " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                               " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", T0.""U_IMO"", T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
                                " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                                " FROM ORDR T0 " & _
@@ -6085,7 +6211,7 @@ Public Class ICSB
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
                         
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
-                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", T0.""U_IMO"", T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
                                 " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                                 " FROM ORDR T0 " & _
@@ -6104,6 +6230,7 @@ Public Class ICSB
                 Dim RetDT As New DataTable
                 Dim RetDT1 As New DataTable
                 Dim RetDT2 As New DataTable
+                Dim RetDT3 As New DataTable
                 Dim RetDS As New DataSet
                 Dim ErrMsg As String = ""
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -6130,11 +6257,25 @@ Public Class ICSB
                     RetDT.TableName = "SQTOGEN"
                     RetDT2 = RetDT.Copy
                     RetDS.Tables.Add(RetDT2)
+
+                    RetDT = New DataTable
+                    Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                            " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                            " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                            " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                    RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                    If ErrMsg <> "" Then
+                        Throw New Exception(ErrMsg)
+                    End If
+                    RetDT.TableName = "ATTACHMENT"
+                    RetDT3 = RetDT.Copy
+                    RetDS.Tables.Add(RetDT3)
+
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
                     
                     Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
-                            " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",  T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
+                            " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", T0.""U_IMO"", T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                             " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
                             " T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                             " FROM ORDR T0 " & _
@@ -6165,6 +6306,18 @@ Public Class ICSB
                         RetDT2 = RetDT.Copy
                         RetDS.Tables.Add(RetDT2)
 
+                        RetDT = New DataTable
+                        Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                                " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                                " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                                " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                        RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                        If ErrMsg <> "" Then
+                            Throw New Exception(ErrMsg)
+                        End If
+                        RetDT.TableName = "ATTACHMENT"
+                        RetDT3 = RetDT.Copy
+                        RetDS.Tables.Add(RetDT3)
 
                         Context.Response.Output.Write(fn.ds2json(RetDS))
 
@@ -6295,6 +6448,7 @@ Public Class ICSB
                 Dim RetDT As New DataTable
                 Dim RetDT1 As New DataTable
                 Dim RetDT2 As New DataTable
+                Dim RetDT3 As New DataTable
                 Dim RetDS As New DataSet
                 Dim ErrMsg As String
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -6320,6 +6474,20 @@ Public Class ICSB
                     RetDT.TableName = "SQTOGEN"
                     RetDT2 = RetDT.Copy
                     RetDS.Tables.Add(RetDT2)
+
+                    RetDT = New DataTable
+                    Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                            " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                            " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                            " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                    RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                    If ErrMsg <> "" Then
+                        Throw New Exception(ErrMsg)
+                    End If
+                    RetDT.TableName = "ATTACHMENT"
+                    RetDT3 = RetDT.Copy
+                    RetDS.Tables.Add(RetDT3)
+
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
                     Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"", T0.""DocStatus"" as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", " & _
@@ -6354,6 +6522,18 @@ Public Class ICSB
                         RetDT2 = RetDT.Copy
                         RetDS.Tables.Add(RetDT2)
 
+                        RetDT = New DataTable
+                        Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                                " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                                " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                                " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                        RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                        If ErrMsg <> "" Then
+                            Throw New Exception(ErrMsg)
+                        End If
+                        RetDT.TableName = "ATTACHMENT"
+                        RetDT3 = RetDT.Copy
+                        RetDS.Tables.Add(RetDT3)
 
                         Context.Response.Output.Write(fn.ds2json(RetDS))
 
@@ -8590,7 +8770,7 @@ Public Class ICSB
                 '      " WHERE T1.""BaseType"" =17 and  T1.""BaseEntry"" ='" & DocEntry & "' ORDER BY T0.""DocEntry"" "
                 Str = "SELECT T0.""DocEntry"" AS ""Survey_No"",T0.""DocNum"",T0.""U_EqNo"" AS ""Container_Num"", T0.""U_SResult"" As ""Survey_Result"" ,T0.""U_UName"" As ""User_Name"", " & _
                       " CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"",IFNULL(T0.""U_FORMAT"",1) AS ""FormatNo"", " & _
-                      " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') ""Survey_Date"", T0.""CardCode"" as ""Customer_Code"", T0.""CardName"" as ""Customer_Name"", " & _
+                      " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') ""Survey_Date"", T0.""CardCode"" as ""Customer_Code"", T0.""CardName"" as ""Customer_Name"",T0.""U_IMO"", " & _
                       " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
                       " FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
                       " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
