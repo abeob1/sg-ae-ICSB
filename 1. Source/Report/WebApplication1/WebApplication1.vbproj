@@ -581,6 +581,7 @@
     <Content Include="asset\js\validator.min.js" />
     <Content Include="asset\js\wow.min.js" />
     <Content Include="CleaningCertificateReport.aspx" />
+    <Content Include="CleaningCertificateReport_NewFormat.aspx" />
     <Content Include="Customer_Contract.aspx" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\Chart.js" />
@@ -673,6 +674,13 @@
       <DependentUpon>CleaningCertificateReport.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="CleaningCertificateReport_NewFormat.aspx.designer.vb">
+      <DependentUpon>CleaningCertificateReport_NewFormat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CleaningCertificateReport_NewFormat.aspx.vb">
+      <DependentUpon>CleaningCertificateReport_NewFormat.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Customer_Contract.aspx.designer.vb">
       <DependentUpon>Customer_Contract.aspx</DependentUpon>
     </Compile>
@@ -729,12 +737,6 @@
     <Compile Include="Report.aspx.vb">
       <DependentUpon>Report.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="Reports\SalesOrder.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SalesOrder.rpt</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\Web_Cleaning_Certificate.vb">
       <AutoGen>True</AutoGen>
