@@ -1,1 +1,12 @@
-SELECT T0.""DocEntry"" as U_SurvyNo, T0.""DocDate"", T0.""U_SurveyorID"",T1.""Dscription"" U_SurveyType, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""NumAtCard"" Cust_ref, T0.""U_SResult"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T0.""U_EqNo"" ='" & & "' ORDER BY T0.""DocDate"" desc
+﻿------ Build started: Project: SBOWebService, Configuration: Debug Any CPU ------
+  SBOWebService -> E:\SVN\ICSB\1. Source\WebService\bin\SBOWebService.dll
+------ Publish started: Project: SBOWebService, Configuration: Debug Any CPU ------
+Connecting to E:\PUBLISH\ICSB\WEB SERVICE...
+Transformed web.config using Web.Debug.config into obj\Debug\TransformWebConfig\transformed\web.config.
+Copying all files to temporary location below for package/publish:
+obj\Debug\Package\PackageTmp.
+Deleting existing files...
+Publishing folder /...
+Publishing folder bin...
+========== Build: 1 succeeded or up-to-date, 0 failed, 0 skipped ==========
+========== Publish: 1 succeeded, 0 failed, 0 skipped ==========

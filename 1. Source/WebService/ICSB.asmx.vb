@@ -1203,6 +1203,7 @@ Public Class ICSB
             SQTO = New DataTable
             Dim SQTOGEN As New DataTable
             Dim SQTOADD As New DataTable
+            Dim SOTOATTACH As New DataTable
             Dim SQTODS = New DataSet()
             Dim RetDS = New DataSet()
             Dim ds As DataSet = fn.jsontodata(value)
@@ -1303,6 +1304,33 @@ Public Class ICSB
                 Else
                     Throw New Exception("The ""General Tab"" must not be empty; enter a value for ""General Tab"".")
                 End If
+
+                If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
+                    SOTOATTACH = ds.Tables("ATTACHMENT")
+                    oSons = oGeneralData.Child("SQTOATTACHMENT")
+                    For Each odr As DataRow In SOTOATTACH.Rows
+                        oSon = oSons.Add
+                        Try
+                            oSon.SetProperty("U_Path", odr.Item("U_FilePath").ToString.Trim())
+                        Catch ex As Exception
+                            Throw New Exception("Error while adding file path to attachment folder")
+                        End Try
+                        Try
+                            oSon.SetProperty("U_Fname", odr.Item("U_FileName").ToString.Trim())
+                        Catch ex As Exception
+                            Throw New Exception("Error while adding file name to attachment folder")
+                        End Try
+                        Try
+                            Dim dtAttachDate As Date
+                            dtAttachDate = GetDateTimeValue(odr.Item("U_Date").ToString)
+                            oSon.SetProperty("U_AttDate", dtAttachDate)
+                        Catch ex As Exception
+                            Throw New Exception("Error while adding attachment date to attachment folder")
+                        End Try
+
+                    Next
+                End If
+
                 If ds.Tables("SQTOADD").Rows.Count > 0 Then
                     SQTOADD = ds.Tables("SQTOADD")
                     oSons = oGeneralData.Child("SQTOADDON")
@@ -1382,6 +1410,7 @@ Public Class ICSB
             SQTO = New DataTable
             Dim SQTOGEN As New DataTable
             Dim SQTOADD As New DataTable
+            Dim SOTOATTACH As New DataTable
             Dim SQTODS = New DataSet()
             Dim RetDS = New DataSet()
             Dim ds As DataSet = fn.jsontodata(value)
@@ -1406,8 +1435,10 @@ Public Class ICSB
             ' RetDT = fn.ExecuteSQLQuery(Query, Errmsg)
             Dim Count_Gen As String = ""
             Dim Count_Addon As String = ""
+            Dim Count_Attach As String = ""
             Dim Count_Gen_Int As Integer = 0
             Dim Count_Addon_Int As Integer = 0
+            Dim Count_Attach_Int As Integer = 0
             Dim Query As String = ""
 
 
@@ -1432,6 +1463,14 @@ Public Class ICSB
                 End If
                 If Count_Addon <> "" Then
                     Count_Addon_Int = CInt(Count_Addon)
+                End If
+                Query = "SELECT COUNT(T0.""DocEntry"") FROM ""@SQTOATTACHMENT"" T0 WHERE T0.""DocEntry"" = " & DocEntry & " "
+                Count_Attach = fn.ExecuteSQLQuery_SingleValue(Query, Errmsg)
+                If Errmsg <> "" Then
+                    Throw New Exception(Errmsg)
+                End If
+                If Count_Attach <> "" Then
+                    Count_Attach_Int = CInt(Count_Attach)
                 End If
 
                 oGeneralParams.SetProperty("DocEntry", dr.Item("U_Qno").ToString.Trim())
@@ -1468,11 +1507,73 @@ Public Class ICSB
                 oGeneralData.SetProperty("U_Email", dr.Item("U_Email").ToString.Trim())
                 oGeneralData.SetProperty("U_Remarks", dr.Item("U_Remarks").ToString.Trim())
 
-
                 Dim LineNum As Integer = 0
-                Dim SQTOGENnewLineNo As Integer = 0
+                Dim SQTOAATTACHNnewLineNo As Integer = 0
                 Dim LoopRow As Integer = 0
                 Dim RemoveIndex As Integer = 0
+
+                If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
+                    SOTOATTACH = ds.Tables("ATTACHMENT")
+                    oSons = oGeneralData.Child("SQTOATTACHMENT")
+
+                    SQTOAATTACHNnewLineNo = SOTOATTACH.Rows.Count()
+                    If SOTOATTACH.Rows.Count > Count_Attach_Int Then
+                        LoopRow = SOTOATTACH.Rows.Count
+                    Else
+                        LoopRow = Count_Attach_Int
+                    End If
+                    Dim i As Integer = 0
+                    RemoveIndex = (Count_Attach_Int - 1)
+                    For i = 0 To LoopRow - 1
+                        '                        For Each dr1 As DataRow In SQTOADD.Rows
+                        LineNum = LineNum + 1
+                        If SQTOAATTACHNnewLineNo = Count_Attach_Int Then
+                            oSons.Item(LineNum - 1).SetProperty("U_Path", SOTOATTACH.Rows(i).Item("U_FilePath").ToString.Trim())
+                            oSons.Item(LineNum - 1).SetProperty("U_Fname", SOTOATTACH.Rows(i).Item("U_FileName").ToString.Trim())
+
+                            Dim dtAttachDate As Date
+                            dtAttachDate = GetDateTimeValue(SOTOATTACH.Rows(i).Item("U_Date").ToString.Trim())
+                            oSons.Item(LineNum - 1).SetProperty("U_AttDate", dtAttachDate)
+
+                        ElseIf SQTOAATTACHNnewLineNo > Count_Attach_Int Then
+                            If LineNum <= Count_Attach_Int Then
+                                oSons.Item(LineNum - 1).SetProperty("U_Path", SOTOATTACH.Rows(i).Item("U_FilePath").ToString.Trim())
+                                oSons.Item(LineNum - 1).SetProperty("U_Fname", SOTOATTACH.Rows(i).Item("U_FileName").ToString.Trim())
+
+                                Dim dtAttachDate As Date
+                                dtAttachDate = GetDateTimeValue(SOTOATTACH.Rows(i).Item("U_Date").ToString.Trim())
+                                oSons.Item(LineNum - 1).SetProperty("U_AttDate", dtAttachDate)
+                            Else
+                                oSon = oSons.Add
+                                oSon.SetProperty("U_Path", SOTOATTACH.Rows(i).Item("U_FilePath").ToString.Trim())
+                                oSon.SetProperty("U_Fname", SOTOATTACH.Rows(i).Item("U_FileName").ToString.Trim())
+
+                                Dim dtAttachDate As Date
+                                dtAttachDate = GetDateTimeValue(SOTOATTACH.Rows(i).Item("U_Date").ToString.Trim())
+                                oSon.SetProperty("U_AttDate", dtAttachDate)
+
+                            End If
+                        ElseIf SQTOAATTACHNnewLineNo < Count_Attach_Int Then
+                            If LineNum <= SQTOAATTACHNnewLineNo Then
+                                oSons.Item(LineNum - 1).SetProperty("U_Path", SOTOATTACH.Rows(i).Item("U_FilePath").ToString.Trim())
+                                oSons.Item(LineNum - 1).SetProperty("U_Fname", SOTOATTACH.Rows(i).Item("U_FileName").ToString.Trim())
+                                Dim dtAttachDate As Date
+                                dtAttachDate = GetDateTimeValue(SOTOATTACH.Rows(i).Item("U_Date").ToString.Trim())
+                                oSons.Item(LineNum - 1).SetProperty("U_AttDate", dtAttachDate)
+                            Else
+                                oSons.Remove(RemoveIndex - 1)
+                                RemoveIndex = RemoveIndex - 1
+                            End If
+                        End If
+                        'Next
+                    Next
+                End If
+
+                LineNum = 0
+                Dim SQTOGENnewLineNo As Integer = 0
+                LoopRow = 0
+                RemoveIndex = 0
+
                 If ds.Tables("SQTOGEN").Rows.Count > 0 Then
                     SQTOGEN = ds.Tables("SQTOGEN")
                     oSons = oGeneralData.Child("SQTOGENERAL")
@@ -1668,7 +1769,12 @@ Public Class ICSB
         sFunction = "SalesQuotation_FirstRecord"
         Try
 
-            Dim Query As String = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""U_Qdate1"" , 'DD/MM/YYYY') As ""U_Qdate1"", TO_CHAR( T0.""U_Qdate2"" , 'DD/MM/YYYY') As ""U_Qdate2"", T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"", T0.""U_ARemarks"" FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" ASC"
+            Dim Query As String
+            Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                    " TO_CHAR( T0.""U_Qdate1"" , 'DD/MM/YYYY') As ""U_Qdate1"", TO_CHAR( T0.""U_Qdate2"" , 'DD/MM/YYYY') As ""U_Qdate2"", T0.""U_Ccode"", T0.""U_Cname"", " & _
+                    " TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", " & _
+                    " T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", " & _
+                    " T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"", T0.""U_ARemarks"" FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" ASC"
             Dim ErrMsg As String = ""
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
@@ -1689,7 +1795,8 @@ Public Class ICSB
 
                 RetDT = New DataTable
 
-                Query = "SELECT T1.""U_Stype"", T1.""U_Conti"", T1.""U_Country"", T1.""U_City"", T1.""U_Currency"", T1.""U_EQGroup"", T1.""U_Rate"", T1.""U_UOM"", T1.""U_GST"", T1.""U_Remarks"" FROM ""@SQTOGENERAL""  T1 WHERE T1.""DocEntry"" = (SELECT Top 1 T0.""DocEntry""  FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" ASC)"
+                Query = "SELECT T1.""U_Stype"", T1.""U_Conti"", T1.""U_Country"", T1.""U_City"", T1.""U_Currency"", T1.""U_EQGroup"", T1.""U_Rate"", T1.""U_UOM"", T1.""U_GST"", " & _
+                        " T1.""U_Remarks"" FROM ""@SQTOGENERAL""  T1 WHERE T1.""DocEntry"" = (SELECT Top 1 T0.""DocEntry""  FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" ASC)"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                 If ErrMsg <> "" Then
                     Throw New Exception(ErrMsg)
@@ -1700,7 +1807,8 @@ Public Class ICSB
 
 
                 RetDT = New DataTable
-                Query = "SELECT T0.""U_Ctype"", T0.""U_Continent"", T0.""U_Country"", T0.""U_City"", T0.""U_EQGroup"", T0.""U_Currency"", T0.""U_Rate"", T0.""U_UOM"", T0.""U_GST"", T0.""U_Remarks"" FROM ""@SQTOADDON""  T0 WHERE T0.""DocEntry""  = (SELECT Top 1 T0.""DocNum""  FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" ASC)"
+                Query = "SELECT T0.""U_Ctype"", T0.""U_Continent"", T0.""U_Country"", T0.""U_City"", T0.""U_EQGroup"", T0.""U_Currency"", T0.""U_Rate"", T0.""U_UOM"", " & _
+                        " T0.""U_GST"", T0.""U_Remarks"" FROM ""@SQTOADDON""  T0 WHERE T0.""DocEntry""  = (SELECT Top 1 T0.""DocNum""  FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" ASC)"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                 If ErrMsg <> "" Then
                     Throw New Exception(ErrMsg)
@@ -1708,6 +1816,17 @@ Public Class ICSB
                 RetDT.TableName = "SQTOADD"
                 RetDT3 = RetDT.Copy
                 RetDS.Tables.Add(RetDT3)
+
+                RetDT = New DataTable
+                Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                        " FROM ""@SQTOATTACHMENT"" WHERE ""DocEntry""  = (SELECT Top 1 T0.""DocNum""  FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" ASC) "
+                RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                If ErrMsg <> "" Then
+                    Throw New Exception(ErrMsg)
+                End If
+                RetDT.TableName = "ATTACHMENT"
+                RetDT4 = RetDT.Copy
+                RetDS.Tables.Add(RetDT4)
 
 
                 Context.Response.Output.Write(fn.ds2json(RetDS))
@@ -1733,7 +1852,12 @@ Public Class ICSB
     Public Sub SalesQuotation_LastRecord()
         sFunction = "SalesQuotation_LastRecord"
         Try
-            Dim Query As String = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""U_Qdate1"" , 'DD/MM/YYYY') As ""U_Qdate1"", TO_CHAR( T0.""U_Qdate2"" , 'DD/MM/YYYY') As ""U_Qdate2"", T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"", T0.""U_ARemarks"" FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" DESC"
+            Dim Query As String
+            Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                    " TO_CHAR( T0.""U_Qdate1"" , 'DD/MM/YYYY') As ""U_Qdate1"", TO_CHAR( T0.""U_Qdate2"" , 'DD/MM/YYYY') As ""U_Qdate2"", T0.""U_Ccode"", T0.""U_Cname"", " & _
+                    " TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", " & _
+                    " T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", " & _
+                    " T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"", T0.""U_ARemarks"" FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" DESC"
             Dim ErrMsg As String = ""
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
@@ -1754,7 +1878,9 @@ Public Class ICSB
 
                 RetDT = New DataTable
 
-                Query = "SELECT T1.""U_Stype"", T1.""U_Conti"", T1.""U_Country"", T1.""U_City"", T1.""U_Currency"", T1.""U_EQGroup"", T1.""U_Rate"", T1.""U_UOM"", T1.""U_GST"", T1.""U_Remarks"" FROM ""@SQTOGENERAL""  T1 WHERE T1.""DocEntry"" = (SELECT Top 1 T0.""DocEntry""  FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" DESC)"
+                Query = "SELECT T1.""U_Stype"", T1.""U_Conti"", T1.""U_Country"", T1.""U_City"", T1.""U_Currency"", T1.""U_EQGroup"", T1.""U_Rate"", T1.""U_UOM"", " & _
+                        " T1.""U_GST"", T1.""U_Remarks"" FROM ""@SQTOGENERAL""  T1 " & _
+                        " WHERE T1.""DocEntry"" = (SELECT Top 1 T0.""DocEntry""  FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" DESC)"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                 If ErrMsg <> "" Then
                     Throw New Exception(ErrMsg)
@@ -1763,9 +1889,9 @@ Public Class ICSB
                 RetDT2 = RetDT.Copy
                 RetDS.Tables.Add(RetDT2)
 
-
                 RetDT = New DataTable
-                Query = "SELECT T0.""U_Ctype"", T0.""U_Continent"", T0.""U_Country"", T0.""U_City"", T0.""U_EQGroup"", T0.""U_Currency"", T0.""U_Rate"", T0.""U_UOM"", T0.""U_GST"", T0.""U_Remarks"" FROM ""@SQTOADDON""  T0 WHERE T0.""DocEntry""  = (SELECT Top 1 T0.""DocNum""  FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" DESC)"
+                Query = "SELECT T0.""U_Ctype"", T0.""U_Continent"", T0.""U_Country"", T0.""U_City"", T0.""U_EQGroup"", T0.""U_Currency"", T0.""U_Rate"", T0.""U_UOM"", " & _
+                        " T0.""U_GST"", T0.""U_Remarks"" FROM ""@SQTOADDON""  T0 WHERE T0.""DocEntry""  = (SELECT Top 1 T0.""DocNum""  FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" DESC)"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                 If ErrMsg <> "" Then
                     Throw New Exception(ErrMsg)
@@ -1774,6 +1900,16 @@ Public Class ICSB
                 RetDT3 = RetDT.Copy
                 RetDS.Tables.Add(RetDT3)
 
+                RetDT = New DataTable
+                Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                        " FROM ""@SQTOATTACHMENT"" WHERE ""DocEntry""  = (SELECT Top 1 T0.""DocNum""  FROM ""@SQTO""  T0 ORDER BY T0.""DocEntry"" DESC)"
+                RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                If ErrMsg <> "" Then
+                    Throw New Exception(ErrMsg)
+                End If
+                RetDT.TableName = "ATTACHMENT"
+                RetDT4 = RetDT.Copy
+                RetDS.Tables.Add(RetDT4)
 
                 Context.Response.Output.Write(fn.ds2json(RetDS))
             Else
@@ -1869,6 +2005,18 @@ Public Class ICSB
                     RetDT3 = RetDT.Copy
                     RetDS.Tables.Add(RetDT3)
 
+                    RetDT = New DataTable
+                    Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                            " FROM ""@SQTOATTACHMENT"" WHERE ""DocEntry""  = '" & DocEntry & "' "
+                    RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                    If ErrMsg <> "" Then
+                        Throw New Exception(ErrMsg)
+                    End If
+                    RetDT.TableName = "ATTACHMENT"
+                    RetDT4 = RetDT.Copy
+                    RetDS.Tables.Add(RetDT4)
+
+
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
 
@@ -1911,6 +2059,17 @@ Public Class ICSB
                         RetDT.TableName = "SQTOADD"
                         RetDT3 = RetDT.Copy
                         RetDS.Tables.Add(RetDT3)
+
+                        RetDT = New DataTable
+                        Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                                " FROM ""@SQTOATTACHMENT"" WHERE ""DocEntry""  = '" & DocEntry & "' "
+                        RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                        If ErrMsg <> "" Then
+                            Throw New Exception(ErrMsg)
+                        End If
+                        RetDT.TableName = "ATTACHMENT"
+                        RetDT4 = RetDT.Copy
+                        RetDS.Tables.Add(RetDT4)
 
                         Context.Response.Output.Write(fn.ds2json(RetDS))
 
@@ -1999,6 +2158,17 @@ Public Class ICSB
                     RetDT3 = RetDT.Copy
                     RetDS.Tables.Add(RetDT3)
 
+                    RetDT = New DataTable
+                    Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                            " FROM ""@SQTOATTACHMENT"" WHERE ""DocEntry""  = '" & DocEntry & "' "
+                    RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                    If ErrMsg <> "" Then
+                        Throw New Exception(ErrMsg)
+                    End If
+                    RetDT.TableName = "ATTACHMENT"
+                    RetDT4 = RetDT.Copy
+                    RetDS.Tables.Add(RetDT4)
+
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
 
@@ -2035,6 +2205,17 @@ Public Class ICSB
                         RetDT.TableName = "SQTOADD"
                         RetDT3 = RetDT.Copy
                         RetDS.Tables.Add(RetDT3)
+
+                        RetDT = New DataTable
+                        Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                                " FROM ""@SQTOATTACHMENT"" WHERE ""DocEntry""  = '" & DocEntry & "' "
+                        RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                        If ErrMsg <> "" Then
+                            Throw New Exception(ErrMsg)
+                        End If
+                        RetDT.TableName = "ATTACHMENT"
+                        RetDT4 = RetDT.Copy
+                        RetDS.Tables.Add(RetDT4)
 
                         Context.Response.Output.Write(fn.ds2json(RetDS))
 
@@ -2291,6 +2472,17 @@ Public Class ICSB
                     RetDT3 = RetDT.Copy
                     RetDS.Tables.Add(RetDT3)
 
+                    RetDT = New DataTable
+                    Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                            " FROM ""@SQTOATTACHMENT"" WHERE ""DocEntry""  = '" & DocEntry & "' "
+                    RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                    If ErrMsg <> "" Then
+                        Throw New Exception(ErrMsg)
+                    End If
+                    RetDT.TableName = "ATTACHMENT"
+                    RetDT4 = RetDT.Copy
+                    RetDS.Tables.Add(RetDT4)
+
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
                     Throw New Exception("No Record Found")
@@ -2327,6 +2519,17 @@ Public Class ICSB
                         RetDT.TableName = "SQTOADD"
                         RetDT3 = RetDT.Copy
                         RetDS.Tables.Add(RetDT3)
+
+                        RetDT = New DataTable
+                        Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                                " FROM ""@SQTOATTACHMENT"" WHERE ""DocEntry""  = '" & DocEntry & "' "
+                        RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                        If ErrMsg <> "" Then
+                            Throw New Exception(ErrMsg)
+                        End If
+                        RetDT.TableName = "ATTACHMENT"
+                        RetDT4 = RetDT.Copy
+                        RetDS.Tables.Add(RetDT4)
 
                         Context.Response.Output.Write(fn.ds2json(RetDS))
 
@@ -2407,7 +2610,7 @@ Public Class ICSB
                 If sErrDesc <> "" Then
                     Throw New Exception(sErrDesc)
                 End If
-            
+
             End If
 
             If ToCode = "" Then
@@ -2996,6 +3199,7 @@ Public Class ICSB
             SQTO = New DataTable
             Dim SQTOGEN As New DataTable
             Dim SQTOADD As New DataTable
+            Dim SOTOATTACH As New DataTable
             Dim SQTODS = New DataSet()
             Dim RetDS = New DataSet()
             Dim ds As DataSet = fn.jsontodata(value)
@@ -3153,6 +3357,31 @@ Public Class ICSB
                         oSon.SetProperty("U_Remarks", dr1.Item("U_Remarks").ToString.Trim())
                     Next
                 End If
+                If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
+                    SOTOATTACH = ds.Tables("ATTACHMENT")
+                    oSons = oGeneralData.Child("CCONATTACHMENT")
+                    For Each odr As DataRow In SOTOATTACH.Rows
+                        oSon = oSons.Add
+                        Try
+                            oSon.SetProperty("U_Path", odr.Item("U_FilePath").ToString.Trim())
+                        Catch ex As Exception
+                            Throw New Exception("Error while adding file path to attachment folder")
+                        End Try
+                        Try
+                            oSon.SetProperty("U_Fname", odr.Item("U_FileName").ToString.Trim())
+                        Catch ex As Exception
+                            Throw New Exception("Error while adding file name to attachment folder")
+                        End Try
+                        Try
+                            Dim dtAttachDate As Date
+                            dtAttachDate = GetDateTimeValue(odr.Item("U_Date").ToString)
+                            oSon.SetProperty("U_AttDate", dtAttachDate)
+                        Catch ex As Exception
+                            Throw New Exception("Error while adding attachment date to attachment folder")
+                        End Try
+
+                    Next
+                End If
 
                 Dim response = oGeneralService.Add(oGeneralData)
                 DocEntry = response.GetProperty("DocEntry")
@@ -3210,8 +3439,10 @@ Public Class ICSB
             ' RetDT = fn.ExecuteSQLQuery(Query, Errmsg)
             Dim Count_Gen As String = ""
             Dim Count_Addon As String = ""
+            Dim Count_Attach As String = ""
             Dim Count_Gen_Int As Integer = 0
             Dim Count_Addon_Int As Integer = 0
+            Dim Count_Attach_Int As Integer = 0
             Dim Query As String = ""
 
 
@@ -3236,6 +3467,15 @@ Public Class ICSB
                 End If
                 If Count_Addon <> "" Then
                     Count_Addon_Int = CInt(Count_Addon)
+                End If
+
+                Query = "SELECT COUNT(T0.""DocEntry"") FROM ""@CCONATTACHMENT"" T0 WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                Count_Attach = fn.ExecuteSQLQuery_SingleValue(Query, Errmsg)
+                If Errmsg <> "" Then
+                    Throw New Exception(Errmsg)
+                End If
+                If Count_Attach <> "" Then
+                    Count_Attach_Int = CInt(Count_Attach)
                 End If
 
                 oGeneralParams.SetProperty("DocEntry", dr.Item("U_Qno").ToString.Trim())
@@ -3472,7 +3712,11 @@ Public Class ICSB
         sFunction = "CustomerContract_FirstRecord"
         Try
 
-            Dim Query As String = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" ASC"
+            Dim Query As String
+            Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
+                    " T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", " & _
+                    " T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", " & _
+                    " T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" ASC"
             Dim ErrMsg As String = ""
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
@@ -3493,7 +3737,8 @@ Public Class ICSB
 
                 RetDT = New DataTable
 
-                Query = "SELECT T1.""U_Stype"", T1.""U_Conti"", T1.""U_Country"", T1.""U_City"", T1.""U_Currency"", T1.""U_EQGroup"", T1.""U_Rate"", T1.""U_UOM"", T1.""U_GST"", T1.""U_Remarks"" FROM ""@CCONGENERAL""  T1 WHERE T1.""DocEntry"" = (SELECT Top 1 T0.""DocEntry""  FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" ASC)"
+                Query = "SELECT T1.""U_Stype"", T1.""U_Conti"", T1.""U_Country"", T1.""U_City"", T1.""U_Currency"", T1.""U_EQGroup"", T1.""U_Rate"", T1.""U_UOM"", " & _
+                        " T1.""U_GST"", T1.""U_Remarks"" FROM ""@CCONGENERAL""  T1 WHERE T1.""DocEntry"" = (SELECT Top 1 T0.""DocEntry""  FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" ASC)"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                 If ErrMsg <> "" Then
                     Throw New Exception(ErrMsg)
@@ -3504,7 +3749,8 @@ Public Class ICSB
 
 
                 RetDT = New DataTable
-                Query = "SELECT T0.""U_Ctype"", T0.""U_Continent"", T0.""U_Country"", T0.""U_City"", T0.""U_EQGroup"", T0.""U_Currency"", T0.""U_Rate"", T0.""U_UOM"", T0.""U_GST"", T0.""U_Remarks"" FROM ""@CCONADDON""  T0 WHERE T0.""DocEntry""  = (SELECT Top 1 T0.""DocNum""  FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" ASC)"
+                Query = "SELECT T0.""U_Ctype"", T0.""U_Continent"", T0.""U_Country"", T0.""U_City"", T0.""U_EQGroup"", T0.""U_Currency"", T0.""U_Rate"", T0.""U_UOM"", " & _
+                        " T0.""U_GST"", T0.""U_Remarks"" FROM ""@CCONADDON""  T0 WHERE T0.""DocEntry""  = (SELECT Top 1 T0.""DocNum""  FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" ASC)"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                 If ErrMsg <> "" Then
                     Throw New Exception(ErrMsg)
@@ -3512,6 +3758,17 @@ Public Class ICSB
                 RetDT.TableName = "CCONADD"
                 RetDT3 = RetDT.Copy
                 RetDS.Tables.Add(RetDT3)
+
+                RetDT = New DataTable
+                Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                        " FROM ""@CCONATTACHMENT"" WHERE ""DocEntry"" = (SELECT Top 1 T0.""DocEntry""  FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" ASC) "
+                RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                If ErrMsg <> "" Then
+                    Throw New Exception(ErrMsg)
+                End If
+                RetDT.TableName = "ATTACHMENT"
+                RetDT4 = RetDT.Copy
+                RetDS.Tables.Add(RetDT4)
 
 
                 Context.Response.Output.Write(fn.ds2json(RetDS))
@@ -3537,7 +3794,11 @@ Public Class ICSB
     Public Sub CustomerContract_LastRecord()
         sFunction = "CustomerContract_LastRecord"
         Try
-            Dim Query As String = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" DESC"
+            Dim Query As String
+            Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", " & _
+                    " T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", " & _
+                    " T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", " & _
+                    " T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" DESC"
             Dim ErrMsg As String = ""
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
@@ -3558,7 +3819,8 @@ Public Class ICSB
 
                 RetDT = New DataTable
 
-                Query = "SELECT T1.""U_Stype"", T1.""U_Conti"", T1.""U_Country"", T1.""U_City"", T1.""U_Currency"", T1.""U_EQGroup"", T1.""U_Rate"", T1.""U_UOM"", T1.""U_GST"", T1.""U_Remarks"" FROM ""@CCONGENERAL""  T1 WHERE T1.""DocEntry"" = (SELECT Top 1 T0.""DocEntry""  FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" DESC)"
+                Query = "SELECT T1.""U_Stype"", T1.""U_Conti"", T1.""U_Country"", T1.""U_City"", T1.""U_Currency"", T1.""U_EQGroup"", T1.""U_Rate"", T1.""U_UOM"", T1.""U_GST"", " & _
+                        " T1.""U_Remarks"" FROM ""@CCONGENERAL""  T1 WHERE T1.""DocEntry"" = (SELECT Top 1 T0.""DocEntry""  FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" DESC)"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                 If ErrMsg <> "" Then
                     Throw New Exception(ErrMsg)
@@ -3569,7 +3831,9 @@ Public Class ICSB
 
 
                 RetDT = New DataTable
-                Query = "SELECT T0.""U_Ctype"", T0.""U_Continent"", T0.""U_Country"", T0.""U_City"", T0.""U_EQGroup"", T0.""U_Currency"", T0.""U_Rate"", T0.""U_UOM"", T0.""U_GST"", T0.""U_Remarks"" FROM ""@CCONADDON""  T0 WHERE T0.""DocEntry""  = (SELECT Top 1 T0.""DocNum""  FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" DESC)"
+                Query = "SELECT T0.""U_Ctype"", T0.""U_Continent"", T0.""U_Country"", T0.""U_City"", T0.""U_EQGroup"", T0.""U_Currency"", T0.""U_Rate"", T0.""U_UOM"", " & _
+                        " T0.""U_GST"", T0.""U_Remarks"" FROM ""@CCONADDON""  T0 " & _
+                        " WHERE T0.""DocEntry""  = (SELECT Top 1 T0.""DocNum""  FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" DESC)"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                 If ErrMsg <> "" Then
                     Throw New Exception(ErrMsg)
@@ -3578,6 +3842,16 @@ Public Class ICSB
                 RetDT3 = RetDT.Copy
                 RetDS.Tables.Add(RetDT3)
 
+                RetDT = New DataTable
+                Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                        " FROM ""@CCONATTACHMENT"" WHERE ""DocEntry"" = (SELECT Top 1 T0.""DocEntry""  FROM ""@CCON""  T0 ORDER BY T0.""DocEntry"" DESC) ORDER BY ""LineId"" "
+                RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                If ErrMsg <> "" Then
+                    Throw New Exception(ErrMsg)
+                End If
+                RetDT.TableName = "ATTACHMENT"
+                RetDT4 = RetDT.Copy
+                RetDS.Tables.Add(RetDT4)
 
                 Context.Response.Output.Write(fn.ds2json(RetDS))
             Else
@@ -3661,6 +3935,17 @@ Public Class ICSB
                     RetDT3 = RetDT.Copy
                     RetDS.Tables.Add(RetDT3)
 
+                    RetDT = New DataTable
+                    Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                            " FROM ""@CCONATTACHMENT"" WHERE ""DocEntry"" = '" & DocEntry & "' "
+                    RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                    If ErrMsg <> "" Then
+                        Throw New Exception(ErrMsg)
+                    End If
+                    RetDT.TableName = "ATTACHMENT"
+                    RetDT4 = RetDT.Copy
+                    RetDS.Tables.Add(RetDT4)
+
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
 
@@ -3697,6 +3982,17 @@ Public Class ICSB
                         RetDT.TableName = "CCONADD"
                         RetDT3 = RetDT.Copy
                         RetDS.Tables.Add(RetDT3)
+
+                        RetDT = New DataTable
+                        Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                                " FROM ""@CCONATTACHMENT"" WHERE ""DocEntry"" = '" & DocEntry & "' "
+                        RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                        If ErrMsg <> "" Then
+                            Throw New Exception(ErrMsg)
+                        End If
+                        RetDT.TableName = "ATTACHMENT"
+                        RetDT4 = RetDT.Copy
+                        RetDS.Tables.Add(RetDT4)
 
                         Context.Response.Output.Write(fn.ds2json(RetDS))
 
@@ -3785,6 +4081,17 @@ Public Class ICSB
                     RetDT3 = RetDT.Copy
                     RetDS.Tables.Add(RetDT3)
 
+                    RetDT = New DataTable
+                    Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                            " FROM ""@CCONATTACHMENT"" WHERE ""DocEntry"" = '" & DocEntry & "' "
+                    RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                    If ErrMsg <> "" Then
+                        Throw New Exception(ErrMsg)
+                    End If
+                    RetDT.TableName = "ATTACHMENT"
+                    RetDT4 = RetDT.Copy
+                    RetDS.Tables.Add(RetDT4)
+
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
 
@@ -3821,6 +4128,17 @@ Public Class ICSB
                         RetDT.TableName = "CCONADD"
                         RetDT3 = RetDT.Copy
                         RetDS.Tables.Add(RetDT3)
+
+                        RetDT = New DataTable
+                        Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                                " FROM ""@CCONATTACHMENT"" WHERE ""DocEntry"" = '" & DocEntry & "' "
+                        RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                        If ErrMsg <> "" Then
+                            Throw New Exception(ErrMsg)
+                        End If
+                        RetDT.TableName = "ATTACHMENT"
+                        RetDT4 = RetDT.Copy
+                        RetDS.Tables.Add(RetDT4)
 
                         Context.Response.Output.Write(fn.ds2json(RetDS))
 
@@ -4087,6 +4405,17 @@ Public Class ICSB
                     RetDT3 = RetDT.Copy
                     RetDS.Tables.Add(RetDT3)
 
+                    RetDT = New DataTable
+                    Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                            " FROM ""@CCONATTACHMENT"" WHERE ""DocEntry"" = '" & DocEntry & "' "
+                    RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                    If ErrMsg <> "" Then
+                        Throw New Exception(ErrMsg)
+                    End If
+                    RetDT.TableName = "ATTACHMENT"
+                    RetDT4 = RetDT.Copy
+                    RetDS.Tables.Add(RetDT4)
+
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
                     Throw New Exception("No Record Found")
@@ -4123,6 +4452,17 @@ Public Class ICSB
                         RetDT.TableName = "CCONADD"
                         RetDT3 = RetDT.Copy
                         RetDS.Tables.Add(RetDT3)
+
+                        RetDT = New DataTable
+                        Query = "SELECT ""U_Fname"" AS ""U_FileName"",""U_Path"" AS ""U_FilePath"",""LineId"" AS ""U_id"", TO_CHAR(""U_AttDate"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                                " FROM ""@CCONATTACHMENT"" WHERE ""DocEntry"" = '" & DocEntry & "' "
+                        RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                        If ErrMsg <> "" Then
+                            Throw New Exception(ErrMsg)
+                        End If
+                        RetDT.TableName = "ATTACHMENT"
+                        RetDT4 = RetDT.Copy
+                        RetDS.Tables.Add(RetDT4)
 
                         Context.Response.Output.Write(fn.ds2json(RetDS))
 
@@ -5568,9 +5908,23 @@ Public Class ICSB
                 'Dim bAttchAdd As Boolean = False
                 'If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
                 '    SOTOATTACH = ds.Tables("ATTACHMENT")
+                '    Dim oAttach As SAPbobsCOM.Attachments2
+                '    oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
+
+                '    If oAttach.GetByKey(oSO.AttachmentEntry) Then
+                '        For i As Integer = 1 To oAttach.Lines.Count
+                '            oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
+                '            oAttach.Lines.FileName = ""
+                '            oAttach.Lines.FileExtension = ""
+                '        Next
+                '        If oAttach.Update() = 0 Then
+                '            If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Attachment updated successfully", sFunction)
+                '        Else
+                '            Throw New Exception("Error while updating attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
+                '        End If
+                '    End If
+
                 '    For Each odr As DataRow In SOTOATTACH.Rows
-                '        Dim oAttach As SAPbobsCOM.Attachments2
-                '        oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
 
                 '        If oAttach.GetByKey(oSO.AttachmentEntry) Then
                 '            Dim sSourcePath, sFileName, sFileExt As String
@@ -5596,7 +5950,7 @@ Public Class ICSB
                 '        End If
                 '    Next
                 'End If
-                ''oSO.AttachmentEntry = oAttachEntry
+                ' ''oSO.AttachmentEntry = oAttachEntry
 
                 If ds.Tables("SQTOGEN").Rows.Count > 0 Then
                     SQTOGEN = ds.Tables("SQTOGEN")
@@ -5991,7 +6345,7 @@ Public Class ICSB
                         '        "                                       FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "' ) " & _
                         '        "                                       and  T0.""DocEntry""<'" & DocNum & "' ORDER BY T0.""DocEntry"" DESC) " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
-                        
+
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"",T0.""U_IMO"", T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
@@ -6163,7 +6517,7 @@ Public Class ICSB
                     End If
 
                     If DocNum = "" Then
-                       
+
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", T0.""U_IMO"", T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
@@ -6192,7 +6546,7 @@ Public Class ICSB
                         '        " FROM ORDR T0 " & _
                         '        " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" DESC"
-                        
+
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", T0.""U_IMO"", T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
@@ -6209,7 +6563,7 @@ Public Class ICSB
                         '        "                                       FROM ORDR T0 where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER"" T0 WHERE T0.""U_ComCode"" ='" & CompCode & "') " & _
                         '        "                                       AND T0.""DocEntry"" > '" & DocNum & "' ORDER BY T0.""DocEntry"" ASC) " & _
                         '        " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) "
-                        
+
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                                 " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", T0.""U_IMO"", T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                                 " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
@@ -6273,7 +6627,7 @@ Public Class ICSB
 
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
-                    
+
                     Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", " & _
                             " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", T0.""U_IMO"", T0.""CardCode"",  T0.""CardName"", T0.""U_SurveyorID"", T0.""NumAtCard"",T0.""U_STypeCode"", " & _
                             " T0.""U_U_STypeName""  As  U_STypeName, T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""Comments"", " & _
@@ -6379,7 +6733,7 @@ Public Class ICSB
                         Throw New Exception("No Record Found!")
                     End If
                     If DocNum = "" Then
-                        
+
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') As ""DocDate"", " & _
                                 " T0.""CardCode"",T0.""CardName"",T0.""U_SurveyorID"",T0.""NumAtCard"",T0.""U_STypeCode"",T0.""U_U_STypeName"" As U_STypeName, T0.""U_Country"",  " & _
@@ -6389,7 +6743,7 @@ Public Class ICSB
                                 " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') ORDER BY T0.""DocEntry"" ASC"
                     Else
-                        
+
                         'Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
                         Query = "SELECT Top 1 T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
@@ -6662,7 +7016,7 @@ Public Class ICSB
                                 " where T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & CompCode & "') " & _
                                 " AND UPPER(IFNULL(T0.""CardCode"",'')) like '" & CardCode.ToUpper() & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND UPPER(IFNULL(T0.""CardName"",'')) LIKE '" & CardName.ToUpper().Replace("'", "''") & "' " & _
                                 " AND IFNULL(T0.""Project"",'') LIKE '" & ProjectCode & "' ORDER BY T0.""DocEntry"" ASC "
-                        Else
+                    Else
                         'Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
                         Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
                                 " T0.""U_UCode"",T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"", TO_CHAR( T0.""DocDate"",'DD/MM/YYYY') As ""DocDate"", " & _
@@ -6690,7 +7044,7 @@ Public Class ICSB
                                 " AND T0.""CardCode"" IN (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) " & _
                                 " AND UPPER(IFNULL(T0.""CardCode"",'')) like '" & CardCode.ToUpper() & "' AND IFNULL(T0.""U_Cdate"",'') LIKE '" & CreateDate & "' AND UPPER(IFNULL(T0.""CardName"",'')) LIKE '" & CardName.ToUpper().Replace("'", "''") & "' " & _
                                 " AND IFNULL(T0.""Project"",'') LIKE '" & ProjectCode & "' ORDER BY T0.""DocEntry"" ASC "
-                        
+
                     Else
                         'Query = "SELECT Top 1 T0.""DocEntry"" As ""U_Qno"", T0.""U_Status"", T0.""U_Uname"",TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY') As ""U_Cdate"",  T0.""U_Ccode"", T0.""U_Cname"", TO_CHAR( T0.""U_CPeriod1"" , 'DD/MM/YYYY') As ""U_CPeriod1"", TO_CHAR( T0.""U_CPeriod2"" , 'DD/MM/YYYY') As ""U_CPeriod2"", T0.""U_Pcode"", T0.""U_AddrN"", T0.""U_Addr1"", T0.""U_Addr2"", T0.""U_Addr3"", T0.""U_Addr4"", T0.""U_Addr5"", T0.""U_Addr6"", T0.""U_TelNo"", T0.""U_FaxNo"", T0.""U_Mno"", T0.""U_Email"", T0.""U_Remarks"" FROM ""@CCON"" T0  where T0.""DocEntry"" =(SELECT (T0.""DocEntry"" - 1)  ""DocEntry"" FROM ""@CCON""  T0 WHERE T0.""DocNum"" ='" & DocNum & "')"
                         Query = "SELECT T0.""DocEntry"" as ""U_OrderNo"",T0.""DocNum"" AS ""SODocNum"",CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"", " & _
