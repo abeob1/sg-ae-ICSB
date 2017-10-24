@@ -6017,11 +6017,13 @@ Public Class ICSB
                 oSO.Comments = dr.Item("Comments").ToString.Trim
 
                 Dim oAttachEntry As Integer = 0
+                Dim bAttachAdd As Boolean = False
                 If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
                     SOTOATTACH = ds.Tables("ATTACHMENT")
+                    Dim oAttach As SAPbobsCOM.Attachments2
+                    oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
+
                     For Each odr As DataRow In SOTOATTACH.Rows
-                        Dim oAttach As SAPbobsCOM.Attachments2
-                        oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
 
                         Dim sSourcePath, sFileName, sFileExt As String
                         sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
@@ -6031,14 +6033,17 @@ Public Class ICSB
                         oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
                         oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
                         oAttach.Lines.FileExtension = sFileExt
+                        oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
                         oAttach.Lines.Add()
-
+                        bAttachAdd = True
+                    Next
+                    If bAttachAdd = True Then
                         If oAttach.Add() = 0 Then
                             oAttachEntry = PublicVariable.oCompany.GetNewObjectKey()
                         Else
                             Throw New Exception("Error while adding attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
                         End If
-                    Next
+                    End If
                 End If
                 oSO.AttachmentEntry = oAttachEntry
 
@@ -6181,53 +6186,66 @@ Public Class ICSB
                 oSO.UserFields.Fields.Item("U_UpdateBy_UserName").Value = dr.Item("U_UName").ToString.Trim()
                 oSO.Comments = dr.Item("Comments").ToString.Trim
 
-                'Dim oAttachEntry As Integer = 0
-                'Dim bAttchAdd As Boolean = False
-                'If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
-                '    SOTOATTACH = ds.Tables("ATTACHMENT")
-                '    Dim oAttach As SAPbobsCOM.Attachments2
-                '    oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
+                Dim iAttachEntry As Integer = 0
+                Dim bAttchAdd As Boolean = False
+                Dim bFileExists As Boolean = False
+                If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
+                    SOTOATTACH = ds.Tables("ATTACHMENT")
+                    Dim oAttach As SAPbobsCOM.Attachments2
+                    oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
 
-                '    If oAttach.GetByKey(oSO.AttachmentEntry) Then
-                '        For i As Integer = 1 To oAttach.Lines.Count
-                '            oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
-                '            oAttach.Lines.FileName = ""
-                '            oAttach.Lines.FileExtension = ""
-                '        Next
-                '        If oAttach.Update() = 0 Then
-                '            If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Attachment updated successfully", sFunction)
-                '        Else
-                '            Throw New Exception("Error while updating attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
-                '        End If
-                '    End If
+                    If oAttach.GetByKey(oSO.AttachmentEntry) Then
+                        For Each odr As DataRow In SOTOATTACH.Rows
+                            Dim sSourcePath, sFileName, sFileExt As String
+                            sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
+                            sFileName = odr.Item("U_FileName").ToString.Trim()
+                            sFileExt = Path.GetExtension(sFileName)
+                            sFileExt = sFileExt.Replace(".", "")
 
-                '    For Each odr As DataRow In SOTOATTACH.Rows
+                            Dim sQuery As String = String.Empty
+                            Dim oRecordSet As SAPbobsCOM.Recordset
+                            oRecordSet = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
+                            sQuery = "SELECT * FROM ""ATC1"" WHERE ""AbsEntry"" = '" & oSO.AttachmentEntry & "' AND ""FileName"" = '" & sFileName.Replace(Path.GetExtension(sFileName), "") & "' "
+                            oRecordSet.DoQuery(sQuery)
+                            If oRecordSet.RecordCount > 0 Then
+                            Else
+                                oAttach.Lines.Add()
+                                oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
+                                oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
+                                oAttach.Lines.FileExtension = sFileExt
+                                oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
+                            End If
+                        Next
+                        If oAttach.Update() = 0 Then
+                            If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Attachment updated successfully", sFunction)
+                        Else
+                            Throw New Exception("Error while updating attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
+                        End If
+                    Else
+                        For Each odr As DataRow In SOTOATTACH.Rows
+                            Dim sSourcePath, sFileName, sFileExt As String
+                            sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
+                            sFileName = odr.Item("U_FileName").ToString.Trim()
+                            sFileExt = Path.GetExtension(sFileName)
+                            sFileExt = sFileExt.Replace(".", "")
+                            oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
+                            oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
+                            oAttach.Lines.FileExtension = sFileExt
+                            oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
+                            oAttach.Lines.Add()
+                            bAttchAdd = True
+                        Next
+                        If bAttchAdd = True Then
+                            If oAttach.Add() = 0 Then
+                                iAttachEntry = PublicVariable.oCompany.GetNewObjectKey()
+                            Else
+                                Throw New Exception("Error while adding attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
+                            End If
+                        End If
+                    End If
+                    oSO.AttachmentEntry = iAttachEntry
+                End If
 
-                '        If oAttach.GetByKey(oSO.AttachmentEntry) Then
-                '            Dim sSourcePath, sFileName, sFileExt As String
-                '            sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
-                '            sFileName = odr.Item("U_FileName").ToString.Trim()
-                '            sFileExt = Path.GetExtension(sFileName)
-                '            sFileExt = sFileExt.Replace(".", "")
-                '            oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
-                '            oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
-                '            oAttach.Lines.FileExtension = sFileExt
-                '            oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
-                '            oAttach.Lines.Add()
-                '            bAttchAdd = True
-                '        End If
-
-                '        If bAttchAdd = True Then
-                '            bAttchAdd = False
-                '            If oAttach.Update() = 0 Then
-                '                If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Attachment updated successfully", sFunction)
-                '            Else
-                '                Throw New Exception("Error while updating attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
-                '            End If
-                '        End If
-                '    Next
-                'End If
-                ' ''oSO.AttachmentEntry = oAttachEntry
 
                 If ds.Tables("SQTOGEN").Rows.Count > 0 Then
                     SQTOGEN = ds.Tables("SQTOGEN")
