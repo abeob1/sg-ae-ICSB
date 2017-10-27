@@ -9527,6 +9527,14 @@ Public Class ICSB
             Dim DType As String = String.Empty
             Dim sCompCode As String = String.Empty
 
+            If sSurveyNo = "" Then
+                sSurveyNo = "%"
+            ElseIf sSurveyNo.Contains("*") = True Then
+                sSurveyNo = sSurveyNo.Replace("*", "%")
+            Else
+                sSurveyNo = "%" & sSurveyNo & "%"
+            End If
+
             sSQL = "SELECT T0.""U_DAuthor"",ifnull(T0.""U_ComCode"",'')  As ""U_ComCode"" FROM ""@WUSER""  T0 WHERE Upper(T0.""Code"") ='" & sUserCode & "'"
             Dim dt As New DataTable
             dt = fn.ExecuteSQLQuery(sSQL, Errmsg)
@@ -9545,19 +9553,19 @@ Public Class ICSB
                     Throw New Exception("No Record Found!")
                 End If
                 If sSurveyNo = "" Then
-                    Str = "SELECT T0.""DocEntry"" AS ""U_SurvyNo"" FROM ODLN T0 " & _
-                          " WHERE T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
+                    Str = "SELECT T0.""DocNum"" AS ""U_SurvyNo"" FROM ODLN T0 " & _
+                          " WHERE T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocNum"" ASC"
                 Else
-                    Str = "SELECT T0.""DocEntry"" AS ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocEntry"" like '" & sSurveyNo & "' " & _
-                          " AND T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
+                    Str = "SELECT T0.""DocNum"" AS ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocNum"" like '" & sSurveyNo & "' " & _
+                          " AND T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocNum"" ASC"
                 End If
             ElseIf DType = "By Country" Then
                 If sSurveyNo = "" Then
-                    Str = "SELECT T0.""DocEntry"" AS ""U_SurvyNo"" FROM ODLN T0 " & _
-                         " WHERE T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
+                    Str = "SELECT T0.""DocNum"" AS ""U_SurvyNo"" FROM ODLN T0 " & _
+                         " WHERE T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocNum"" ASC"
                 Else
-                    Str = "SELECT T0.""DocEntry"" AS ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocEntry"" like '" & sSurveyNo & "' " & _
-                         " AND T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
+                    Str = "SELECT T0.""DocNum"" AS ""U_SurvyNo"" FROM ODLN T0 WHERE T0.""DocNum"" like '" & sSurveyNo & "' " & _
+                         " AND T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocNum"" ASC"
                 End If
 
             ElseIf DType = "" Then
@@ -9606,6 +9614,14 @@ Public Class ICSB
             Dim DType As String = String.Empty
             Dim sCompCode As String = String.Empty
 
+            If sOrderNo = "" Then
+                sOrderNo = "%"
+            ElseIf sOrderNo.Contains("*") = True Then
+                sOrderNo = sOrderNo.Replace("*", "%")
+            Else
+                sOrderNo = "%" & sOrderNo & "%"
+            End If
+
             sSQL = "SELECT T0.""U_DAuthor"",ifnull(T0.""U_ComCode"",'')  As ""U_ComCode"" FROM ""@WUSER""  T0 WHERE Upper(T0.""Code"") ='" & sUserCode & "'"
             Dim dt As New DataTable
             dt = fn.ExecuteSQLQuery(sSQL, Errmsg)
@@ -9624,19 +9640,19 @@ Public Class ICSB
                     Throw New Exception("No Record Found!")
                 End If
                 If sOrderNo = "" Then
-                    Str = "SELECT T0.""DocEntry"" AS ""U_OrderNo"" FROM ORDR T0 " & _
-                          " WHERE T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
+                    Str = "SELECT T0.""DocNum"" AS ""U_OrderNo"" FROM ORDR T0 " & _
+                          " WHERE T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocNum"" ASC"
                 Else
-                    Str = "SELECT T0.""DocEntry"" AS ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocEntry"" like '" & sOrderNo & "' " & _
-                          " AND T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocEntry"" ASC"
+                    Str = "SELECT T0.""DocNum"" AS ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocNum"" like '" & sOrderNo & "' " & _
+                          " AND T0.""U_UCode"" in (SELECT T0.""Code"" FROM ""@WUSER""  T0 WHERE T0.""U_ComCode""  ='" & sCompCode & "') ORDER BY T0.""DocNum"" ASC"
                 End If
             ElseIf DType = "By Country" Then
                 If sOrderNo = "" Then
-                    Str = "SELECT T0.""DocEntry"" AS ""U_OrderNo"" FROM ORDR T0 " & _
-                         " WHERE T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
+                    Str = "SELECT T0.""DocNum"" AS ""U_OrderNo"" FROM ORDR T0 " & _
+                         " WHERE T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocNum"" ASC"
                 Else
-                    Str = "SELECT T0.""DocEntry"" AS ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocEntry"" like '" & sOrderNo & "' " & _
-                         " AND T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocEntry"" ASC"
+                    Str = "SELECT T0.""DocNum"" AS ""U_OrderNo"" FROM ORDR T0 WHERE T0.""DocNum"" like '" & sOrderNo & "' " & _
+                         " AND T0.""CardCode"" in (SELECT DISTINCT ""CardCode"" FROM ""CRD1"" WHERE ""Country"" IN (SELECT ""U_CCode"" FROM ""@COUNTRY"")) ORDER BY T0.""DocNum"" ASC"
                 End If
 
             ElseIf DType = "" Then
@@ -9697,22 +9713,88 @@ Public Class ICSB
                 sContainerNo = dr.Item("U_ContainerNo").ToString.Trim()
             End If
 
+            If sSurveyNo = "" Then
+                sSurveyNo = "%"
+            ElseIf sSurveyNo.Contains("*") = True Then
+                sSurveyNo = sSurveyNo.Replace("*", "%")
+            Else
+                sSurveyNo = "%" & sSurveyNo & "%"
+            End If
+
+            If sOrderNo = "" Then
+                sOrderNo = "%"
+            ElseIf sOrderNo.Contains("*") = True Then
+                sOrderNo = sOrderNo.Replace("*", "%")
+            Else
+                sOrderNo = "%" & sOrderNo & "%"
+            End If
+
+            If sCustCode = "" Then
+                sCustCode = "%"
+            ElseIf sCustCode.Contains("*") = True Then
+                sCustCode = sCustCode.Replace("*", "%")
+            Else
+                sCustCode = "%" & sCustCode & "%"
+            End If
+
+            If sCustName = "" Then
+                sCustName = "%"
+            ElseIf sCustName.Contains("*") = True Then
+                sCustName = sCustName.Replace("*", "%")
+            Else
+                sCustName = "%" & sCustName & "%"
+            End If
+
+            If sSurveyDtFrom = "" Then
+                sSurveyDtFrom = "%"
+            ElseIf sSurveyDtFrom.Contains("*") = True Then
+                sSurveyDtFrom = sSurveyDtFrom.Replace("*", "%")
+            Else
+                sSurveyDtFrom = "%" & sSurveyDtFrom & "%"
+            End If
+
+            If sSurveyDtTo = "" Then
+                sSurveyDtTo = "%"
+            ElseIf sSurveyDtTo.Contains("*") = True Then
+                sSurveyDtTo = sSurveyDtTo.Replace("*", "%")
+            Else
+                sSurveyDtTo = "%" & sSurveyDtTo & "%"
+            End If
+
+            If sContainerNo = "" Then
+                sContainerNo = "%"
+            ElseIf sContainerNo.Contains("*") = True Then
+                sContainerNo = sContainerNo.Replace("*", "%")
+            Else
+                sContainerNo = "%" & sContainerNo & "%"
+            End If
+
             Dim dSurveyDtFrom As Date = GetDateTimeValue(sSurveyDtFrom)
             Dim dSurveyDtTo As Date = GetDateTimeValue(sSurveyDtTo)
 
             'Dim Str As String = "SELECT Top 1 T0.""DocEntry"" ""U_SurveyNo"", T0.""DocStatus"" as ""U_Status"", T0.""U_UName"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""U_Cdate"", TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY')  As ""DocDate"", T0.""CardCode"", T0.""CardName"", T0.""U_SurveyorID"" , T0.""NumAtCard"",T1.""ItemCode"" as ""U_STypeCode"", T0.""U_Country"", T0.""U_City"", T0.""U_Loc"", T0.""Project"", T0.""U_SuvExAgent"",T1.""U_EQType"" as ""U_Eqtype"",  T0.""U_EqNo"", T1.""U_SCriteria"",T0.""U_SResult"",T0.""U_NoPh"", T0.""Comments"",T0.""U_FormName"",TO_CHAR( T0.""U_DOM"" , 'DD/MM/YYYY') As ""U_DOM"",T0.""U_MGW"",T0.""U_Tare"",T0.""U_ACEP"",TO_CHAR( T0.""U_CSC"" , 'DD/MM/YYYY') As ""U_CSC"",""U_EX_Fram"",""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_SEAL_NEXT"",""U_SEAL_NEXT"" FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
             Dim Str As String = String.Empty
+            'Str = "SELECT T0.""DocEntry"" as ""Survey_No"",T0.""DocNum"",T1.""BaseEntry"" AS ""Order_No"",T1.""BaseRef"" AS ""SODocNum"", T0.""U_UName"" AS ""User_Name"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""Survey_Date"", " & _
+            '      " T0.""CardCode"" AS ""Customer_Code"", T0.""CardName"" AS ""Customer_Name"",T1.""Dscription"" as ""Survey_Type"", " & _
+            '      " T0.""U_Country"" AS ""Location"",T0.""U_SResult"" AS ""Survey_Result"" " & _
+            '      " FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+            '      " WHERE T0.""DocNum"" = (CASE WHEN IFNULL('" & sSurveyNo & "','') = '' THEN T0.""DocNum"" ELSE '" & sSurveyNo & "' END) " & _
+            '      " AND T1.""BaseRef"" = (CASE WHEN IFNULL('" & sOrderNo & "','') = '' THEN T1.""BaseRef"" ELSE '" & sOrderNo & "' END) " & _
+            '      " AND UPPER(T0.""CardCode"") = (CASE WHEN IFNULL('" & sCustCode.ToUpper() & "','') = '' THEN UPPER(T0.""CardCode"") ELSE '" & sCustCode.ToUpper() & "' END) " & _
+            '      " AND UPPER(T0.""CardName"") = (CASE WHEN IFNULL('" & sCustName.ToUpper() & "','') = '' THEN UPPER(T0.""CardName"") ELSE '" & sCustName.ToUpper() & "' END) " & _
+            '      " AND T0.""U_Cdate"" >= (CASE WHEN IFNULL('" & sSurveyDtFrom & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtFrom.ToString("yyyy-MM-dd") & "' END) " & _
+            '      " AND T0.""U_Cdate"" <= (CASE WHEN IFNULL('" & sSurveyDtTo & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtTo.ToString("yyyy-MM-dd") & "' END) " & _
+            '      " AND UPPER(T0.""U_EqNo"") = (CASE WHEN IFNULL('" & sContainerNo.ToUpper() & "','') = '' THEN UPPER(T0.""U_EqNo"") ELSE '" & sContainerNo.ToUpper() & "' END) "
+
             Str = "SELECT T0.""DocEntry"" as ""Survey_No"",T0.""DocNum"",T1.""BaseEntry"" AS ""Order_No"",T1.""BaseRef"" AS ""SODocNum"", T0.""U_UName"" AS ""User_Name"", TO_CHAR( T0.""U_Cdate"" , 'DD/MM/YYYY')  As ""Survey_Date"", " & _
-                  " T0.""CardCode"" AS ""Customer_Code"", T0.""CardName"" AS ""Customer_Name"",T1.""Dscription"" as ""Survey_Type"", " & _
-                  " T0.""U_Country"" AS ""Location"",T0.""U_SResult"" AS ""Survey_Result"" " & _
-                  " FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
-                  " WHERE T0.""DocEntry"" = (CASE WHEN IFNULL('" & sSurveyNo & "','') = '' THEN T0.""DocEntry"" ELSE '" & sSurveyNo & "' END) " & _
-                  " AND T1.""BaseEntry"" = (CASE WHEN IFNULL('" & sOrderNo & "','') = '' THEN T1.""BaseEntry"" ELSE '" & sOrderNo & "' END) " & _
-                  " AND UPPER(T0.""CardCode"") = (CASE WHEN IFNULL('" & sCustCode.ToUpper() & "','') = '' THEN UPPER(T0.""CardCode"") ELSE '" & sCustCode.ToUpper() & "' END) " & _
-                  " AND UPPER(T0.""CardName"") = (CASE WHEN IFNULL('" & sCustName.ToUpper() & "','') = '' THEN UPPER(T0.""CardName"") ELSE '" & sCustName.ToUpper() & "' END) " & _
-                  " AND T0.""U_Cdate"" >= (CASE WHEN IFNULL('" & sSurveyDtFrom & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtFrom.ToString("yyyy-MM-dd") & "' END) " & _
-                  " AND T0.""U_Cdate"" <= (CASE WHEN IFNULL('" & sSurveyDtTo & "','') = '' THEN T0.""U_Cdate"" ELSE '" & dSurveyDtTo.ToString("yyyy-MM-dd") & "' END) " & _
-                  " AND UPPER(T0.""U_EqNo"") = (CASE WHEN IFNULL('" & sContainerNo.ToUpper() & "','') = '' THEN UPPER(T0.""U_EqNo"") ELSE '" & sContainerNo.ToUpper() & "' END) "
+                 " T0.""CardCode"" AS ""Customer_Code"", T0.""CardName"" AS ""Customer_Name"",T1.""Dscription"" as ""Survey_Type"", " & _
+                 " T0.""U_Country"" AS ""Location"",T0.""U_SResult"" AS ""Survey_Result"" " & _
+                 " FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
+                 " WHERE T0.""DocNum"" LIKE '" & sSurveyNo & "' AND T1.""BaseRef"" LIKE '" & sOrderNo & "' " & _
+                 " AND UPPER(T0.""CardCode"") LIKE '" & sCustCode.ToUpper() & "' AND UPPER(T0.""CardName"") LIKE '" & sCustName.ToUpper() & "' " & _
+                 " AND T0.""U_Cdate"" LIKE '" & sSurveyDtFrom & "' AND T0.""U_Cdate"" LIKE '" & sSurveyDtTo & "' " & _
+                 " AND UPPER(T0.""U_EqNo"") LIKE '" & sContainerNo.ToUpper() & "' " & _
+                 " ORDER BY T1.""BaseRef"",T0.""DocEntry"""
 
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
