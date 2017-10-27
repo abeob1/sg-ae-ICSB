@@ -10,7 +10,7 @@ T10."CompnyAddr", T10."Street",T10."Block", T10."Name", T10."ZipCode",T10."LogoI
 T10."BitmapPath",B."Picture",B."U_Stamp",D."U_Sig",IFNULL(E."Street",'') AS "SuvExAgentStreet",
 IFNULL(E."Block",'') AS "SuvExAgentBlock",IFNULL(E."City",'') AS "SuvExAgentCity",IFNULL(E."County",'') AS "SuvExAgentCounty",
 	T0."DocEntry",--T0."DocNum",
-	IFNULL(T3."U_CCode",'') || TO_CHAR(T0."DocNum") || '/' || IFNULL(TO_CHAR(T1."BaseEntry"),'') AS "DocNum",
+	IFNULL(T3."U_CCode",'') || TO_CHAR(T0."DocNum") || '/' || IFNULL(TO_CHAR(T1."BaseRef"),'') AS "DocNum",
 	 T0."DocStatus",
 	 T0."DocDate",
 	 T0."CardCode",
