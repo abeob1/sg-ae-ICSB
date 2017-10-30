@@ -9232,7 +9232,10 @@ Public Class ICSB
                   " ""U_EX_Man"",""U_EX_Ser"",""U_EX_Car"",""U_INT_Free"",""U_INT_Clean"",""U_INT_Dry"",""U_INT_Pitt"",""U_INT_Disc"",""U_VAL_Val"",""U_VAL_Bott"",""U_VAL_SPIL"",""U_Capacity"", " & _
                   " ""U_VAL_Man"",""U_VAL_Syp"",""U_VAL_Tank"",""U_VAL_Avail"",""U_VAL_Steam"",""U_VAL_Gas"",""U_SEAL_MAN"",""U_SEAL_AIR"",""U_SEAL_BOTT"",""U_SEAL_LAST"",""U_PayLoad"", " & _
                   " ""U_INT_Cleanliness"",""U_INT_Rust"",""U_INT_Deposits"",""U_INT_DamagedCoating"",""U_INT_GasketMainHole"",""U_INT_OilDirtFree"",""U_INT_SteamCoil"",""U_INT_Steam_Cleaned"",""U_INT_GasktDschrgval"", " & _
-                  " ""U_SEAL_NEXT"",""U_SEAL_NEXT"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"",IFNULL(T0.""U_FORMAT"",1) AS ""FormatNo"" " & _
+                  " ""U_SEAL_NEXT"",""U_SEAL_NEXT"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"",IFNULL(T0.""U_FORMAT"",1) AS ""FormatNo"", " & _
+                  " T0.""U_Esti_Org"",T0.""U_Esti_Rev"",T0.""U_Esti_Diff"",T0.""U_Curr_Org"",T0.""U_Curr_Rev"",T0.""U_Curr_diff"",T0.""U_Impac_Org"",T0.""U_Impac_Rev"", " & _
+                  " T0.""U_Impac_diff"",T0.""U_Wear_org"",T0.""U_Wear_Rev"",T0.""U_Wear_Diff"",T0.""U_Cust_Org"",T0.""U_Cust_Rev"",T0.""U_Cust_Diff"",T0.""U_Impor_Org"", " & _
+                  " T0.""U_Impor_Rev"",T0.""U_Import_Diff"",T0.""U_Sum_Org"",T0.""U_Sum_Rev"",T0.""U_Sum_Diff"" " & _
                   " FROM ODLN T0 " & _
                   " INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
                   " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
@@ -9426,7 +9429,10 @@ Public Class ICSB
                 Str = "SELECT T0.""DocEntry"" AS ""Survey_No"",T0.""DocNum"",T0.""U_EqNo"" AS ""Container_Num"", T0.""U_SResult"" As ""Survey_Result"" ,T0.""U_UName"" As ""User_Name"", " & _
                       " CASE WHEN T0.""DocStatus"" = 'O' THEN 'Open' WHEN T0.""DocStatus"" = 'C' THEN 'Closed' END as ""U_Status"",IFNULL(T0.""U_FORMAT"",1) AS ""FormatNo"", " & _
                       " TO_CHAR( T0.""DocDate"" , 'DD/MM/YYYY') ""Survey_Date"", T0.""CardCode"" as ""Customer_Code"", T0.""CardName"" as ""Customer_Name"",T0.""U_IMO"", " & _
-                      " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"" " & _
+                      " T1.""Dscription"" As ""Survey_Type"", T0.""U_Loc"" As ""Location"",T2.""U_HYPERLINK_BEFORE"" AS ""U_HLinkBef"",T2.""U_HYPERLINK_AFTER"" AS ""U_HLinkAft"", " & _
+                      " T0.""U_Esti_Org"",T0.""U_Esti_Rev"",T0.""U_Esti_Diff"",T0.""U_Curr_Org"",T0.""U_Curr_Rev"",T0.""U_Curr_diff"",T0.""U_Impac_Org"",T0.""U_Impac_Rev"", " & _
+                      " T0.""U_Impac_diff"",T0.""U_Wear_org"",T0.""U_Wear_Rev"",T0.""U_Wear_Diff"",T0.""U_Cust_Org"",T0.""U_Cust_Rev"",T0.""U_Cust_Diff"",T0.""U_Impor_Org"", " & _
+                      " T0.""U_Impor_Rev"",T0.""U_Import_Diff"",T0.""U_Sum_Org"",T0.""U_Sum_Rev"",T0.""U_Sum_Diff"" " & _
                       " FROM ODLN T0  INNER JOIN DLN1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" " & _
                       " LEFT JOIN ""@SURVEYTYPE_HLINK"" T2 ON UPPER(T2.""U_SURVEYTYPENAME"") = UPPER(T1.""Dscription"") " & _
                       " WHERE T1.""BaseType"" =17 and  T1.""BaseEntry"" ='" & DocEntry & "' ORDER BY T0.""DocEntry"" "
