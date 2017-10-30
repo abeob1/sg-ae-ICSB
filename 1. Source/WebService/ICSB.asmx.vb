@@ -213,7 +213,10 @@ Public Class ICSB
                 Name = "%" & Name & "%"
             End If
             'Dim Str As String = "SELECT T0.""CardCode"" As ""U_Ccode"", T0.""CardName"" as ""U_Cname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='C' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "'"
-            Dim Str As String = "SELECT 'C' as ""U_Ctype"",T0.""CardCode"" As ""U_Agentcode"", T0.""CardName"" as ""U_Agentname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='S' and  T0.""CardCode""  like '" & Code & "' and T0.""CardName"" like '" & Name & "' order by ""U_Agentname"""
+            Dim Str As String
+            Str = "SELECT 'C' as ""U_Ctype"",T0.""CardCode"" As ""U_Agentcode"", T0.""CardName"" as ""U_Agentname"", T0.""Phone1"" as ""U_TelNo"", T0.""Fax"" as ""U_FaxNo"", " & _
+                  " T0.""Cellular"" as ""U_Mno"", T0.""E_Mail"" as ""U_Email"" FROM OCRD T0 WHERE IFNULL( T0.""U_WebAccess"" ,'') ='Y' and  T0.""CardType"" ='S' " & _
+                  " and  UPPER(T0.""CardCode"")  like '" & Code.ToUpper() & "' and UPPER(T0.""CardName"") like '" & Name.ToUpper() & "' order by ""U_Agentname"""
 
             Dim RetDT As New DataTable
             Dim RetDT1 As New DataTable
@@ -226,7 +229,10 @@ Public Class ICSB
                 RetDT.TableName = "OCRD"
                 RetDT1 = RetDT.Copy
                 RetDS.Tables.Add(RetDT1)
-                Str = "SELECT T0.""CardCode"" as ""U_Agentcode"", T0.""Address"" ""U_AddrN"", T0.""Street"" ""U_Addr1"", T0.""Block"" ""U_Addr2"", T0.""City"" ""U_Addr3"", T0.""County"" ""U_Addr4"", T0.""StreetNo"" ""U_Addr5"", T0.""GlblLocNum"" ""U_Addr6"" FROM CRD1 T0  INNER JOIN OCRD T1 ON T0.""CardCode"" = T1.""CardCode"" WHERE T0.""AdresType"" ='B' and T1.""CardType"" ='S' and  T1.""CardCode""  like '" & Code & "' and  T1.""CardName"" like '" & Name & "'"
+                Str = "SELECT T0.""CardCode"" as ""U_Agentcode"", T0.""Address"" ""U_AddrN"", T0.""Street"" ""U_Addr1"", T0.""Block"" ""U_Addr2"", T0.""City"" ""U_Addr3"", " & _
+                      " T0.""County"" ""U_Addr4"", T0.""StreetNo"" ""U_Addr5"", T0.""GlblLocNum"" ""U_Addr6"" FROM CRD1 T0  " & _
+                      " INNER JOIN OCRD T1 ON T0.""CardCode"" = T1.""CardCode"" WHERE T0.""AdresType"" ='B' and T1.""CardType"" ='S' " & _
+                      " and  UPPER(T1.""CardCode"")  like '" & Code.ToUpper() & "' and  UPPER(T1.""CardName"") like '" & Name.ToUpper() & "'"
 
                 RetDT = New DataTable
                 RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
@@ -6044,8 +6050,8 @@ Public Class ICSB
                             Throw New Exception("Error while adding attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
                         End If
                     End If
+                    oSO.AttachmentEntry = oAttachEntry
                 End If
-                oSO.AttachmentEntry = oAttachEntry
 
                 If ds.Tables("SQTOGEN").Rows.Count > 0 Then
                     SQTOGEN = ds.Tables("SQTOGEN")
@@ -9395,7 +9401,7 @@ Public Class ICSB
 
 
             'Dim Str As String = "SELECT Top 1  T0.""DocEntry"", T0.""OpenQty"",IFNULL(T1.""U_FormLink"",'AOS') ""FormName"" FROM RDR1 T0 LEFT JOIN OITM T1 on T0.""ItemCode""=T1.""ItemCode"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
-            Dim Str As String = "SELECT Top 1  T0.""DocEntry"", T0.""OpenQty"",IFNULL(T1.""U_FormLink"",'AOS') ""FormName"",IFNULL(COUNT(T2.""U_FORM""),0) AS ""FormatNo"" " & _
+            Dim Str As String = "SELECT Top 1  T0.""DocEntry"", T0.""OpenQty"",IFNULL(T1.""U_FormLink"",'AOS') ""FormName"",IFNULL(COUNT(T2.""U_SURVEYTYPE""),0) AS ""FormatNo"" " & _
                                 " FROM RDR1 T0 " & _
                                 " LEFT JOIN OITM T1 on T0.""ItemCode""=T1.""ItemCode"" " & _
                                 " LEFT JOIN ""@SURVEYTYPE_FORM"" T2 ON UPPER(T2.""U_SURVEYTYPE"") = UPPER(T1.""ItemCode"") WHERE T0.""DocEntry"" ='" & DocEntry & "' " & _
