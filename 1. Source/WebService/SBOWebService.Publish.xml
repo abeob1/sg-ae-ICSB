@@ -2,13 +2,13 @@
 <publishData>
   <publishProfile publishUrl="E:\PUBLISH\ICSB\WEB SERVICE" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="bin/Newtonsoft.Json.dll" publishTime="05/11/2017 23:01:29" />
-    <file relUrl="ICSB.asmx" publishTime="05/11/2017 23:01:26" />
-    <file relUrl="bin/SBOWebService.xml" publishTime="11/01/2017 03:36:18" />
-    <file relUrl="Web.config" publishTime="10/19/2017 23:39:43" />
-    <file relUrl="bin/SBOWebService.dll" publishTime="11/01/2017 03:36:18" />
-    <file relUrl="bin/SBOWebService.pdb" publishTime="11/01/2017 03:36:18" />
+    <file relUrl="ICSB.asmx" publishTime="05/11/2017 23:01:25" />
+    <file relUrl="bin/SBOWebService.xml" publishTime="11/02/2017 01:42:37" />
+    <file relUrl="Web.config" publishTime="11/01/2017 23:26:36" />
+    <file relUrl="bin/SBOWebService.dll" publishTime="11/02/2017 01:42:37" />
+    <file relUrl="bin/SBOWebService.pdb" publishTime="11/02/2017 01:42:37" />
     <file relUrl="packages.config" publishTime="05/11/2017 23:01:28" />
     <file relUrl="bin/Newtonsoft.Json.xml" publishTime="05/11/2017 23:01:29" />
-    <file relUrl="bin/Interop.Shell32.dll" publishTime="05/16/2017 03:27:47" />
+    <file relUrl="bin/Interop.Shell32.dll" publishTime="11/01/2017 23:26:23" />
   </publishProfile>
 </publishData>

@@ -6258,6 +6258,7 @@ Public Class ICSB
                     End If
                 End If
 
+                If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Adding general data", sFunction)
 
                 If ds.Tables("SQTOGEN").Rows.Count > 0 Then
                     SQTOGEN = ds.Tables("SQTOGEN")
@@ -9779,6 +9780,7 @@ Public Class ICSB
                         " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
                         " FROM ""ODLN"" T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
                         " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(Query, "SurveyTyep_Find")
                 RetDT = fn.ExecuteSQLQuery(Query, Errmsg)
                 If Errmsg <> "" Then
                     Throw New Exception(Errmsg)
@@ -9972,19 +9974,22 @@ Public Class ICSB
                 RetDT2 = RetDT.Copy
                 RetDS.Tables.Add(RetDT2)
 
-                'RetDT = New DataTable
-                'Dim Query As String = String.Empty
-                'Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
-                '        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
-                '        " FROM ""ODLN"" T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
-                '        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
-                'RetDT = fn.ExecuteSQLQuery(Query, Errmsg)
-                'If Errmsg <> "" Then
-                '    Throw New Exception(Errmsg)
-                'End If
-                'RetDT.TableName = "ATTACHMENT"
-                'RetDT3 = RetDT.Copy
-                'RetDS.Tables.Add(RetDT3)
+
+                RetDT = New DataTable
+                Dim Query As String = String.Empty
+                Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                        " FROM ""ODLN"" T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                        " INNER JOIN ""DLN1"" T2 ON T2.""DocEntry"" = T0.""DocEntry"" " & _
+                        " WHERE T2.""BaseEntry"" = '" & DocEntry & "' "
+                RetDT = fn.ExecuteSQLQuery(Query, Errmsg)
+                If Errmsg <> "" Then
+                    Throw New Exception(Errmsg)
+                End If
+                RetDT.TableName = "ATTACHMENT"
+                RetDT2 = RetDT.Copy
+                RetDS.Tables.Add(RetDT2)
+
 
                 Context.Response.Output.Write(fn.ds2json(RetDS))
             Else
