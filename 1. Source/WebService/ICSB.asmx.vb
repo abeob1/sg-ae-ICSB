@@ -9776,7 +9776,7 @@ Public Class ICSB
 
                 RetDT = New DataTable
                 Dim Query As String = String.Empty
-                Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                Query = "SELECT T0.""DocEntry"", T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
                         " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
                         " FROM ""ODLN"" T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
                         " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
@@ -9930,18 +9930,27 @@ Public Class ICSB
                 DocEntry = dr.Item("U_OrderNo")
             End If
 
+            Dim RetDT As New DataTable
+            Dim RetDT1 As New DataTable
+            Dim RetDT2 As New DataTable
+            Dim RetDT3 As New DataTable
+            Dim iItemCount As String = String.Empty
 
             'Dim Str As String = "SELECT Top 1  T0.""DocEntry"", T0.""OpenQty"",IFNULL(T1.""U_FormLink"",'AOS') ""FormName"" FROM RDR1 T0 LEFT JOIN OITM T1 on T0.""ItemCode""=T1.""ItemCode"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
-            Dim Str As String = "SELECT Top 1  T0.""DocEntry"", T0.""OpenQty"",IFNULL(T1.""U_FormLink"",'AOS') ""FormName"",IFNULL(COUNT(T2.""U_SURVEYTYPE""),0) AS ""FormatNo"" " & _
+            Dim Str As String = String.Empty
+
+            RetDT = New DataTable
+            Str = "SELECT COUNT(""ItemCode"") AS ""ItemCount"" FROM(SELECT 'OFH' AS ""ItemCode"" FROM DUMMY UNION SELECT 'ONH' AS ""ItemCode"" FROM DUMMY)T " & _
+                  " WHERE ""ItemCode"" = (SELECT TOP 1 ""ItemCode"" FROM ""RDR1"" WHERE ""DocEntry"" = '" & DocEntry & "')"
+            iItemCount = fn.ExecuteSQLQuery_SingleValue(Str, sErrDesc)
+
+            RetDT = New DataTable
+            Str = "SELECT Top 1  T0.""DocEntry"", T0.""OpenQty"",IFNULL(T1.""U_FormLink"",'AOS') ""FormName"",IFNULL(COUNT(T2.""U_SURVEYTYPE""),0) AS ""FormatNo"",'" & iItemCount & "' AS ""ItemCount"" " & _
                                 " FROM RDR1 T0 " & _
                                 " LEFT JOIN OITM T1 on T0.""ItemCode""=T1.""ItemCode"" " & _
                                 " LEFT JOIN ""@SURVEYTYPE_FORM"" T2 ON UPPER(T2.""U_SURVEYTYPE"") = UPPER(T1.""ItemCode"") WHERE T0.""DocEntry"" ='" & DocEntry & "' " & _
                                 " GROUP BY T0.""DocEntry"", T0.""OpenQty"",T1.""U_FormLink"" "
 
-            Dim RetDT As New DataTable
-            Dim RetDT1 As New DataTable
-            Dim RetDT2 As New DataTable
-            Dim RetDT3 As New DataTable
             RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
             If Errmsg <> "" Then
                 Throw New Exception(Errmsg)
@@ -9977,7 +9986,7 @@ Public Class ICSB
 
                 RetDT = New DataTable
                 Dim Query As String = String.Empty
-                Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                Query = "SELECT T0.""DocEntry"", T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
                         " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
                         " FROM ""ODLN"" T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
                         " INNER JOIN ""DLN1"" T2 ON T2.""DocEntry"" = T0.""DocEntry"" " & _
@@ -10049,6 +10058,21 @@ Public Class ICSB
                 RetDT.TableName = "ODLN"
                 RetDT1 = RetDT.Copy
                 RetDS.Tables.Add(RetDT1)
+
+                RetDT = New DataTable
+                Dim Query As String = String.Empty
+                Query = "SELECT T0.""DocEntry"", T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                        " FROM ""ODLN"" T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug(Query, "SurveyTyep_Find")
+                RetDT = fn.ExecuteSQLQuery(Query, Errmsg)
+                If Errmsg <> "" Then
+                    Throw New Exception(Errmsg)
+                End If
+                RetDT.TableName = "ATTACHMENT"
+                RetDT2 = RetDT.Copy
+                RetDS.Tables.Add(RetDT2)
 
                 Context.Response.Output.Write(fn.ds2json(RetDS))
             Else
