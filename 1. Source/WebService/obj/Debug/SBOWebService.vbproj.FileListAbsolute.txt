@@ -177,3 +177,4 @@ E:\SVN\ICSB\1. Source\WebService\obj\Debug\SBOWebService.vbproj.GenerateResource
 E:\SVN\ICSB\1. Source\WebService\obj\Debug\SBOWebService.dll
 E:\SVN\ICSB\1. Source\WebService\obj\Debug\SBOWebService.xml
 E:\SVN\ICSB\1. Source\WebService\obj\Debug\SBOWebService.pdb
+E:\SVN\ICSB\1. Source\WebService\obj\Debug\SBOWebService.vbprojResolveAssemblyReference.cache
