@@ -6064,6 +6064,7 @@ Public Class ICSB
                         oSO.Lines.UserFields.Fields.Item("U_EQType").Value = dr1.Item("U_EQType").ToString.Trim()
                         EqupTye = dr1.Item("U_EQType").ToString.Trim()
                         oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value = dr1.Item("U_SCriteria").ToString.Trim()
+                        oSO.Lines.UserFields.Fields.Item("U_ReSurvey").Value = dr1.Item("U_ReSurvey").ToString.Trim()
 
                         SQLStr = "SELECT Top 1  T1.""U_Rate"",T1.""U_Currency"" " & _
                                  " FROM ""@CCON""  T0 " & _
@@ -6401,7 +6402,7 @@ Public Class ICSB
 
                 RetDT = New DataTable
 
-                Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                         " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                         " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -6529,7 +6530,7 @@ Public Class ICSB
 
                 RetDT = New DataTable
 
-                Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                         " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                         " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -6690,7 +6691,7 @@ Public Class ICSB
                     RetDS.Tables.Add(RetDT1)
                     RetDT = New DataTable
 
-                    Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                    Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                             " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                             " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -6740,7 +6741,7 @@ Public Class ICSB
 
                         RetDT = New DataTable
 
-                        Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                        Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                                 " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                                 " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                         RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -6908,7 +6909,7 @@ Public Class ICSB
                     RetDS.Tables.Add(RetDT1)
                     RetDT = New DataTable
 
-                    Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                    Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                             " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                             " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -6958,7 +6959,7 @@ Public Class ICSB
 
                         RetDT = New DataTable
 
-                        Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                        Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                                 " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                         RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                         If ErrMsg <> "" Then
@@ -7126,7 +7127,7 @@ Public Class ICSB
                     RetDS.Tables.Add(RetDT1)
                     RetDT = New DataTable
 
-                    Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                    Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                             " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                     If ErrMsg <> "" Then
@@ -7174,7 +7175,7 @@ Public Class ICSB
 
                         RetDT = New DataTable
 
-                        Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                        Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                                 " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                         RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                         If ErrMsg <> "" Then
