@@ -6027,38 +6027,38 @@ Public Class ICSB
                 oSO.UserFields.Fields.Item("U_Loc").Value = dr.Item("U_Loc").ToString.Trim()
                 oSO.Comments = dr.Item("Comments").ToString.Trim
 
-                'Dim oAttachEntry As Integer = 0
-                'Dim bAttachAdd As Boolean = False
-                'If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
-                '    SOTOATTACH = ds.Tables("ATTACHMENT")
-                '    Dim oAttach As SAPbobsCOM.Attachments2
-                '    oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
+                Dim oAttachEntry As Integer = 0
+                Dim bAttachAdd As Boolean = False
+                If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
+                    SOTOATTACH = ds.Tables("ATTACHMENT")
+                    Dim oAttach As SAPbobsCOM.Attachments2
+                    oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
 
-                '    For Each odr As DataRow In SOTOATTACH.Rows
+                    For Each odr As DataRow In SOTOATTACH.Rows
 
-                '        Dim sSourcePath, sFileName, sFileExt As String
-                '        sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
-                '        sFileName = odr.Item("U_FileName").ToString.Trim()
-                '        sFileExt = Path.GetExtension(sFileName)
-                '        sFileExt = sFileExt.Replace(".", "")
-                '        If sFileName <> "" Then
-                '            oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
-                '            oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
-                '            oAttach.Lines.FileExtension = sFileExt
-                '            oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
-                '            oAttach.Lines.Add()
-                '            bAttachAdd = True
-                '        End If
-                '    Next
-                '    If bAttachAdd = True Then
-                '        If oAttach.Add() = 0 Then
-                '            oAttachEntry = PublicVariable.oCompany.GetNewObjectKey()
-                '            oSO.AttachmentEntry = oAttachEntry
-                '        Else
-                '            Throw New Exception("Error while adding attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
-                '        End If
-                '    End If
-                'End If
+                        Dim sSourcePath, sFileName, sFileExt As String
+                        sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
+                        sFileName = odr.Item("U_FileName").ToString.Trim()
+                        sFileExt = Path.GetExtension(sFileName)
+                        sFileExt = sFileExt.Replace(".", "")
+                        If sFileName <> "" Then
+                            oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
+                            oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
+                            oAttach.Lines.FileExtension = sFileExt
+                            oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
+                            oAttach.Lines.Add()
+                            bAttachAdd = True
+                        End If
+                    Next
+                    If bAttachAdd = True Then
+                        If oAttach.Add() = 0 Then
+                            oAttachEntry = PublicVariable.oCompany.GetNewObjectKey()
+                            oSO.AttachmentEntry = oAttachEntry
+                        Else
+                            Throw New Exception("Error while adding attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
+                        End If
+                    End If
+                End If
 
                 If ds.Tables("SQTOGEN").Rows.Count > 0 Then
                     SQTOGEN = ds.Tables("SQTOGEN")
@@ -6069,7 +6069,7 @@ Public Class ICSB
                         oSO.Lines.UserFields.Fields.Item("U_EQType").Value = dr1.Item("U_EQType").ToString.Trim()
                         EqupTye = dr1.Item("U_EQType").ToString.Trim()
                         oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value = dr1.Item("U_SCriteria").ToString.Trim()
-                        'oSO.Lines.UserFields.Fields.Item("U_ReSurvey").Value = dr1.Item("U_ReSurvey").ToString.Trim()
+                        oSO.Lines.UserFields.Fields.Item("U_ReSurvey").Value = dr1.Item("U_ReSurvey").ToString.Trim()
 
                         SQLStr = "SELECT Top 1  T1.""U_Rate"",T1.""U_Currency"" " & _
                                  " FROM ""@CCON""  T0 " & _
@@ -6196,73 +6196,73 @@ Public Class ICSB
                 'oSO.UserFields.Fields.Item("U_City").Value = dr.Item("U_City").ToString.Trim()
                 'City = dr.Item("U_City").ToString.Trim()
                 'oSO.UserFields.Fields.Item("U_Loc").Value = dr.Item("U_Loc").ToString.Trim()
-                'oSO.UserFields.Fields.Item("U_UpdatedBy_UserCode").Value = dr.Item("U_UCode").ToString.Trim()
-                'oSO.UserFields.Fields.Item("U_UpdateBy_UserName").Value = dr.Item("U_UName").ToString.Trim()
+                oSO.UserFields.Fields.Item("U_UpdatedBy_UserCode").Value = dr.Item("U_UCode").ToString.Trim()
+                oSO.UserFields.Fields.Item("U_UpdateBy_UserName").Value = dr.Item("U_UName").ToString.Trim()
                 oSO.Comments = dr.Item("Comments").ToString.Trim
 
-                'Dim iAttachEntry As Integer = 0
-                'Dim bAttchAdd As Boolean = False
-                'Dim bFileExists As Boolean = False
-                'If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
-                '    SOTOATTACH = ds.Tables("ATTACHMENT")
-                '    Dim oAttach As SAPbobsCOM.Attachments2
-                '    oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
+                Dim iAttachEntry As Integer = 0
+                Dim bAttchAdd As Boolean = False
+                Dim bFileExists As Boolean = False
+                If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
+                    SOTOATTACH = ds.Tables("ATTACHMENT")
+                    Dim oAttach As SAPbobsCOM.Attachments2
+                    oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
 
-                '    If oAttach.GetByKey(oSO.AttachmentEntry) Then
-                '        For Each odr As DataRow In SOTOATTACH.Rows
-                '            Dim sSourcePath, sFileName, sFileExt As String
-                '            sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
-                '            sFileName = odr.Item("U_FileName").ToString.Trim()
-                '            sFileExt = Path.GetExtension(sFileName)
-                '            sFileExt = sFileExt.Replace(".", "")
+                    If oAttach.GetByKey(oSO.AttachmentEntry) Then
+                        For Each odr As DataRow In SOTOATTACH.Rows
+                            Dim sSourcePath, sFileName, sFileExt As String
+                            sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
+                            sFileName = odr.Item("U_FileName").ToString.Trim()
+                            sFileExt = Path.GetExtension(sFileName)
+                            sFileExt = sFileExt.Replace(".", "")
 
-                '            If sFileName <> "" Then
-                '                Dim sQuery As String = String.Empty
-                '                Dim oRecordSet As SAPbobsCOM.Recordset
-                '                oRecordSet = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
-                '                sQuery = "SELECT * FROM ""ATC1"" WHERE ""AbsEntry"" = '" & oSO.AttachmentEntry & "' AND ""FileName"" = '" & sFileName.Replace(Path.GetExtension(sFileName), "") & "' "
-                '                oRecordSet.DoQuery(sQuery)
-                '                If oRecordSet.RecordCount > 0 Then
-                '                Else
-                '                    oAttach.Lines.Add()
-                '                    oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
-                '                    oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
-                '                    oAttach.Lines.FileExtension = sFileExt
-                '                    oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
-                '                End If
-                '            End If
-                '        Next
-                '        If oAttach.Update() = 0 Then
-                '            If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Attachment updated successfully", sFunction)
-                '        Else
-                '            Throw New Exception("Error while updating attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
-                '        End If
-                '    Else
-                '        For Each odr As DataRow In SOTOATTACH.Rows
-                '            Dim sSourcePath, sFileName, sFileExt As String
-                '            sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
-                '            sFileName = odr.Item("U_FileName").ToString.Trim()
-                '            sFileExt = Path.GetExtension(sFileName)
-                '            sFileExt = sFileExt.Replace(".", "")
-                '            If sFileName <> "" Then
-                '                oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
-                '                oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
-                '                oAttach.Lines.FileExtension = sFileExt
-                '                oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
-                '                oAttach.Lines.Add()
-                '                bAttchAdd = True
-                '            End If
-                '        Next
-                '        If bAttchAdd = True Then
-                '            If oAttach.Add() = 0 Then
-                '                iAttachEntry = PublicVariable.oCompany.GetNewObjectKey()
-                '                oSO.AttachmentEntry = iAttachEntry
-                '            Else
-                '                Throw New Exception("Error while adding attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
-                '            End If
-                '        End If
-                '    End If
-                'End If
+                            If sFileName <> "" Then
+                                Dim sQuery As String = String.Empty
+                                Dim oRecordSet As SAPbobsCOM.Recordset
+                                oRecordSet = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
+                                sQuery = "SELECT * FROM ""ATC1"" WHERE ""AbsEntry"" = '" & oSO.AttachmentEntry & "' AND ""FileName"" = '" & sFileName.Replace(Path.GetExtension(sFileName), "") & "' "
+                                oRecordSet.DoQuery(sQuery)
+                                If oRecordSet.RecordCount > 0 Then
+                                Else
+                                    oAttach.Lines.Add()
+                                    oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
+                                    oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
+                                    oAttach.Lines.FileExtension = sFileExt
+                                    oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
+                                End If
+                            End If
+                        Next
+                        If oAttach.Update() = 0 Then
+                            If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Attachment updated successfully", sFunction)
+                        Else
+                            Throw New Exception("Error while updating attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
+                        End If
+                    Else
+                        For Each odr As DataRow In SOTOATTACH.Rows
+                            Dim sSourcePath, sFileName, sFileExt As String
+                            sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
+                            sFileName = odr.Item("U_FileName").ToString.Trim()
+                            sFileExt = Path.GetExtension(sFileName)
+                            sFileExt = sFileExt.Replace(".", "")
+                            If sFileName <> "" Then
+                                oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
+                                oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
+                                oAttach.Lines.FileExtension = sFileExt
+                                oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
+                                oAttach.Lines.Add()
+                                bAttchAdd = True
+                            End If
+                        Next
+                        If bAttchAdd = True Then
+                            If oAttach.Add() = 0 Then
+                                iAttachEntry = PublicVariable.oCompany.GetNewObjectKey()
+                                oSO.AttachmentEntry = iAttachEntry
+                            Else
+                                Throw New Exception("Error while adding attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
+                            End If
+                        End If
+                    End If
+                End If
 
                 If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Adding general data", sFunction)
 
@@ -6274,7 +6274,7 @@ Public Class ICSB
                         oSO.Lines.Quantity = dr1.Item("Quantity")
                         'oSO.Lines.UserFields.Fields.Item("U_PDate").Value = DateConvert(dr1.Item("U_PDate").ToString.Trim())
                         oSO.Lines.UserFields.Fields.Item("U_PDate").Value = GetDateTimeValue(dr1.Item("U_PDate").ToString.Trim())
-                        'oSO.Lines.UserFields.Fields.Item("U_ReSurvey").Value = dr1.Item("U_ReSurvey").ToString.Trim()
+                        oSO.Lines.UserFields.Fields.Item("U_ReSurvey").Value = dr1.Item("U_ReSurvey").ToString.Trim()
                         'oSO.Lines.UserFields.Fields.Item("U_EQType").Value = dr1.Item("U_EQType").ToString.Trim()
                         'EqupTye = dr1.Item("U_EQType").ToString.Trim()
                         'oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value = dr1.Item("U_SCriteria").ToString.Trim()
@@ -6408,12 +6408,9 @@ Public Class ICSB
 
                 RetDT = New DataTable
 
-                'Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                '        " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
-                '        " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
-                Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
-                       " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
-                       " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
+                Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
+                        " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
+                        " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                 If ErrMsg <> "" Then
                     Throw New Exception(ErrMsg)
@@ -6422,18 +6419,18 @@ Public Class ICSB
                 RetDT2 = RetDT.Copy
                 RetDS.Tables.Add(RetDT2)
 
-                'RetDT = New DataTable
-                'Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
-                '        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
-                '        " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
-                '        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
-                'RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
-                'If ErrMsg <> "" Then
-                '    Throw New Exception(ErrMsg)
-                'End If
-                'RetDT.TableName = "ATTACHMENT"
-                'RetDT3 = RetDT.Copy
-                'RetDS.Tables.Add(RetDT3)
+                RetDT = New DataTable
+                Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                        " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                If ErrMsg <> "" Then
+                    Throw New Exception(ErrMsg)
+                End If
+                RetDT.TableName = "ATTACHMENT"
+                RetDT3 = RetDT.Copy
+                RetDS.Tables.Add(RetDT3)
 
                 Context.Response.Output.Write(fn.ds2json(RetDS))
             Else
@@ -6539,10 +6536,7 @@ Public Class ICSB
 
                 RetDT = New DataTable
 
-                'Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                '        " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
-                '        " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
-                Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                         " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                         " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -6553,18 +6547,18 @@ Public Class ICSB
                 RetDT2 = RetDT.Copy
                 RetDS.Tables.Add(RetDT2)
 
-                'RetDT = New DataTable
-                'Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
-                '        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
-                '        " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
-                '        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
-                'RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
-                'If ErrMsg <> "" Then
-                '    Throw New Exception(ErrMsg)
-                'End If
-                'RetDT.TableName = "ATTACHMENT"
-                'RetDT3 = RetDT.Copy
-                'RetDS.Tables.Add(RetDT3)
+                RetDT = New DataTable
+                Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                        " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                If ErrMsg <> "" Then
+                    Throw New Exception(ErrMsg)
+                End If
+                RetDT.TableName = "ATTACHMENT"
+                RetDT3 = RetDT.Copy
+                RetDS.Tables.Add(RetDT3)
 
                 Context.Response.Output.Write(fn.ds2json(RetDS))
             Else
@@ -6703,10 +6697,7 @@ Public Class ICSB
                     RetDS.Tables.Add(RetDT1)
                     RetDT = New DataTable
 
-                    'Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                    '        " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
-                    '        " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
-                    Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                    Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                             " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                             " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -6718,18 +6709,18 @@ Public Class ICSB
                     RetDT2 = RetDT.Copy
                     RetDS.Tables.Add(RetDT2)
 
-                    'RetDT = New DataTable
-                    'Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
-                    '        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
-                    '        " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
-                    '        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
-                    'RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
-                    'If ErrMsg <> "" Then
-                    '    Throw New Exception(ErrMsg)
-                    'End If
-                    'RetDT.TableName = "ATTACHMENT"
-                    'RetDT3 = RetDT.Copy
-                    'RetDS.Tables.Add(RetDT3)
+                    RetDT = New DataTable
+                    Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                            " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                            " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                            " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                    RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                    If ErrMsg <> "" Then
+                        Throw New Exception(ErrMsg)
+                    End If
+                    RetDT.TableName = "ATTACHMENT"
+                    RetDT3 = RetDT.Copy
+                    RetDS.Tables.Add(RetDT3)
 
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
@@ -6756,10 +6747,7 @@ Public Class ICSB
 
                         RetDT = New DataTable
 
-                        'Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                        '        " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
-                        '        " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
-                        Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                        Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                                 " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                                 " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                         RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -6770,18 +6758,18 @@ Public Class ICSB
                         RetDT2 = RetDT.Copy
                         RetDS.Tables.Add(RetDT2)
 
-                        'RetDT = New DataTable
-                        'Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
-                        '        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
-                        '        " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
-                        '        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
-                        'RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
-                        'If ErrMsg <> "" Then
-                        '    Throw New Exception(ErrMsg)
-                        'End If
-                        'RetDT.TableName = "ATTACHMENT"
-                        'RetDT3 = RetDT.Copy
-                        'RetDS.Tables.Add(RetDT3)
+                        RetDT = New DataTable
+                        Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                                " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                                " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                                " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                        RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                        If ErrMsg <> "" Then
+                            Throw New Exception(ErrMsg)
+                        End If
+                        RetDT.TableName = "ATTACHMENT"
+                        RetDT3 = RetDT.Copy
+                        RetDS.Tables.Add(RetDT3)
 
                         Context.Response.Output.Write(fn.ds2json(RetDS))
 
@@ -6927,10 +6915,7 @@ Public Class ICSB
                     RetDS.Tables.Add(RetDT1)
                     RetDT = New DataTable
 
-                    'Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                    '        " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
-                    '        " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
-                    Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                    Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                             " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                             " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
@@ -6942,18 +6927,18 @@ Public Class ICSB
                     RetDT2 = RetDT.Copy
                     RetDS.Tables.Add(RetDT2)
 
-                    'RetDT = New DataTable
-                    'Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
-                    '        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
-                    '        " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
-                    '        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
-                    'RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
-                    'If ErrMsg <> "" Then
-                    '    Throw New Exception(ErrMsg)
-                    'End If
-                    'RetDT.TableName = "ATTACHMENT"
-                    'RetDT3 = RetDT.Copy
-                    'RetDS.Tables.Add(RetDT3)
+                    RetDT = New DataTable
+                    Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                            " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                            " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                            " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                    RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                    If ErrMsg <> "" Then
+                        Throw New Exception(ErrMsg)
+                    End If
+                    RetDT.TableName = "ATTACHMENT"
+                    RetDT3 = RetDT.Copy
+                    RetDS.Tables.Add(RetDT3)
 
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
@@ -6980,9 +6965,7 @@ Public Class ICSB
 
                         RetDT = New DataTable
 
-                        'Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                        '        " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
-                        Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                        Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                                 " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                         RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                         If ErrMsg <> "" Then
@@ -6992,18 +6975,18 @@ Public Class ICSB
                         RetDT2 = RetDT.Copy
                         RetDS.Tables.Add(RetDT2)
 
-                        'RetDT = New DataTable
-                        'Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
-                        '        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
-                        '        " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
-                        '        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
-                        'RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
-                        'If ErrMsg <> "" Then
-                        '    Throw New Exception(ErrMsg)
-                        'End If
-                        'RetDT.TableName = "ATTACHMENT"
-                        'RetDT3 = RetDT.Copy
-                        'RetDS.Tables.Add(RetDT3)
+                        RetDT = New DataTable
+                        Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                                " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                                " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                                " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                        RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                        If ErrMsg <> "" Then
+                            Throw New Exception(ErrMsg)
+                        End If
+                        RetDT.TableName = "ATTACHMENT"
+                        RetDT3 = RetDT.Copy
+                        RetDS.Tables.Add(RetDT3)
 
                         Context.Response.Output.Write(fn.ds2json(RetDS))
 
@@ -7150,9 +7133,7 @@ Public Class ICSB
                     RetDS.Tables.Add(RetDT1)
                     RetDT = New DataTable
 
-                    'Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                    '        " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
-                    Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
+                    Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
                             " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                     If ErrMsg <> "" Then
@@ -7163,18 +7144,18 @@ Public Class ICSB
                     RetDT2 = RetDT.Copy
                     RetDS.Tables.Add(RetDT2)
 
-                    'RetDT = New DataTable
-                    'Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
-                    '        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
-                    '        " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
-                    '        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
-                    'RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
-                    'If ErrMsg <> "" Then
-                    '    Throw New Exception(ErrMsg)
-                    'End If
-                    'RetDT.TableName = "ATTACHMENT"
-                    'RetDT3 = RetDT.Copy
-                    'RetDS.Tables.Add(RetDT3)
+                    RetDT = New DataTable
+                    Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                            " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                            " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                            " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                    RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                    If ErrMsg <> "" Then
+                        Throw New Exception(ErrMsg)
+                    End If
+                    RetDT.TableName = "ATTACHMENT"
+                    RetDT3 = RetDT.Copy
+                    RetDS.Tables.Add(RetDT3)
 
                     Context.Response.Output.Write(fn.ds2json(RetDS))
                 Else
@@ -7200,10 +7181,8 @@ Public Class ICSB
 
                         RetDT = New DataTable
 
-                        'Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                        '        " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
-                        Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"", " & _
-                               " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
+                        Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
+                                " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                         RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                         If ErrMsg <> "" Then
                             Throw New Exception(ErrMsg)
@@ -7212,18 +7191,18 @@ Public Class ICSB
                         RetDT2 = RetDT.Copy
                         RetDS.Tables.Add(RetDT2)
 
-                        'RetDT = New DataTable
-                        'Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
-                        '        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
-                        '        " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
-                        '        " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
-                        'RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
-                        'If ErrMsg <> "" Then
-                        '    Throw New Exception(ErrMsg)
-                        'End If
-                        'RetDT.TableName = "ATTACHMENT"
-                        'RetDT3 = RetDT.Copy
-                        'RetDS.Tables.Add(RetDT3)
+                        RetDT = New DataTable
+                        Query = "SELECT T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                                " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                                " FROM ""ORDR""  T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                                " WHERE T0.""DocEntry"" = '" & DocEntry & "' "
+                        RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
+                        If ErrMsg <> "" Then
+                            Throw New Exception(ErrMsg)
+                        End If
+                        RetDT.TableName = "ATTACHMENT"
+                        RetDT3 = RetDT.Copy
+                        RetDS.Tables.Add(RetDT3)
 
                         Context.Response.Output.Write(fn.ds2json(RetDS))
 
@@ -10015,12 +9994,11 @@ Public Class ICSB
             iItemCount = fn.ExecuteSQLQuery_SingleValue(Str, sErrDesc)
 
             RetDT = New DataTable
-            'Str = "SELECT Top 1  T0.""DocEntry"",T0.""ItemCode"", T0.""OpenQty"",IFNULL(T1.""U_FormLink"",'AOS') ""FormName"",IFNULL(COUNT(T2.""U_SURVEYTYPE""),0) AS ""FormatNo"",'" & iItemCount & "' AS ""ItemCount"" " & _
-            '                    " FROM RDR1 T0 " & _
-            '                    " LEFT JOIN OITM T1 on T0.""ItemCode""=T1.""ItemCode"" " & _
-            '                    " LEFT JOIN ""@SURVEYTYPE_FORM"" T2 ON UPPER(T2.""U_SURVEYTYPE"") = UPPER(T1.""ItemCode"") WHERE T0.""DocEntry"" ='" & DocEntry & "' " & _
-            '                    " GROUP BY T0.""DocEntry"",T0.""ItemCode"", T0.""OpenQty"",T1.""U_FormLink"" "
-            Str = "SELECT Top 1  T0.""DocEntry"", T0.""OpenQty"",IFNULL(T1.""U_FormLink"",'AOS') ""FormName"" FROM RDR1 T0 LEFT JOIN OITM T1 on T0.""ItemCode""=T1.""ItemCode"" WHERE T0.""DocEntry"" ='" & DocEntry & "'"
+            Str = "SELECT Top 1  T0.""DocEntry"",T0.""ItemCode"", T0.""OpenQty"",IFNULL(T1.""U_FormLink"",'AOS') ""FormName"",IFNULL(COUNT(T2.""U_SURVEYTYPE""),0) AS ""FormatNo"",'" & iItemCount & "' AS ""ItemCount"" " & _
+                                " FROM RDR1 T0 " & _
+                                " LEFT JOIN OITM T1 on T0.""ItemCode""=T1.""ItemCode"" " & _
+                                " LEFT JOIN ""@SURVEYTYPE_FORM"" T2 ON UPPER(T2.""U_SURVEYTYPE"") = UPPER(T1.""ItemCode"") WHERE T0.""DocEntry"" ='" & DocEntry & "' " & _
+                                " GROUP BY T0.""DocEntry"",T0.""ItemCode"", T0.""OpenQty"",T1.""U_FormLink"" "
 
             RetDT = fn.ExecuteSQLQuery(Str, Errmsg)
             If Errmsg <> "" Then
@@ -10055,20 +10033,20 @@ Public Class ICSB
                 RetDS.Tables.Add(RetDT2)
 
 
-                'RetDT = New DataTable
-                'Dim Query As String = String.Empty
-                'Query = "SELECT T0.""DocEntry"", T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
-                '        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
-                '        " FROM ""ODLN"" T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
-                '        " INNER JOIN ""DLN1"" T2 ON T2.""DocEntry"" = T0.""DocEntry"" " & _
-                '        " WHERE T2.""BaseEntry"" = '" & DocEntry & "' "
-                'RetDT = fn.ExecuteSQLQuery(Query, Errmsg)
-                'If Errmsg <> "" Then
-                '    Throw New Exception(Errmsg)
-                'End If
-                'RetDT.TableName = "ATTACHMENT"
-                'RetDT2 = RetDT.Copy
-                'RetDS.Tables.Add(RetDT2)
+                RetDT = New DataTable
+                Dim Query As String = String.Empty
+                Query = "SELECT T0.""DocEntry"", T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FileName"",T1.""trgtPath""||'\'||T1.""FileName"" ||'.'|| T1.""FileExt"" AS ""U_FilePath"", " & _
+                        " T1.""Line"" AS ""U_id"", TO_CHAR(T1.""Date"", 'DD/MM/YYYY') AS ""U_Date"" " & _
+                        " FROM ""ODLN"" T0 INNER JOIN ""ATC1"" T1 ON T1.""AbsEntry"" =  T0.""AtcEntry"" " & _
+                        " INNER JOIN ""DLN1"" T2 ON T2.""DocEntry"" = T0.""DocEntry"" " & _
+                        " WHERE T2.""BaseEntry"" = '" & DocEntry & "' "
+                RetDT = fn.ExecuteSQLQuery(Query, Errmsg)
+                If Errmsg <> "" Then
+                    Throw New Exception(Errmsg)
+                End If
+                RetDT.TableName = "ATTACHMENT"
+                RetDT2 = RetDT.Copy
+                RetDS.Tables.Add(RetDT2)
 
 
                 Context.Response.Output.Write(fn.ds2json(RetDS))
