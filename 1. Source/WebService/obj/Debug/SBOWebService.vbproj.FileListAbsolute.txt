@@ -169,6 +169,7 @@ E:\SVN\ICSB\1. Source\WebService\bin\SBOWebService.xml
 E:\SVN\ICSB\1. Source\WebService\bin\Newtonsoft.Json.dll
 E:\SVN\ICSB\1. Source\WebService\bin\Newtonsoft.Json.xml
 E:\SVN\ICSB\1. Source\WebService\bin\Interop.Shell32.dll
+E:\SVN\ICSB\1. Source\WebService\obj\Debug\SBOWebService.vbprojResolveAssemblyReference.cache
 E:\SVN\ICSB\1. Source\WebService\obj\Debug\Interop.SAPbobsCOM.dll
 E:\SVN\ICSB\1. Source\WebService\obj\Debug\Interop.Shell32.dll
 E:\SVN\ICSB\1. Source\WebService\obj\Debug\SBOWebService.vbproj.ResolveComReference.cache
@@ -177,4 +178,3 @@ E:\SVN\ICSB\1. Source\WebService\obj\Debug\SBOWebService.vbproj.GenerateResource
 E:\SVN\ICSB\1. Source\WebService\obj\Debug\SBOWebService.dll
 E:\SVN\ICSB\1. Source\WebService\obj\Debug\SBOWebService.xml
 E:\SVN\ICSB\1. Source\WebService\obj\Debug\SBOWebService.pdb
-E:\SVN\ICSB\1. Source\WebService\obj\Debug\SBOWebService.vbprojResolveAssemblyReference.cache

@@ -6176,26 +6176,8 @@ Public Class ICSB
                 Else
                     Throw New Exception("No Record Found!")
                 End If
-                ' oSO.UserFields.Fields.Item("U_UUCode").Value = dr.Item("U_UCode").ToString.Trim()
-                'oSO.UserFields.Fields.Item("U_UName").Value = dr.Item("U_UName").ToString.Trim()
-                'oSO.UserFields.Fields.Item("U_Cdate").Value = dr.Item("U_Cdate")
-                'DocDate = DateConvert(dr.Item("DocDate").ToString)
-                'oSO.DocDate = DateConvert(dr.Item("DocDate").ToString)
-                'oSO.DocDueDate = DateConvert(dr.Item("DocDate").ToString)
-                'oSO.CardCode = dr.Item("CardCode").ToString
-                'CardCode = dr.Item("CardCode").ToString
-                'oSO.CardName = dr.Item("CardName").ToString
-                'oSO.UserFields.Fields.Item("U_SurveyorID").Value = dr.Item("U_SurveyorID").ToString.Trim()
+               
                 oSO.NumAtCard = dr.Item("NumAtCard").ToString.Trim
-                ' STypeCode = dr.Item("U_STypeCode")
-                'STypeName = dr.Item("U_STypeName")
-                'oSO.UserFields.Fields.Item("U_STypeCode").Value = dr.Item("U_STypeCode").ToString.Trim()
-                'oSO.UserFields.Fields.Item("U_STypeName").Value = dr.Item("U_STypeName").ToString.Trim()
-                'oSO.UserFields.Fields.Item("U_Country").Value = dr.Item("U_Country").ToString.Trim()
-                'Country = dr.Item("U_Country").ToString.Trim()
-                'oSO.UserFields.Fields.Item("U_City").Value = dr.Item("U_City").ToString.Trim()
-                'City = dr.Item("U_City").ToString.Trim()
-                'oSO.UserFields.Fields.Item("U_Loc").Value = dr.Item("U_Loc").ToString.Trim()
                 oSO.UserFields.Fields.Item("U_UpdatedBy_UserCode").Value = dr.Item("U_UCode").ToString.Trim()
                 oSO.UserFields.Fields.Item("U_UpdateBy_UserName").Value = dr.Item("U_UName").ToString.Trim()
                 oSO.Comments = dr.Item("Comments").ToString.Trim
@@ -6272,23 +6254,9 @@ Public Class ICSB
                         'oSO.Lines.ItemCode = STypeCode
                         oSO.Lines.SetCurrentLine(0)
                         oSO.Lines.Quantity = dr1.Item("Quantity")
-                        'oSO.Lines.UserFields.Fields.Item("U_PDate").Value = DateConvert(dr1.Item("U_PDate").ToString.Trim())
                         oSO.Lines.UserFields.Fields.Item("U_PDate").Value = GetDateTimeValue(dr1.Item("U_PDate").ToString.Trim())
                         oSO.Lines.UserFields.Fields.Item("U_ReSurvey").Value = dr1.Item("U_ReSurvey").ToString.Trim()
-                        'oSO.Lines.UserFields.Fields.Item("U_EQType").Value = dr1.Item("U_EQType").ToString.Trim()
-                        'EqupTye = dr1.Item("U_EQType").ToString.Trim()
-                        'oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value = dr1.Item("U_SCriteria").ToString.Trim()
-                        '                        SQLStr = "SELECT Top 1  T1.""U_Rate"" " & _
-                        '"FROM ""@CCON""  T0 " & _
-                        '"Left Join ""@CCONGENERAL""  T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
-                        '"Left Join ""@EQTYPE"" T2 ON T2.""U_EQCODE""=T1.""U_EQGroup"" " & _
-                        '"WHERE T0.""U_Status"" ='Open' and  T0.""U_Ccode"" ='" & CardCode & "' and  T0.""U_CPeriod1"" <='" & DocDate & "' and  T0.""U_CPeriod2"" >='" & DocDate & "'   " & _
-                        '"and T1.""U_Stype""='" & STypeCode & "' and  T1.""U_Country""='" & Country & "' and T1.""U_City""='" & City & "' and T2.""U_EQTYPECODE""='" & EqupTye & "'"
-                        '                        Rt = fn.ExecuteSQLQuery_SingleValue(SQLStr, Errmsg)
-                        '                        If Rt = "" Then
-                        '                            Throw New Exception("No Valid Contract Found!")
-                        '                        End If
-                        '                        oSO.Lines.UnitPrice = CDec(Rt)
+                        
                         oSO.Lines.Add()
                     Next
                 Else
@@ -6409,7 +6377,7 @@ Public Class ICSB
                 RetDT = New DataTable
 
                 Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                        " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
+                        " T1.""LineNum"", CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                         " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                 If ErrMsg <> "" Then
@@ -6537,7 +6505,7 @@ Public Class ICSB
                 RetDT = New DataTable
 
                 Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                        " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
+                        " T1.""LineNum"",CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                         " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                 RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                 If ErrMsg <> "" Then
@@ -6698,7 +6666,7 @@ Public Class ICSB
                     RetDT = New DataTable
 
                     Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                            " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
+                            " T1.""LineNum"",CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                             " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                     If ErrMsg <> "" Then
@@ -6748,7 +6716,7 @@ Public Class ICSB
                         RetDT = New DataTable
 
                         Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                                " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
+                                " T1.""LineNum"",CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                                 " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                         RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                         If ErrMsg <> "" Then
@@ -6916,7 +6884,7 @@ Public Class ICSB
                     RetDT = New DataTable
 
                     Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                            " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
+                            " T1.""LineNum"",CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" " & _
                             " FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                     If ErrMsg <> "" Then
@@ -6966,7 +6934,7 @@ Public Class ICSB
                         RetDT = New DataTable
 
                         Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                                " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
+                                " T1.""LineNum"",CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                         RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                         If ErrMsg <> "" Then
                             Throw New Exception(ErrMsg)
@@ -7134,7 +7102,7 @@ Public Class ICSB
                     RetDT = New DataTable
 
                     Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                            " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
+                            " T1.""LineNum"",CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                     RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                     If ErrMsg <> "" Then
                         Throw New Exception(ErrMsg)
@@ -7182,7 +7150,7 @@ Public Class ICSB
                         RetDT = New DataTable
 
                         Query = "SELECT T1.""Quantity"", TO_CHAR( T1.""U_PDate"" , 'DD/MM/YYYY') ""U_PDate"", T1.""U_EQType"", T1.""U_SCriteria"",IFNULL(T1.""U_ReSurvey"",'NO') AS ""U_ReSurvey"", " & _
-                                " CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
+                                " T1.""LineNum"",CASE WHEN T1.""LineStatus"" = 'O' THEN 'Open' WHEN T1.""LineStatus"" = 'C' THEN 'Closed' END AS ""LineStatus"", T1.""OpenQty"" FROM ""RDR1""  T1 WHERE T1.""DocEntry"" ='" & DocEntry & "'"
                         RetDT = fn.ExecuteSQLQuery(Query, ErrMsg)
                         If ErrMsg <> "" Then
                             Throw New Exception(ErrMsg)
@@ -8312,38 +8280,38 @@ Public Class ICSB
                 'End If
 
 
-                'Dim oAttachEntry As Integer = 0
-                'Dim bAttachAdd As Boolean = False
-                'If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
-                '    SOTOATTACH = ds.Tables("ATTACHMENT")
-                '    Dim oAttach As SAPbobsCOM.Attachments2
-                '    oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
+                Dim oAttachEntry As Integer = 0
+                Dim bAttachAdd As Boolean = False
+                If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
+                    SOTOATTACH = ds.Tables("ATTACHMENT")
+                    Dim oAttach As SAPbobsCOM.Attachments2
+                    oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
 
-                '    For Each odr As DataRow In SOTOATTACH.Rows
+                    For Each odr As DataRow In SOTOATTACH.Rows
 
-                '        Dim sSourcePath, sFileName, sFileExt As String
-                '        sFileName = odr.Item("U_FileName").ToString.Trim()
-                '        If sFileName <> "" Then
-                '            sFileExt = Path.GetExtension(sFileName)
-                '            sFileExt = sFileExt.Replace(".", "")
-                '            sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
-                '            oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
-                '            oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
-                '            oAttach.Lines.FileExtension = sFileExt
-                '            oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
-                '            oAttach.Lines.Add()
-                '            bAttachAdd = True
-                '        End If
-                '    Next
-                '    If bAttachAdd = True Then
-                '        If oAttach.Add() = 0 Then
-                '            oAttachEntry = PublicVariable.oCompany.GetNewObjectKey()
-                '            oDO.AttachmentEntry = oAttachEntry
-                '        Else
-                '            Throw New Exception("Error while adding attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
-                '        End If
-                '    End If
-                'End If
+                        Dim sSourcePath, sFileName, sFileExt As String
+                        sFileName = odr.Item("U_FileName").ToString.Trim()
+                        If sFileName <> "" Then
+                            sFileExt = Path.GetExtension(sFileName)
+                            sFileExt = sFileExt.Replace(".", "")
+                            sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
+                            oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
+                            oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
+                            oAttach.Lines.FileExtension = sFileExt
+                            oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
+                            oAttach.Lines.Add()
+                            bAttachAdd = True
+                        End If
+                    Next
+                    If bAttachAdd = True Then
+                        If oAttach.Add() = 0 Then
+                            oAttachEntry = PublicVariable.oCompany.GetNewObjectKey()
+                            oDO.AttachmentEntry = oAttachEntry
+                        Else
+                            Throw New Exception("Error while adding attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
+                        End If
+                    End If
+                End If
 
                 RetCode = oDO.Add
                 If RetCode <> 0 Then
@@ -9306,15 +9274,8 @@ Public Class ICSB
                     Throw New Exception("No Record Found!")
                 End If
 
-                ' oDO.UserFields.Fields.Item("U_UCode").Value = dr.Item("U_UCode").ToString.Trim()
-                'oDO.UserFields.Fields.Item("U_UName").Value = dr.Item("U_UName").ToString.Trim()
-                'oDO.UserFields.Fields.Item("U_Cdate").Value = dr.Item("U_Cdate")
+               
                 oDO.DocDate = DateConvert(dr.Item("DocDate").ToString)
-                'oDO.DocDueDate = DateConvert(dr.Item("DocDate").ToString)
-                'oDO.CardCode = oSO.CardCode
-                'oDO.CardName = oSO.CardName
-
-                'oDO.UserFields.Fields.Item("U_FormName").Value = dr.Item("U_FormName").ToString.Trim()
                 oDO.UserFields.Fields.Item("U_SResult").Value = dr.Item("U_SResult").ToString.Trim()
 
                 oDO.UserFields.Fields.Item("U_EX_Fram").Value = dr.Item("U_EX_Fram").ToString.Trim()
@@ -9384,89 +9345,70 @@ Public Class ICSB
                 oDO.UserFields.Fields.Item("U_NoPh").Value = dr.Item("U_NoPh").ToString.Trim()
                 oDO.UserFields.Fields.Item("U_EqNo").Value = dr.Item("U_EqNo").ToString.Trim()
 
-                '  STypeCode = dr.Item("U_STypeCode")
-                ' STypeName = dr.Item("U_STypeName")
-                'oDO.UserFields.Fields.Item("U_STypeCode").Value = oSO.UserFields.Fields.Item("U_STypeCode").Value
-                'oDO.UserFields.Fields.Item("U_U_STypeName").Value = oSO.UserFields.Fields.Item("U_U_STypeName").Value
-                'oDO.UserFields.Fields.Item("U_Country").Value = oSO.UserFields.Fields.Item("U_Country").Value
-                'oDO.UserFields.Fields.Item("U_City").Value = oSO.UserFields.Fields.Item("U_City").Value
-                'oDO.UserFields.Fields.Item("U_Loc").Value = oSO.UserFields.Fields.Item("U_Loc").Value
                 oDO.Comments = dr.Item("Comments").ToString.Trim()
-                'oDO.Lines.ItemCode = oSO.Lines.ItemCode
-                'oDO.Lines.Quantity = 1
-                'oDO.Lines.UserFields.Fields.Item("U_PDate").Value = oSO.Lines.UserFields.Fields.Item("U_PDate").Value
-                'oDO.Lines.UserFields.Fields.Item("U_EQType").Value = oSO.Lines.UserFields.Fields.Item("U_EQType").Value
-                ''EqupTye = dr1.Item("U_EQType").ToString.Trim()
-                'oDO.Lines.UserFields.Fields.Item("U_SCriteria").Value = oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value
-                'oDO.Lines.BaseType = 17 '23 ' - 'Sales Quotation'
-                'oDO.Lines.BaseEntry = dr.Item("U_OrderNo")
-                'oDO.Lines.BaseLine = 0
+                
+                Dim iAttachEntry As Integer = 0
+                Dim bAttchAdd As Boolean = False
+                Dim bFileExists As Boolean = False
+                If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
+                    SOTOATTACH = ds.Tables("ATTACHMENT")
+                    Dim oAttach As SAPbobsCOM.Attachments2
+                    oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
+                    Dim oRecordSet As SAPbobsCOM.Recordset
+                    oRecordSet = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
 
-                'oDO.Lines.UnitPrice = oSO.Lines.UnitPrice
-                'oDO.Lines.Add()
-
-                'Dim iAttachEntry As Integer = 0
-                'Dim bAttchAdd As Boolean = False
-                'Dim bFileExists As Boolean = False
-                'If ds.Tables("ATTACHMENT").Rows.Count > 0 Then
-                '    SOTOATTACH = ds.Tables("ATTACHMENT")
-                '    Dim oAttach As SAPbobsCOM.Attachments2
-                '    oAttach = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oAttachments2)
-                '    Dim oRecordSet As SAPbobsCOM.Recordset
-                '    oRecordSet = PublicVariable.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
-
-                '    If oAttach.GetByKey(oDO.AttachmentEntry) Then
-                '        For Each odr As DataRow In SOTOATTACH.Rows
-                '            Dim sSourcePath, sFileName, sFileExt As String
-                '            sFileName = odr.Item("U_FileName").ToString.Trim()
-                '            If sFileName <> "" Then
-                '                sFileExt = Path.GetExtension(sFileName)
-                '                sFileExt = sFileExt.Replace(".", "")
-                '                sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
-                '                Dim sQuery As String = String.Empty
-                '                sQuery = "SELECT * FROM ""ATC1"" WHERE ""AbsEntry"" = '" & oDO.AttachmentEntry & "' AND ""FileName"" = '" & sFileName.Replace(Path.GetExtension(sFileName), "") & "' "
-                '                oRecordSet.DoQuery(sQuery)
-                '                If oRecordSet.RecordCount > 0 Then
-                '                Else
-                '                    oAttach.Lines.Add()
-                '                    oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
-                '                    oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
-                '                    oAttach.Lines.FileExtension = sFileExt
-                '                    oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
-                '                End If
-                '            End If
-                '        Next
-                '        If oAttach.Update() = 0 Then
-                '            If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Attachment updated successfully", sFunction)
-                '        Else
-                '            Throw New Exception("Error while updating attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
-                '        End If
-                '    Else
-                '        For Each odr As DataRow In SOTOATTACH.Rows
-                '            Dim sSourcePath, sFileName, sFileExt As String
-                '            sFileName = odr.Item("U_FileName").ToString.Trim()
-                '            If sFileName <> "" Then
-                '                sFileExt = Path.GetExtension(sFileName)
-                '                sFileExt = sFileExt.Replace(".", "")
-                '                sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
-                '                oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
-                '                oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
-                '                oAttach.Lines.FileExtension = sFileExt
-                '                oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
-                '                oAttach.Lines.Add()
-                '                bAttchAdd = True
-                '            End If
-                '        Next
-                '        If bAttchAdd = True Then
-                '            If oAttach.Add() = 0 Then
-                '                iAttachEntry = PublicVariable.oCompany.GetNewObjectKey()
-                '                oDO.AttachmentEntry = iAttachEntry
-                '            Else
-                '                Throw New Exception("Error while adding attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
-                '            End If
-                '        End If
-                '    End If
-                'End If
+                    If oAttach.GetByKey(oDO.AttachmentEntry) Then
+                        For Each odr As DataRow In SOTOATTACH.Rows
+                            Dim sSourcePath, sFileName, sFileExt As String
+                            sFileName = odr.Item("U_FileName").ToString.Trim()
+                            If sFileName <> "" Then
+                                sFileExt = Path.GetExtension(sFileName)
+                                sFileExt = sFileExt.Replace(".", "")
+                                sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
+                                Dim sQuery As String = String.Empty
+                                sQuery = "SELECT * FROM ""ATC1"" WHERE ""AbsEntry"" = '" & oDO.AttachmentEntry & "' AND ""FileName"" = '" & sFileName.Replace(Path.GetExtension(sFileName), "") & "' "
+                                oRecordSet.DoQuery(sQuery)
+                                If oRecordSet.RecordCount > 0 Then
+                                Else
+                                    oAttach.Lines.Add()
+                                    oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
+                                    oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
+                                    oAttach.Lines.FileExtension = sFileExt
+                                    oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
+                                End If
+                            End If
+                        Next
+                        If oAttach.Update() = 0 Then
+                            If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Attachment updated successfully", sFunction)
+                        Else
+                            Throw New Exception("Error while updating attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
+                        End If
+                    Else
+                        For Each odr As DataRow In SOTOATTACH.Rows
+                            Dim sSourcePath, sFileName, sFileExt As String
+                            sFileName = odr.Item("U_FileName").ToString.Trim()
+                            If sFileName <> "" Then
+                                sFileExt = Path.GetExtension(sFileName)
+                                sFileExt = sFileExt.Replace(".", "")
+                                sSourcePath = odr.Item("U_FilePath").ToString.Substring(0, 3)
+                                oAttach.Lines.SourcePath = PublicVariable.sTempfilePath
+                                oAttach.Lines.FileName = sFileName.Replace(Path.GetExtension(sFileName), "")
+                                oAttach.Lines.FileExtension = sFileExt
+                                oAttach.Lines.Override = SAPbobsCOM.BoYesNoEnum.tYES
+                                oAttach.Lines.Add()
+                                bAttchAdd = True
+                            End If
+                        Next
+                        If bAttchAdd = True Then
+                            If oAttach.Add() = 0 Then
+                                iAttachEntry = PublicVariable.oCompany.GetNewObjectKey()
+                                oDO.AttachmentEntry = iAttachEntry
+                            Else
+                                Throw New Exception("Error while adding attachment /" & PublicVariable.oCompany.GetLastErrorDescription)
+                            End If
+                        End If
+                    End If
+                End If
 
                 RetCode = oDO.Update
                 If RetCode <> 0 Then
