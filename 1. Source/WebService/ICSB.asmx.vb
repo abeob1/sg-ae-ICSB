@@ -3712,7 +3712,7 @@ Public Class ICSB
 
                         ElseIf SQTOATTACHNnewLineNo > Count_Attach_Int Then
                             If LineNum <= Count_Attach_Int Then
-                               oSons.Item(LineNum - 1).SetProperty("U_Path", SQTOATTACH.Rows(i).Item("U_FilePath").ToString.Trim())
+                                oSons.Item(LineNum - 1).SetProperty("U_Path", SQTOATTACH.Rows(i).Item("U_FilePath").ToString.Trim())
                                 oSons.Item(LineNum - 1).SetProperty("U_Fname", SQTOATTACH.Rows(i).Item("U_FileName").ToString.Trim())
 
                                 Dim dtAttachDate As Date
@@ -6070,13 +6070,24 @@ Public Class ICSB
                         EqupTye = dr1.Item("U_EQType").ToString.Trim()
                         oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value = dr1.Item("U_SCriteria").ToString.Trim()
                         oSO.Lines.UserFields.Fields.Item("U_ReSurvey").Value = dr1.Item("U_ReSurvey").ToString.Trim()
+                        Dim sResurvey As String = String.Empty
+                        sResurvey = dr1.Item("U_ReSurvey").ToString.Trim()
 
-                        SQLStr = "SELECT Top 1  T1.""U_Rate"",T1.""U_Currency"" " & _
+                        If sResurvey.ToUpper = "NO" Then
+                            SQLStr = "SELECT Top 1  T1.""U_Rate"",T1.""U_Currency"" " & _
                                  " FROM ""@CCON""  T0 " & _
                                  " Left Join ""@CCONGENERAL""  T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
                                  " Left Join ""@EQTYPE"" T2 ON T2.""U_EQCODE""=T1.""U_EQGroup"" " & _
                                  " WHERE T0.""U_Status"" ='Open' and  T0.""U_Ccode"" ='" & CardCode & "' and  T0.""U_CPeriod1"" <='" & DocDate & "' and  T0.""U_CPeriod2"" >='" & DocDate & "'   " & _
                                  " and T1.""U_Stype""='" & STypeCode & "' and  T1.""U_Country""='" & Country & "' and T1.""U_City""='" & City & "' and T2.""U_EQTYPECODE""='" & EqupTye & "'"
+                        Else
+                            SQLStr = "SELECT Top 1  T1.""U_RRate"" AS ""U_Rate"",T1.""U_Currency"" " & _
+                                 " FROM ""@CCON""  T0 " & _
+                                 " Left Join ""@CCONGENERAL""  T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
+                                 " Left Join ""@EQTYPE"" T2 ON T2.""U_EQCODE""=T1.""U_EQGroup"" " & _
+                                 " WHERE T0.""U_Status"" ='Open' and  T0.""U_Ccode"" ='" & CardCode & "' and  T0.""U_CPeriod1"" <='" & DocDate & "' and  T0.""U_CPeriod2"" >='" & DocDate & "'   " & _
+                                 " and T1.""U_Stype""='" & STypeCode & "' and  T1.""U_Country""='" & Country & "' and T1.""U_City""='" & City & "' and T2.""U_EQTYPECODE""='" & EqupTye & "'"
+                        End If
 
                         'Rt = fn.ExecuteSQLQuery_SingleValue(SQLStr, Errmsg)
                         'If Rt = "" Then
@@ -6176,7 +6187,7 @@ Public Class ICSB
                 Else
                     Throw New Exception("No Record Found!")
                 End If
-               
+
                 oSO.NumAtCard = dr.Item("NumAtCard").ToString.Trim
                 oSO.UserFields.Fields.Item("U_UpdatedBy_UserCode").Value = dr.Item("U_UCode").ToString.Trim()
                 oSO.UserFields.Fields.Item("U_UpdateBy_UserName").Value = dr.Item("U_UName").ToString.Trim()
@@ -6251,12 +6262,36 @@ Public Class ICSB
                 If ds.Tables("SQTOGEN").Rows.Count > 0 Then
                     SQTOGEN = ds.Tables("SQTOGEN")
                     For Each dr1 As DataRow In SQTOGEN.Rows
+                        Dim iLine As Integer = 0
                         'oSO.Lines.ItemCode = STypeCode
-                        oSO.Lines.SetCurrentLine(0)
+                        oSO.Lines.SetCurrentLine(iLine)
                         oSO.Lines.Quantity = dr1.Item("Quantity")
                         oSO.Lines.UserFields.Fields.Item("U_PDate").Value = GetDateTimeValue(dr1.Item("U_PDate").ToString.Trim())
                         oSO.Lines.UserFields.Fields.Item("U_ReSurvey").Value = dr1.Item("U_ReSurvey").ToString.Trim()
-                        
+
+                        Dim sResurvey As String = String.Empty
+                        If sResurvey.ToUpper = "NO" Then
+                            SQLStr = "SELECT Top 1  T1.""U_RRate"" AS ""U_Rate"",T1.""U_Currency"" " & _
+                                 " FROM ""@CCON""  T0 " & _
+                                 " Left Join ""@CCONGENERAL""  T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
+                                 " Left Join ""@EQTYPE"" T2 ON T2.""U_EQCODE""=T1.""U_EQGroup"" " & _
+                                 " WHERE T0.""U_Status"" ='Open' and  T0.""U_Ccode"" ='" & CardCode & "' and  T0.""U_CPeriod1"" <='" & DocDate & "' and  T0.""U_CPeriod2"" >='" & DocDate & "'   " & _
+                                 " and T1.""U_Stype""='" & STypeCode & "' and  T1.""U_Country""='" & Country & "' and T1.""U_City""='" & City & "' and T2.""U_EQTYPECODE""='" & EqupTye & "'"
+                        End If
+                        Dim dtPrice As DataTable
+                        If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Executing Query " & SQLStr, sFunction)
+                        dtPrice = fn.ExecuteSQLQuery(SQLStr, Errmsg)
+                        Dim sCurrency As String = String.Empty
+                        Try
+                            Dim oDr As DataRow = dtPrice.Rows(0)
+                            Rt = oDr.Item("U_Rate").ToString.Trim()
+                            sCurrency = oDr.Item("U_Currency").ToString.Trim()
+                        Catch ex As Exception
+                            Throw New Exception("Cannot determine price/Contract not found")
+                        End Try
+                        oSO.Lines.UnitPrice = CDec(Rt)
+                        oSO.Lines.Currency = sCurrency
+                        iLine = iLine + 1
                         oSO.Lines.Add()
                     Next
                 Else
@@ -7653,7 +7688,7 @@ Public Class ICSB
                 Throw New Exception("No Input Data.")
             End If
 
-           
+
 
             Dim RetDT As New DataTable
             RetDT.TableName = "VALIDATE"
@@ -8224,61 +8259,23 @@ Public Class ICSB
                 oDO.UserFields.Fields.Item("U_City").Value = oSO.UserFields.Fields.Item("U_City").Value
                 oDO.UserFields.Fields.Item("U_Loc").Value = oSO.UserFields.Fields.Item("U_Loc").Value
                 oDO.Comments = dr.Item("Comments").ToString.Trim()
-                oDO.Lines.ItemCode = oSO.Lines.ItemCode
-                oDO.Lines.Quantity = 1
-                oDO.Lines.UserFields.Fields.Item("U_PDate").Value = oSO.Lines.UserFields.Fields.Item("U_PDate").Value
-                oDO.Lines.UserFields.Fields.Item("U_EQType").Value = oSO.Lines.UserFields.Fields.Item("U_EQType").Value
-                'EqupTye = dr1.Item("U_EQType").ToString.Trim()
-                oDO.Lines.UserFields.Fields.Item("U_SCriteria").Value = oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value
-                oDO.Lines.BaseType = 17 '23 ' - 'Sales Quotation'
-                oDO.Lines.BaseEntry = dr.Item("U_OrderNo")
-                oDO.Lines.BaseLine = 0
 
-                CardCode = oSO.CardCode
-                DocDate = DateConvert(oSO.DocDate)
-                STypeCode = oSO.UserFields.Fields.Item("U_STypeCode").Value
-                Country = oSO.UserFields.Fields.Item("U_Country").Value
-                City = oSO.UserFields.Fields.Item("U_City").Value
-                EqupTye = oSO.Lines.UserFields.Fields.Item("U_EQType").Value
-
-                oDO.Lines.UnitPrice = oSO.Lines.UnitPrice
-                oDO.Lines.Currency = oSO.Lines.Currency
-
-
-                'Dim sReSurvey As String = String.Empty
-                'sReSurvey = oSO.Lines.UserFields.Fields.Item("U_ReSurvey").Value
-                
-                oDO.Lines.Add()
-                'If sReSurvey = "YES" Then
-                '    oDO.Lines.ItemCode = oSO.Lines.ItemCode
-                '    oDO.Lines.Quantity = 1
-                '    oDO.Lines.UserFields.Fields.Item("U_PDate").Value = oSO.Lines.UserFields.Fields.Item("U_PDate").Value
-                '    oDO.Lines.UserFields.Fields.Item("U_EQType").Value = oSO.Lines.UserFields.Fields.Item("U_EQType").Value
-                '    oDO.Lines.UserFields.Fields.Item("U_SCriteria").Value = oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value
-                '    oDO.Lines.Currency = oSO.Lines.Currency
-
-                '    SQLStr = "SELECT Top 1  T1.""U_RRate""  " & _
-                '                " FROM ""@CCON""  T0 " & _
-                '                " Left Join ""@CCONGENERAL""  T1 ON T1.""DocEntry"" = T0.""DocEntry"" " & _
-                '                " Left Join ""@EQTYPE"" T2 ON T2.""U_EQCODE""=T1.""U_EQGroup"" " & _
-                '                " WHERE T0.""U_Status"" ='Open' and  T0.""U_Ccode"" ='" & CardCode & "' and  T0.""U_CPeriod1"" <='" & DocDate & "' and  T0.""U_CPeriod2"" >='" & DocDate & "'   " & _
-                '                " and T1.""U_Stype""='" & STypeCode & "' and  T1.""U_Country""='" & Country & "' and T1.""U_City""='" & City & "' and T2.""U_EQTYPECODE""='" & EqupTye & "'"
-
-                '    Dim dtPrice As DataTable
-                '    If PublicVariable.DEBUG_ON = 1 Then oLog.WriteToLogFile_Debug("Executing Query " & SQLStr, sFunction)
-                '    dtPrice = fn.ExecuteSQLQuery(SQLStr, Errmsg)
-                '    Dim sCurrency As String = String.Empty
-                '    Try
-                '        Dim oDr As DataRow = dtPrice.Rows(0)
-                '        Rt = oDr.Item("U_RRate").ToString.Trim()
-                '    Catch ex As Exception
-                '        Throw New Exception("Cannot determine price/Contract not found")
-                '    End Try
-                '    oDO.Lines.UnitPrice = oSO.Lines.UnitPrice
-
-                '    oDO.Lines.Add()
-                'End If
-
+                For i As Integer = 0 To oSO.Lines.Count
+                    If i > 0 Then
+                        oDO.Lines.Add()
+                    End If
+                    oDO.Lines.ItemCode = oSO.Lines.ItemCode
+                    oDO.Lines.Quantity = 1
+                    oDO.Lines.UserFields.Fields.Item("U_PDate").Value = oSO.Lines.UserFields.Fields.Item("U_PDate").Value
+                    oDO.Lines.UserFields.Fields.Item("U_EQType").Value = oSO.Lines.UserFields.Fields.Item("U_EQType").Value
+                    oDO.Lines.UserFields.Fields.Item("U_SCriteria").Value = oSO.Lines.UserFields.Fields.Item("U_SCriteria").Value
+                    oDO.Lines.UserFields.Fields.Item("U_ReSurvey").Value = oSO.Lines.UserFields.Fields.Item("U_ReSurvey").Value
+                    oDO.Lines.BaseType = 17
+                    oDO.Lines.BaseEntry = dr.Item("U_OrderNo")
+                    oDO.Lines.BaseLine = oSO.Lines.LineNum
+                    oDO.Lines.UnitPrice = oSO.Lines.UnitPrice
+                    oDO.Lines.Currency = oSO.Lines.Currency
+                Next
 
                 Dim oAttachEntry As Integer = 0
                 Dim bAttachAdd As Boolean = False
@@ -9274,7 +9271,7 @@ Public Class ICSB
                     Throw New Exception("No Record Found!")
                 End If
 
-               
+
                 oDO.DocDate = DateConvert(dr.Item("DocDate").ToString)
                 oDO.UserFields.Fields.Item("U_SResult").Value = dr.Item("U_SResult").ToString.Trim()
 
@@ -9346,7 +9343,7 @@ Public Class ICSB
                 oDO.UserFields.Fields.Item("U_EqNo").Value = dr.Item("U_EqNo").ToString.Trim()
 
                 oDO.Comments = dr.Item("Comments").ToString.Trim()
-                
+
                 Dim iAttachEntry As Integer = 0
                 Dim bAttchAdd As Boolean = False
                 Dim bFileExists As Boolean = False

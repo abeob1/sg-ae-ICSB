@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <publishData>
-  <publishProfile publishUrl="E:\PUBLISH\ICSB\WEB SERVICE" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+  <publishProfile publishUrl="E:\PUBLISH\ICSB_TEST_WEBSERVICE" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="bin/Newtonsoft.Json.dll" publishTime="05/11/2017 23:01:29" />
     <file relUrl="ICSB.asmx" publishTime="05/11/2017 23:01:25" />
-    <file relUrl="bin/SBOWebService.xml" publishTime="11/07/2017 01:28:43" />
-    <file relUrl="Web.config" publishTime="11/07/2017 01:28:56" />
-    <file relUrl="bin/SBOWebService.dll" publishTime="11/07/2017 01:28:43" />
-    <file relUrl="bin/SBOWebService.pdb" publishTime="11/07/2017 01:28:43" />
+    <file relUrl="bin/SBOWebService.xml" publishTime="11/07/2017 21:49:31" />
+    <file relUrl="Web.config" publishTime="11/07/2017 21:49:46" />
+    <file relUrl="bin/SBOWebService.dll" publishTime="11/07/2017 21:49:31" />
+    <file relUrl="bin/SBOWebService.pdb" publishTime="11/07/2017 21:49:31" />
     <file relUrl="packages.config" publishTime="05/11/2017 23:01:28" />
     <file relUrl="bin/Newtonsoft.Json.xml" publishTime="05/11/2017 23:01:29" />
-    <file relUrl="bin/Interop.Shell32.dll" publishTime="11/07/2017 01:28:42" />
+    <file relUrl="bin/Interop.Shell32.dll" publishTime="11/07/2017 21:49:30" />
   </publishProfile>
 </publishData>

@@ -1,0 +1,16 @@
+﻿------ Build started: Project: SBOWebService, Configuration: Debug Any CPU ------
+E:\SVN\ICSB\1. Source\WebService\Connection.vb(19) : warning BC40000: 'Public Shared ReadOnly Property AppSettings As System.Collections.Specialized.NameValueCollection' is obsolete: 'This method is obsolete, it has been replaced by System.Configuration!System.Configuration.ConfigurationManager.AppSettings'.
+E:\SVN\ICSB\1. Source\WebService\Connection.vb(34) : warning BC40000: 'Public Shared ReadOnly Property AppSettings As System.Collections.Specialized.NameValueCollection' is obsolete: 'This method is obsolete, it has been replaced by System.Configuration!System.Configuration.ConfigurationManager.AppSettings'.
+E:\SVN\ICSB\1. Source\WebService\Functions.vb(200) : warning BC40000: 'Public Shared ReadOnly Property AppSettings As System.Collections.Specialized.NameValueCollection' is obsolete: 'This method is obsolete, it has been replaced by System.Configuration!System.Configuration.ConfigurationManager.AppSettings'.
+E:\SVN\ICSB\1. Source\WebService\Functions.vb(201) : warning BC40000: 'Public Shared ReadOnly Property AppSettings As System.Collections.Specialized.NameValueCollection' is obsolete: 'This method is obsolete, it has been replaced by System.Configuration!System.Configuration.ConfigurationManager.AppSettings'.
+E:\SVN\ICSB\1. Source\WebService\Functions.vb(207) : warning BC40000: 'Public Shared ReadOnly Property AppSettings As System.Collections.Specialized.NameValueCollection' is obsolete: 'This method is obsolete, it has been replaced by System.Configuration!System.Configuration.ConfigurationManager.AppSettings'.
+E:\SVN\ICSB\1. Source\WebService\ICSB.asmx.vb(2768) : warning BC42024: Unused local variable: 'oSons'.
+E:\SVN\ICSB\1. Source\WebService\ICSB.asmx.vb(2769) : warning BC42024: Unused local variable: 'oSon'.
+E:\SVN\ICSB\1. Source\WebService\ICSB.asmx.vb(2836) : warning BC42024: Unused local variable: 'oSons'.
+E:\SVN\ICSB\1. Source\WebService\ICSB.asmx.vb(2837) : warning BC42024: Unused local variable: 'oSon'.
+E:\SVN\ICSB\1. Source\WebService\ICSB.asmx.vb(6667) : warning BC42030: Variable 'ErrMsg' is passed by reference before it has been assigned a value. A null reference exception could result at runtime.
+E:\SVN\ICSB\1. Source\WebService\ICSB.asmx.vb(7103) : warning BC42030: Variable 'ErrMsg' is passed by reference before it has been assigned a value. A null reference exception could result at runtime.
+E:\SVN\ICSB\1. Source\WebService\SAP_Functions.vb(23) : warning BC42030: Variable 'sErrMsg' is passed by reference before it has been assigned a value. A null reference exception could result at runtime.
+E:\SVN\ICSB\1. Source\WebService\SAP_Functions.vb(385) : warning BC42030: Variable 'mst_ErrNumber' is passed by reference before it has been assigned a value. A null reference exception could result at runtime.
+  SBOWebService -> E:\SVN\ICSB\1. Source\WebService\bin\SBOWebService.dll
+========== Build: 1 succeeded or up-to-date, 0 failed, 0 skipped ==========
