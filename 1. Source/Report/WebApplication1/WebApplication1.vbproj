@@ -582,6 +582,8 @@
     <Content Include="asset\js\wow.min.js" />
     <Content Include="CleaningCertificateReport.aspx" />
     <Content Include="CleaningCertificateReport_NewFormat.aspx" />
+    <Content Include="OffHireReport.aspx" />
+    <Content Include="OnhireReport.aspx" />
     <Content Include="Customer_Contract.aspx" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\Chart.js" />
@@ -679,6 +681,20 @@
     </Compile>
     <Compile Include="CleaningCertificateReport_NewFormat.aspx.vb">
       <DependentUpon>CleaningCertificateReport_NewFormat.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="OffHireReport.aspx.designer.vb">
+      <DependentUpon>OffHireReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OffHireReport.aspx.vb">
+      <DependentUpon>OffHireReport.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="OnhireReport.aspx.designer.vb">
+      <DependentUpon>OnhireReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OnhireReport.aspx.vb">
+      <DependentUpon>OnhireReport.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Customer_Contract.aspx.designer.vb">

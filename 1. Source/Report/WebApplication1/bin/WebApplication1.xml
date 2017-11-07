@@ -191,6 +191,30 @@ To modify move field declaration from designer file to code-behind file.
  Module used to define the properties that are available in the My Namespace for Web projects.
  </summary>
 	<remarks></remarks>
+</member><member name="F:WebApplication1.OffHireReport.Head1">
+	<summary>
+Head1 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:WebApplication1.OffHireReport.form1">
+	<summary>
+form1 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:WebApplication1.OffHireReport.CrystalReportViewer1">
+	<summary>
+CrystalReportViewer1 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
 </member><member name="F:WebApplication1.Site.MainContent">
 	<summary>
 MainContent control.
@@ -210,6 +234,30 @@ To modify move field declaration from designer file to code-behind file.
 </member><member name="F:WebApplication1.leadmaster.form1">
 	<summary>
 form1 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:WebApplication1.OnhireReport.Head1">
+	<summary>
+Head1 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:WebApplication1.OnhireReport.form1">
+	<summary>
+form1 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:WebApplication1.OnhireReport.CrystalReportViewer1">
+	<summary>
+CrystalReportViewer1 control.
 </summary>
 	<remarks>
 Auto-generated field.
